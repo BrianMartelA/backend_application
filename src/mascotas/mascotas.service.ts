@@ -36,18 +36,34 @@ export class MascotasService {
   }
 
   findAll() {
-    return `This action returns all mascotas`;
+    return this.mascotaRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} mascota`;
+  async findOneWithOwner(id: number) {
+    const mascota = this.mascotaRepository.findOne({where:{id_mascota:id},
+    relations:{dueno:true}});
+
+    return mascota;
   }
 
-  update(id: number, updateMascotaDto: UpdateMascotaDto) {
+  async findOne(id:number){
+    const mascota = this.mascotaRepository.findOneBy({id_mascota:id})
+    return mascota;
+  }
+
+  async update(id: number, updateMascotaDto: UpdateMascotaDto) {
+    await this.mascotaRepository.update(id,updateMascotaDto)
     return `This action updates a #${id} mascota`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} mascota`;
+  async remove(id: number) {
+      const mascota = await this.findOne(id);
+       if(!mascota){
+         throw new NotFoundException(`dueño no encontrado`)
+       }
+   
+       await this.mascotaRepository.delete(id);
+   
+       return `Se elimino a usuario ${mascota.nombre}`
   }
 }

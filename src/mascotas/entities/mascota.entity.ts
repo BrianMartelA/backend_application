@@ -23,7 +23,7 @@ export class Mascota {
     microchip:number;
     @Column()
     antecedentes:string;
-    @ManyToOne(()=> Dueno,(dueno)=>dueno.mascotas)
+    @ManyToOne(()=> Dueno,(dueno)=>dueno.mascotas,{onDelete:'CASCADE'})
     @JoinColumn({name:'id_dueno'})
     dueno:Relation<Dueno>
 

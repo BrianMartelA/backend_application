@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, ParseIntPipe } from '@nestjs/common';
 import { DuenosService } from './duenos.service.js';
 import { CreateDuenoDto } from './dto/create-dueno.dto.js';
 import { UpdateDuenoDto } from './dto/update-dueno.dto.js';
+import { CreateDuenoConMascotasDto } from './dto/create-dueno-mascota.dto.js';
 
 @Controller('duenos')
 export class DuenosController {
@@ -12,23 +13,34 @@ export class DuenosController {
     return this.duenosService.create(createDuenoDto);
   }
 
+  @Post('con-mascotas')
+createConMascotas(
+  @Body() dto: CreateDuenoConMascotasDto,
+) {
+  return this.duenosService.createConMascota(dto);
+}
+
   @Get()
   findAll() {
     return this.duenosService.findAll();
   }
 
-  @Get(':nombre')
-  async findOne(@Param('nombre') nombre: string) {
-    const duenoFind= await this.duenosService.findOne(nombre);
+  @Get(':id')
+  async findOne(@Param('id',ParseIntPipe) id: string) {
+    const duenoFind= await this.duenosService.findOne(parseInt(id));
     if(!duenoFind){
-      throw new NotFoundException(`Usuario con nombre ${nombre} inexistente`)
+      throw new NotFoundException(`Usuario con nombre ${id} inexistente`)
     }
     return duenoFind;
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDuenoDto: UpdateDuenoDto) {
-    return this.duenosService.update(+id, updateDuenoDto);
+  async update(@Param('id',ParseIntPipe) id: string, @Body() updateDuenoDto: UpdateDuenoDto) {
+    const patchDueno = await this.duenosService.update(+id,updateDuenoDto);
+    if(!patchDueno){
+      throw new NotFoundException(`Máscota no existente`)
+    }
+    return patchDueno;
   }
 
   @Delete(':id')
