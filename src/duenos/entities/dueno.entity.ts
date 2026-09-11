@@ -22,7 +22,7 @@ export class Dueno {
     fecha_registro:Date;
     @OneToMany(()=>Mascota,(mascota)=>mascota.dueno)
     mascotas:Relation<Mascota[]>;
-    @ManyToOne(()=>Negocio,(negocio)=>negocio.dueno)
+    @ManyToOne(()=>Negocio,(negocio)=>negocio.dueno,{onDelete:'CASCADE'})
     @JoinColumn({name:'negocioId'})
     negocio:Negocio;
 

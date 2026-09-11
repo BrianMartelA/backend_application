@@ -8,6 +8,7 @@ import { Dueno } from './duenos/entities/dueno.entity.js';
 import { Mascota } from './mascotas/entities/mascota.entity.js';
 import { Negocio } from './negocio/entities/negocio.entity.js';
 import { NegocioModule } from './negocio/negocio.module.js';
+import { HistorialVacunasModule } from './historial_vacunas/historial_vacunas.module.js';
 
 @Module({
   imports: [ TypeOrmModule.forRoot({
@@ -19,7 +20,7 @@ import { NegocioModule } from './negocio/negocio.module.js';
       database: 'veterinaria',
       entities: [Dueno,Mascota,Negocio],
       synchronize: true,
-    }), MascotasModule, DuenosModule,NegocioModule],
+    }), MascotasModule, DuenosModule,NegocioModule, HistorialVacunasModule],
   controllers: [AppController],
   providers: [AppService],
 })
