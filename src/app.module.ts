@@ -22,11 +22,19 @@ import { ContactoEmergencia } from './contacto-emergencia/entities/contacto-emer
 @Module({
   imports: [ TypeOrmModule.forRoot({
       type: 'mysql',
+<<<<<<< HEAD
       host: 'localhost',
       port: 3306,
       username: 'root',
       password: '',
       database: 'veterinaria',
+=======
+      host: process.env.DB_HOST || 'localhost',
+      port: 3306,
+      username: process.env.DB_USERNAME || 'root',
+      password: process.env.DB_PASSWORD || 'duocmuchacho1!', // <-- Asegúrate de tener tu contraseña aquí o en process.env
+      database: process.env.DB_DATABASE || 'veterinaria',
+>>>>>>> master
       entities: [Dueno,Mascota,Negocio,Notificaciones,Cita,ContactoEmergencia],
       synchronize: true,
     }), MascotasModule, DuenosModule,NegocioModule, HistorialVacunasModule, NotificacionesModule, BoletasModule, CitasModule, EspecieModule, RazaModule, ContactoEmergenciaModule],
