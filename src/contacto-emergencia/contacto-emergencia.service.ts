@@ -60,19 +60,9 @@ export class ContactoEmergenciaService {
       dueno: duenoGuardado,
     });
 
-    const contactoGuardado = await this.contactoRepository.save(contacto);
 
-    contacto.dueno = dueno;
 
-    return this.contactoRepository.findOne({
-      where: {
-        id_contacto: contactoGuardado.id_contacto,
-      },
-      relations: {
-        dueno: true,
-        negocio: true,
-      },
-    });
+    return await this.contactoRepository.save(contacto);
   }
 
   findAll() {
