@@ -9,6 +9,15 @@ import { Mascota } from './mascotas/entities/mascota.entity.js';
 import { Negocio } from './negocio/entities/negocio.entity.js';
 import { NegocioModule } from './negocio/negocio.module.js';
 import { HistorialVacunasModule } from './historial_vacunas/historial_vacunas.module.js';
+import { NotificacionesModule } from './notificaciones/notificaciones.module.js';
+import { Notificaciones } from './notificaciones/entities/notificacione.entity.js';
+import { BoletasModule } from './boletas/boletas.module.js';
+import { CitasModule } from './citas/citas.module.js';
+import { Cita } from './citas/entities/cita.entity.js';
+import { EspecieModule } from './especie/especie.module.js';
+import { RazaModule } from './raza/raza.module.js';
+import { ContactoEmergenciaModule } from './contacto-emergencia/contacto-emergencia.module.js';
+import { ContactoEmergencia } from './contacto-emergencia/entities/contacto-emergencia.entity.js';
 
 @Module({
   imports: [ TypeOrmModule.forRoot({
@@ -18,9 +27,9 @@ import { HistorialVacunasModule } from './historial_vacunas/historial_vacunas.mo
       username: 'root',
       password: '',
       database: 'veterinaria',
-      entities: [Dueno,Mascota,Negocio],
+      entities: [Dueno,Mascota,Negocio,Notificaciones,Cita,ContactoEmergencia],
       synchronize: true,
-    }), MascotasModule, DuenosModule,NegocioModule, HistorialVacunasModule],
+    }), MascotasModule, DuenosModule,NegocioModule, HistorialVacunasModule, NotificacionesModule, BoletasModule, CitasModule, EspecieModule, RazaModule, ContactoEmergenciaModule],
   controllers: [AppController],
   providers: [AppService],
 })

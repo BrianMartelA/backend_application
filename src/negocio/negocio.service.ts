@@ -12,7 +12,9 @@ constructor(@InjectRepository(Negocio) private negocioRepository:Repository<Nego
   create(createNegocioDto: CreateNegocioDto) {
 const business= new Negocio();
 
-business.dueno_nom=createNegocioDto.dueno_nom;
+business.nombre_negocio=createNegocioDto.nombre_negocio;
+business.direccion_negocio=createNegocioDto.direccion_negocio;
+business.rut=createNegocioDto.rut;
     
     return this.negocioRepository.save(business);
   }
