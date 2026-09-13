@@ -44,10 +44,9 @@ export class ContactoEmergenciaService {
 
     const dueno = this.duenoRepository.create({
       rut: createConDueño.dueno.rut,
-      nombre: createConDueño.dueno.nombre,
-      apellido: createConDueño.dueno.apellido,
+      nombre_completo: createConDueño.dueno.nombre_completo,
       telefono: createConDueño.dueno.telefono,
-      email: createConDueño.dueno.email,
+      correo: createConDueño.dueno.correo,
       direccion: createConDueño.dueno.direccion,
       negocio
     });
