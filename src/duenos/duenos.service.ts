@@ -5,23 +5,26 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Dueno } from './entities/dueno.entity.js';
 import { Repository } from 'typeorm';
 import { Negocio } from '../negocio/entities/negocio.entity.js';
+import { Mascota } from '../mascotas/entities/mascota.entity.js';
+import { CreateDuenoConMascotasDto } from './dto/create-dueno-mascota.dto.js';
 
 @Injectable()
 export class DuenosService {
   constructor(
     @InjectRepository(Dueno) private duenoRepository: Repository<Dueno>,
     @InjectRepository(Negocio) private negocioRepository: Repository<Negocio>,
+    @InjectRepository(Mascota) private mascotaRepository: Repository<Mascota>,
   ) {}
 
   async create(createDuenoDto: CreateDuenoDto) {
     const dueno = new Dueno();
 
     const negocio = await this.negocioRepository.findOneBy({
-      negocioId: createDuenoDto.negocioId.negocioId
+      negocioId: createDuenoDto.negocioId.negocioId,
     });
 
-    if(!negocio){
-      throw new NotFoundException(`Negocio no existente`)
+    if (!negocio) {
+      throw new NotFoundException(`Negocio no existente`);
     }
 
     dueno.negocio = negocio;
@@ -35,18 +38,26 @@ export class DuenosService {
   }
 
   findAll() {
-    return `This action returns all duenos`;
+    return this.duenoRepository.find();
   }
 
-  findOne(nombre: string) {
-    return this.duenoRepository.findOneBy({ nombre: nombre });
+  findOne(id: number) {
+    return this.duenoRepository.findOneBy({ id_dueno: id });
   }
 
-  update(id: number, updateDuenoDto: UpdateDuenoDto) {
-    return `This action updates a #${id} dueno`;
+  async update(id: number, updateDuenoDto: UpdateDuenoDto) {
+    await this.duenoRepository.update(id, updateDuenoDto);
+    return this.duenoRepository.findOneBy({ id_dueno: id });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} dueno`;
+  async remove(id: number) {
+    const dueno = await this.findOne(id);
+    if (!dueno) {
+      throw new NotFoundException(`dueño no encontrado`);
+    }
+
+    await this.duenoRepository.delete(id);
+
+    return `Se elimino a usuario ${dueno.nombre}`;
   }
 }

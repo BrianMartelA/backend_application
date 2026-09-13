@@ -1,4 +1,7 @@
 export class CreateNegocioDto {
     negocioId:number;
-    dueno_nom:string;
+    nombre_negocio:string;
+    direccion_negocio:string;
+    fecha_registro:Date;
+    rut:string;
 }

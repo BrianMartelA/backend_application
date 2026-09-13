@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, NotFoundException } from '@nestjs/common';
 import { MascotasService } from './mascotas.service.js';
 import { CreateMascotaDto } from './dto/create-mascota.dto.js';
 import { UpdateMascotaDto } from './dto/update-mascota.dto.js';
@@ -18,8 +18,12 @@ export class MascotasController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.mascotasService.findOne(+id);
+  async findOne(@Param('id',ParseIntPipe) id: string) {
+    const mascotaFind=await this.mascotasService.findOneWithOwner(parseInt(id));
+    if(!mascotaFind){
+throw new NotFoundException(`Mascota no encontrada `)
+    }
+    return this.mascotasService.findOneWithOwner(+id);
   }
 
   @Patch(':id')

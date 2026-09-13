@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn,  } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn,  } from "typeorm";
 import { Dueno } from "../../duenos/entities/dueno.entity.js";
 import type {Relation} from "typeorm";
+import { Cita } from "../../citas/entities/cita.entity.js";
 @Entity() 
 export class Mascota {
     @PrimaryGeneratedColumn()
@@ -23,8 +24,10 @@ export class Mascota {
     microchip:number;
     @Column()
     antecedentes:string;
-    @ManyToOne(()=> Dueno,(dueno)=>dueno.mascotas)
+    @ManyToOne(()=> Dueno,(dueno)=>dueno.mascotas,{onDelete:'CASCADE'})
     @JoinColumn({name:'id_dueno'})
     dueno:Relation<Dueno>
+    @OneToMany(()=>Cita,(cita)=>cita.mascota)
+    cita:Cita;
 
 }
