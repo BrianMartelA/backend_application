@@ -14,6 +14,10 @@ import { Notificaciones } from './notificaciones/entities/notificacione.entity.j
 import { BoletasModule } from './boletas/boletas.module.js';
 import { CitasModule } from './citas/citas.module.js';
 import { Cita } from './citas/entities/cita.entity.js';
+import { EspecieModule } from './especie/especie.module.js';
+import { RazaModule } from './raza/raza.module.js';
+import { ContactoEmergenciaModule } from './contacto-emergencia/contacto-emergencia.module.js';
+import { ContactoEmergencia } from './contacto-emergencia/entities/contacto-emergencia.entity.js';
 
 @Module({
   imports: [ TypeOrmModule.forRoot({
@@ -23,9 +27,9 @@ import { Cita } from './citas/entities/cita.entity.js';
       username: 'root',
       password: '',
       database: 'veterinaria',
-      entities: [Dueno,Mascota,Negocio,Notificaciones,Cita],
+      entities: [Dueno,Mascota,Negocio,Notificaciones,Cita,ContactoEmergencia],
       synchronize: true,
-    }), MascotasModule, DuenosModule,NegocioModule, HistorialVacunasModule, NotificacionesModule, BoletasModule, CitasModule],
+    }), MascotasModule, DuenosModule,NegocioModule, HistorialVacunasModule, NotificacionesModule, BoletasModule, CitasModule, EspecieModule, RazaModule, ContactoEmergenciaModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -4,9 +4,11 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
-  Relation,
+  
 } from 'typeorm';
 import { Dueno } from '../../duenos/entities/dueno.entity.js';
+import { ContactoEmergencia } from '../../contacto-emergencia/entities/contacto-emergencia.entity.js';
+import type { Relation } from 'typeorm';
 
 @Entity()
 export class Negocio {
@@ -21,5 +23,7 @@ export class Negocio {
   @CreateDateColumn()
   fecha_registro: Date;
   @OneToMany(() => Dueno, (dueno) => dueno.negocio)
-  dueno: Relation<Dueno>[];
+  dueno: Relation<Dueno[]>;
+  @OneToMany(()=> ContactoEmergencia,(contactoEmergencia)=>contactoEmergencia.negocio)
+  contactoEmergencia:Relation<ContactoEmergencia[]>;
 }
