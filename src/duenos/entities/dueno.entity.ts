@@ -20,13 +20,12 @@ export class Dueno {
   @Column()
   rut: string;
   @Column()
-  nombre: string;
-  @Column()
-  apellido: string;
+  nombre_completo: string;
+
   @Column()
   telefono: string;
   @Column()
-  email: string;
+  correo: string;
   @Column()
   direccion: string;
   @CreateDateColumn()

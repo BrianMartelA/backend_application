@@ -29,10 +29,9 @@ export class DuenosService {
 
     dueno.negocio = negocio;
     dueno.rut = createDuenoDto.rut;
-    dueno.nombre = createDuenoDto.nombre;
-    dueno.apellido = createDuenoDto.apellido;
+    dueno.nombre_completo = createDuenoDto.nombre_completo;
     dueno.direccion = createDuenoDto.direccion;
-    dueno.email = createDuenoDto.email;
+    dueno.correo = createDuenoDto.correo;
     dueno.telefono = createDuenoDto.telefono;
     return this.duenoRepository.save(dueno);
   }
@@ -58,6 +57,6 @@ export class DuenosService {
 
     await this.duenoRepository.delete(id);
 
-    return `Se elimino a usuario ${dueno.nombre}`;
+    return `Se elimino a usuario ${dueno.nombre_completo}`;
   }
 }
