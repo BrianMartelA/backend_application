@@ -25,6 +25,8 @@ export class CreateMascotaDto {
   microchip: number;
   @IsNotEmpty()
   antecedentes: string;
+  alergias: string;
+
   @ValidateNested()
   @Type(() => Dueno)
   id_dueno: Dueno;
