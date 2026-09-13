@@ -1,9 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Negocio } from '../../negocio/entities/negocio.entity.js';
 import type { Relation } from 'typeorm';
@@ -17,6 +19,12 @@ export class ContactoEmergencia {
 
   @Column()
   nom_mascota: string;
+  @CreateDateColumn()
+  fecha_solicitud: Date;
+  @UpdateDateColumn()
+  fecha_actualizacion: Date;
+  @Column({default:'Pendiente'})
+  estado:string;
   @ManyToOne(() => Negocio, (negocio) => negocio.contactoEmergencia)
   @JoinColumn({ name: 'negocioId' })
   negocio: Relation<Negocio>;

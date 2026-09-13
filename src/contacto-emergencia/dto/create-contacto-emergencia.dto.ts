@@ -6,6 +6,9 @@ export class CreateContactoEmergenciaDto {
     id_contacto:number;
     razon_consulta:string;
     nom_mascota:string;
+    fecha_solicitud:Date;
+    fecha_actualizacion:Date;
+    estado:string;
     @ValidateNested()
     @Type(()=>Negocio)
     negocioId:Negocio

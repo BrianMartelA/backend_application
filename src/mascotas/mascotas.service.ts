@@ -29,6 +29,7 @@ export class MascotasService {
     mascota.sexo=createMascotaDto.sexo;
     mascota.antecedentes=createMascotaDto.antecedentes;
     mascota.observaciones=createMascotaDto.observaciones;
+    mascota.alergias=createMascotaDto.alergias;
 
 
 
