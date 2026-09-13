@@ -12,14 +12,14 @@ export class DuenosController {
   create(@Body() createDuenoDto: CreateDuenoDto) {
     return this.duenosService.create(createDuenoDto);
   }
-
+/*
   @Post('con-mascotas')
 createConMascotas(
   @Body() dto: CreateDuenoConMascotasDto,
 ) {
   return this.duenosService.createConMascota(dto);
 }
-
+*/
   @Get()
   findAll() {
     return this.duenosService.findAll();

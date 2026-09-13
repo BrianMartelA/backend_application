@@ -16,50 +16,6 @@ export class DuenosService {
     @InjectRepository(Mascota) private mascotaRepository: Repository<Mascota>,
   ) {}
 
-  async createConMascota(dto: CreateDuenoConMascotasDto) {
-    const dueno = new Dueno();
-
-    const negocio = await this.negocioRepository.findOneBy({
-      negocioId: dto.negocioId.negocioId,
-    });
-
-    if (!negocio) {
-      throw new NotFoundException(`Negocio no existente`);
-    }
-
-    dueno.negocio = negocio;
-    dueno.rut = dto.rut;
-    dueno.nombre = dto.nombre;
-    dueno.apellido = dto.apellido;
-    dueno.direccion = dto.direccion;
-    dueno.email = dto.email;
-    dueno.telefono = dto.telefono;
-
-    const duenoCreado = await this.duenoRepository.save(dueno);
-
-    const mascotas = dto.mascotas.map((mascotaDto) =>
-      this.mascotaRepository.create({
-        nombre: mascotaDto.nombre,
-        especie: mascotaDto.especie,
-        raza: mascotaDto.raza,
-        sexo: mascotaDto.sexo,
-        fecha_nacimiento: mascotaDto.fecha_nacimiento,
-        peso: mascotaDto.peso,
-        microchip: mascotaDto.microchip,
-        antecedentes: mascotaDto.antecedentes,
-        observaciones: mascotaDto.observaciones,
-        dueno: duenoCreado,
-      }),
-    );
-    await this.mascotaRepository.save(mascotas);
-    return this.duenoRepository.findOne({
-      where: { id_dueno: duenoCreado.id_dueno },
-      relations: {
-        mascotas: true,
-      },
-    });
-  }
-
   async create(createDuenoDto: CreateDuenoDto) {
     const dueno = new Dueno();
 

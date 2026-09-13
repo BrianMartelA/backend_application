@@ -2,6 +2,8 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, Pri
 import { Mascota } from "../../mascotas/entities/mascota.entity.js";
 import { Negocio } from "../../negocio/entities/negocio.entity.js";
 import type { Relation } from 'typeorm';
+import { Notificaciones } from "../../notificaciones/entities/notificacione.entity.js";
+import { Cita } from "../../citas/entities/cita.entity.js";
 @Entity()
 export class Dueno {
     @PrimaryGeneratedColumn()
@@ -25,5 +27,9 @@ export class Dueno {
     @ManyToOne(()=>Negocio,(negocio)=>negocio.dueno,{onDelete:'CASCADE'})
     @JoinColumn({name:'negocioId'})
     negocio:Negocio;
+    @OneToMany(()=>Notificaciones,(notificacion)=>notificacion.dueno)
+    notifiacion:Relation<Notification[]>
+    @OneToMany(()=>Cita,(cita)=>cita.dueno)
+    cita:Cita
 
 }
