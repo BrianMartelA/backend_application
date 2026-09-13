@@ -9,15 +9,13 @@ export class CreateDuenoDto {
   @Transform(({ value }) => value?.trim())
   @IsNotEmpty()
   @IsString()
-  nombre: string;
-  @Transform(({ value }) => value.trim())
-  @IsNotEmpty()
-  apellido: string;
+  nombre_completo: string;
+
   @IsNotEmpty()
   telefono: string;
   @Transform(({ value }) => value.toLowerCase())
   @IsNotEmpty()
-  email: string;
+  correo: string;
   @IsNotEmpty()
   direccion: string;
   fecha_registro: string;
