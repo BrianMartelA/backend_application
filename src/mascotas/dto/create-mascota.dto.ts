@@ -1,0 +1,33 @@
+import { Type, Transform } from 'class-transformer';
+import { IsNotEmpty, IsNumber, ValidateNested } from 'class-validator';
+import { Dueno } from '../../duenos/entities/dueno.entity.js';
+
+export class CreateMascotaDto {
+  id_mascota: number;
+  @IsNotEmpty()
+  @Transform(({ value }) => value?.trim())
+  nombre: string;
+  @IsNotEmpty()
+  especie: string;
+  @IsNotEmpty()
+  raza: string;
+  @IsNotEmpty()
+  @Transform(({ value }) => value?.trim())
+  sexo: string;
+  @IsNotEmpty()
+  fecha_nacimiento: Date;
+  @IsNotEmpty()
+  peso: number;
+  @IsNotEmpty()
+  observaciones: string;
+  @IsNotEmpty()
+  @IsNumber()
+  microchip: number;
+  @IsNotEmpty()
+  antecedentes: string;
+  alergias: string;
+
+  @ValidateNested()
+  @Type(() => Dueno)
+  id_dueno: Dueno;
+}
