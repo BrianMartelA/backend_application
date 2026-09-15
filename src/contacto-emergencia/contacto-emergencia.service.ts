@@ -65,7 +65,7 @@ export class ContactoEmergenciaService {
   }
 
   findAll() {
-    return `This action returns all contactoEmergencia`;
+    return this.contactoRepository.find();
   }
 
   findOne(id: number) {

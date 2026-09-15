@@ -1,6 +1,12 @@
 import { Transform, Type } from 'class-transformer';
-import {  IsNotEmpty, IsString, ValidateNested } from 'class-validator';
+import {  IsInt, IsNotEmpty, IsObject, IsString, ValidateNested } from 'class-validator';
 import { Negocio } from '../../negocio/entities/negocio.entity.js';
+
+export class NegocioRefDto{
+@IsInt()
+@IsNotEmpty()
+negocioId: number;
+}
 
 export class CreateDuenoDto {
   id_dueno: number;
@@ -19,7 +25,8 @@ export class CreateDuenoDto {
   @IsNotEmpty()
   direccion: string;
   fecha_registro: string;
+  @IsObject()
   @ValidateNested()
   @Type(() => Negocio)
-  negocioId: Negocio;
+  negocioId: NegocioRefDto;
 }

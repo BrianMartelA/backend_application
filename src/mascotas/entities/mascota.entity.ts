@@ -2,16 +2,16 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColum
 import { Dueno } from "../../duenos/entities/dueno.entity.js";
 import type {Relation} from "typeorm";
 import { Cita } from "../../citas/entities/cita.entity.js";
+import { Especy } from "../../especies/entities/especy.entity.js";
+import { Raza } from "../../razas/entities/raza.entity.js";
 @Entity() 
 export class Mascota {
     @PrimaryGeneratedColumn()
     id_mascota:number;
     @Column()
     nombre:string;
-    @Column()
-    especie:string;
-    @Column()
-    raza:string;
+  
+
     @Column()
     sexo:string;
     @Column()
@@ -31,5 +31,11 @@ export class Mascota {
     dueno:Relation<Dueno>
     @OneToMany(()=>Cita,(cita)=>cita.mascota)
     cita:Cita;
+@ManyToOne(() => Especy, (especy) => especy.mascota)
+@JoinColumn({ name: 'id_especie' })
+especy: Relation<Especy>;
 
+@ManyToOne(() => Raza, (raza) => raza.mascota)
+@JoinColumn({ name: 'id_raza' })
+raza: Relation<Raza>;
 }

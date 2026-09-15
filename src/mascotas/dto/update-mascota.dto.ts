@@ -1,17 +1,34 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateMascotaDto } from './create-mascota.dto.js';
 import { Transform, Type } from 'class-transformer';
-import { IsNotEmpty, IsNumber, ValidateNested } from 'class-validator';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsObject,
+  ValidateNested,
+} from 'class-validator';
 import { Dueno } from '../../duenos/entities/dueno.entity.js';
-
+export class RazaRefDto {
+  @IsInt()
+  id_raza: number;
+}
+export class especieRefDto {
+  @IsInt()
+  id_especie: number;
+}
 export class UpdateMascotaDto extends PartialType(CreateMascotaDto) {
   @IsNotEmpty()
   @Transform(({ value }) => value?.trim())
   nombre: string;
-  @IsNotEmpty()
-  especie: string;
-  @IsNotEmpty()
-  raza: string;
+  @IsObject()
+  @ValidateNested()
+  @Type(() => especieRefDto)
+  id_especie: especieRefDto;
+  @IsObject()
+  @ValidateNested()
+  @Type(() => RazaRefDto)
+  id_raza: RazaRefDto;
   @IsNotEmpty()
   @Transform(({ value }) => value?.trim())
   sexo: string;

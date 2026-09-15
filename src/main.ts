@@ -4,12 +4,6 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-<<<<<<< HEAD
-  app.useGlobalPipes(new ValidationPipe({transform:true}));
-  app.enableCors();
-  await app.listen(process.env.PORT ?? 3000);
-}
-=======
 
   // Validación y transformación de DTOs global
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
@@ -28,5 +22,4 @@ async function bootstrap() {
   console.log(`🚀 Backend NestJS ejecutándose en: http://localhost:${port}`);
 }
 
->>>>>>> master
 await bootstrap();

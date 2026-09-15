@@ -14,30 +14,24 @@ import { Notificaciones } from './notificaciones/entities/notificacione.entity.j
 import { BoletasModule } from './boletas/boletas.module.js';
 import { CitasModule } from './citas/citas.module.js';
 import { Cita } from './citas/entities/cita.entity.js';
-import { EspecieModule } from './especie/especie.module.js';
-import { RazaModule } from './raza/raza.module.js';
 import { ContactoEmergenciaModule } from './contacto-emergencia/contacto-emergencia.module.js';
 import { ContactoEmergencia } from './contacto-emergencia/entities/contacto-emergencia.entity.js';
+import { EspeciesModule } from './especies/especies.module.js';
+import { RazasModule } from './razas/razas.module.js';
+import { Raza } from './razas/entities/raza.entity.js';
+import { Especy } from './especies/entities/especy.entity.js';
 
 @Module({
   imports: [ TypeOrmModule.forRoot({
       type: 'mysql',
-<<<<<<< HEAD
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '',
-      database: 'veterinaria',
-=======
       host: process.env.DB_HOST || 'localhost',
       port: 3306,
       username: process.env.DB_USERNAME || 'root',
-      password: process.env.DB_PASSWORD || 'duocmuchacho1!', // <-- Asegúrate de tener tu contraseña aquí o en process.env
+      password:"", // <-- Asegúrate de tener tu contraseña aquí o en process.env
       database: process.env.DB_DATABASE || 'veterinaria',
->>>>>>> master
-      entities: [Dueno,Mascota,Negocio,Notificaciones,Cita,ContactoEmergencia],
+      entities: [Dueno,Mascota,Negocio,Notificaciones,Cita,ContactoEmergencia,Raza,Especy],
       synchronize: true,
-    }), MascotasModule, DuenosModule,NegocioModule, HistorialVacunasModule, NotificacionesModule, BoletasModule, CitasModule, EspecieModule, RazaModule, ContactoEmergenciaModule],
+    }), MascotasModule, DuenosModule,NegocioModule, HistorialVacunasModule, NotificacionesModule, BoletasModule, CitasModule, ContactoEmergenciaModule, EspeciesModule, RazasModule],
   controllers: [AppController],
   providers: [AppService],
 })

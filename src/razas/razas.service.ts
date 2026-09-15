@@ -1,15 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRazaDto } from './dto/create-raza.dto.js';
 import { UpdateRazaDto } from './dto/update-raza.dto.js';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Raza } from './entities/raza.entity.js';
+import { Repository } from 'typeorm';
 
 @Injectable()
-export class RazaService {
+export class RazasService {
+  constructor(@InjectRepository(Raza) private razaRepository:Repository<Raza>){}
   create(createRazaDto: CreateRazaDto) {
-    return 'This action adds a new raza';
+    const raza = new Raza()
+
+    raza.nombre_raza=createRazaDto.nombre_raza;
+    return this.razaRepository.save(raza);
   }
 
   findAll() {
-    return `This action returns all raza`;
+    return `This action returns all razas`;
   }
 
   findOne(id: number) {
