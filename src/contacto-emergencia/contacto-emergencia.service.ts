@@ -69,14 +69,20 @@ export class ContactoEmergenciaService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} contactoEmergencia`;
+    return this.contactoRepository.findOneBy({id_contacto:id});
   }
 
   update(id: number, updateContactoEmergenciaDto: UpdateContactoEmergenciaDto) {
     return `This action updates a #${id} contactoEmergencia`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} contactoEmergencia`;
+  async remove(id: number) {
+    const contacto = await this.findOne(id);
+    if(!contacto){
+      throw new NotFoundException(`Contacto inexistente`)
+    }
+
+    await this.contactoRepository.delete(id);
+    return `Se elimino el mensaje de ${contacto.dueno.nombre_completo}`;
   }
 }

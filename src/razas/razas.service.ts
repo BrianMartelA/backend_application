@@ -16,15 +16,17 @@ export class RazasService {
   }
 
   findAll() {
-    return `This action returns all razas`;
+    return this.razaRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} raza`;
+    
+    return this.razaRepository.findOneBy({id_raza:id});
   }
 
-  update(id: number, updateRazaDto: UpdateRazaDto) {
-    return `This action updates a #${id} raza`;
+  async update(id: number, updateRazaDto: UpdateRazaDto) {
+    await this.razaRepository.update(id,updateRazaDto);
+    return this.razaRepository.findOneBy({id_raza:id});
   }
 
   remove(id: number) {

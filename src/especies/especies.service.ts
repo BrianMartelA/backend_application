@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEspecyDto } from './dto/create-especy.dto.js';
 import { UpdateEspecyDto } from './dto/update-especy.dto.js';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -18,18 +18,25 @@ export class EspeciesService {
   }
 
   findAll() {
-    return `This action returns all especies`;
+    return this.especieRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} especy`;
+    
+    return this.especieRepository.findOneBy({id_especie:id});
   }
 
-  update(id: number, updateEspecyDto: UpdateEspecyDto) {
-    return `This action updates a #${id} especy`;
+  async update(id: number, updateEspecyDto: UpdateEspecyDto) {
+    await this.especieRepository.update(id,updateEspecyDto);
+    return `Se actualizo la especie ${updateEspecyDto.nombre_especie}`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} especy`;
+  async remove(id: number) {
+    const especie = await this.findOne(id);
+    if(!especie){
+      throw new NotFoundException(`Especie no encontrada`);
+    }
+    await this.especieRepository.delete(id);
+    return `Se elimino la especie ${especie.nombre_especie}`;
   }
 }
