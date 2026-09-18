@@ -39,18 +39,11 @@ export class CitasService {
     if (mascota.dueno.id_dueno !== dueno.id_dueno) {
       throw new ForbiddenException('Mascota no vinculada al dueño');
     }
-    const [dia, mes, anio] = createCitaDto.fecha.split('-').map(Number);
-    const fecha = new Date(anio, mes - 1, dia);
 
-    if (
-      fecha.getFullYear() !== anio ||
-      fecha.getMonth() !== mes - 1 ||
-      fecha.getDate() !== dia
-    ) {
-      throw new BadRequestException('La fecha no es válida');
-    }
-    cita.fecha = fecha;
-    cita.hora = createCitaDto.hora;
+
+
+
+    cita.fecha_hora = createCitaDto.fecha_hora;
     cita.dueno = dueno;
     cita.mascota = mascota;
     cita.motivo = createCitaDto.motivo;

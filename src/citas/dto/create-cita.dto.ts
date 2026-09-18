@@ -16,8 +16,8 @@ export class MascotaRefDto {
 }
 export class CreateCitaDto {
   id_cita: number;
-  fecha: string;
-  hora:string;
+  fecha_hora: Date;
+
   motivo: string;
   estado: string;
   fecha_creación: Date;

@@ -6,12 +6,11 @@ import type { Relation } from "typeorm";
 export class Cita {
 @PrimaryGeneratedColumn()
 id_cita:number;
-@Column({ type: 'date',
-    default:'2026-09-17'
+@Column({ type: 'datetime',
+    default:'2026-09-17 23:00:00'
  })
-fecha:Date;
-@Column()
-hora:string;
+fecha_hora:Date;
+
 @Column()
 motivo:string;
 @Column()
