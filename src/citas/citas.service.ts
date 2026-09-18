@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateCitaDto } from './dto/create-cita.dto.js';
 import { UpdateCitaDto } from './dto/update-cita.dto.js';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -20,19 +25,38 @@ export class CitasService {
     const dueno = await this.duenoRepository.findOneBy({
       id_dueno: createCitaDto.id_dueno.id_dueno,
     });
-    const mascota = await this.mascotaRepository.findOneBy({
-      id_mascota: createCitaDto.id_mascota.id_mascota,
+    const mascota = await this.mascotaRepository.findOne({
+      where: { id_mascota: createCitaDto.id_mascota.id_mascota },
+      relations: { dueno: true },
     });
-
-    if(!dueno){
-      throw new NotFoundException(`Dueño no encontrado`)
+    if (!mascota) {
+      throw new NotFoundException(`Mascota no encontrada`);
+    }
+    if (!dueno || !mascota.dueno.id_dueno) {
+      throw new NotFoundException(`Dueño no encontrado`);
     }
 
-    if(!mascota){
-      throw new NotFoundException(`Mascota no encontrada`)
+    if (mascota.dueno.id_dueno !== dueno.id_dueno) {
+      throw new ForbiddenException('Mascota no vinculada al dueño');
     }
+    const [dia, mes, anio] = createCitaDto.fecha.split('-').map(Number);
+    const fecha = new Date(anio, mes - 1, dia);
 
-    return 'This action adds a new cita';
+    if (
+      fecha.getFullYear() !== anio ||
+      fecha.getMonth() !== mes - 1 ||
+      fecha.getDate() !== dia
+    ) {
+      throw new BadRequestException('La fecha no es válida');
+    }
+    cita.fecha = fecha;
+    cita.hora = createCitaDto.hora;
+    cita.dueno = dueno;
+    cita.mascota = mascota;
+    cita.motivo = createCitaDto.motivo;
+    cita.estado = createCitaDto.estado;
+
+    return this.citaRepository.save(cita);
   }
 
   findAll() {

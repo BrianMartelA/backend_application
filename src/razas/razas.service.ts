@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRazaDto } from './dto/create-raza.dto.js';
 import { UpdateRazaDto } from './dto/update-raza.dto.js';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -29,7 +29,12 @@ export class RazasService {
     return this.razaRepository.findOneBy({id_raza:id});
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} raza`;
+  async remove(id: number) {
+    const raza = await this.findOne(id);
+    if(!raza){
+      throw new NotFoundException('mascota no encontrada')
+    }
+    await this.razaRepository.delete(id);
+    return `Raza eliminada`;
   }
 }
