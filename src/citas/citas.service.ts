@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -40,31 +41,68 @@ export class CitasService {
       throw new ForbiddenException('Mascota no vinculada al dueño');
     }
 
-
-
-
     cita.fecha_hora = createCitaDto.fecha_hora;
     cita.dueno = dueno;
     cita.mascota = mascota;
     cita.motivo = createCitaDto.motivo;
     cita.estado = createCitaDto.estado;
 
+    const cita_exsitente = await this.citaRepository.findOne({
+      where: { fecha_hora: createCitaDto.fecha_hora },
+    });
+
+    if (cita_exsitente) {
+      throw new ConflictException(`fecha y hora ya tomada`);
+    }
     return this.citaRepository.save(cita);
   }
 
   findAll() {
-    return `This action returns all citas`;
+    return this.citaRepository.find({
+      relations: { dueno: true, mascota: true },
+    });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} cita`;
+    return this.citaRepository.findOne({
+      where: { id_cita: id },
+      relations: { dueno: true, mascota: true },
+    });
   }
 
-  update(id: number, updateCitaDto: UpdateCitaDto) {
-    return `This action updates a #${id} cita`;
+  async update(id: number, updateCitaDto: UpdateCitaDto) {
+    const cita = await this.citaRepository.findOne({
+      where: { id_cita: id },
+      relations: { dueno: true, mascota: true },
+    });
+    if (!cita) {
+      throw new NotFoundException(`Mascota sin cita`);
+    }
+
+    if (updateCitaDto.fecha_hora !== undefined) {
+      const cita_existente = await this.citaRepository.findOne({
+        where: { fecha_hora: updateCitaDto.fecha_hora },
+      });
+      if (cita_existente) {
+        throw new ConflictException(`fecha y hora ya tomada`);
+      }
+    }
+
+    cita.fecha_hora = updateCitaDto.fecha_hora ?? cita.fecha_hora;
+    cita.motivo = updateCitaDto.motivo ?? cita.motivo;
+    cita.estado = updateCitaDto.estado ?? cita.estado;
+    return this.citaRepository.save(cita);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cita`;
+  async remove(id: number) {
+const cita = await this.citaRepository.findOne({
+  where:{id_cita:id},
+  relations:{dueno:true}
+})
+if(!cita){
+  throw new NotFoundException(`Cita no encontrada`)
+}
+await this.citaRepository.delete(id)
+    return `se elimino la cita para ${cita.dueno.nombre_completo}`
   }
 }
