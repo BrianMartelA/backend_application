@@ -29,8 +29,7 @@ export class CreateMascotaDto {
   fecha_nacimiento: Date;
   @IsNotEmpty()
   peso: number;
-  @IsNotEmpty()
-  observaciones: string;
+
   @IsNotEmpty()
   @IsNumber()
   microchip: number;

@@ -9,31 +9,11 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Dueno } from '../../duenos/entities/dueno.entity.js';
-export class RazaRefDto {
-  @IsInt()
-  id_raza: number;
-}
-export class especieRefDto {
-  @IsInt()
-  id_especie: number;
-}
+
 export class UpdateMascotaDto extends PartialType(CreateMascotaDto) {
   @IsNotEmpty()
   @Transform(({ value }) => value?.trim())
   nombre: string;
-  @IsObject()
-  @ValidateNested()
-  @Type(() => especieRefDto)
-  id_especie: especieRefDto;
-  @IsObject()
-  @ValidateNested()
-  @Type(() => RazaRefDto)
-  id_raza: RazaRefDto;
-  @IsNotEmpty()
-  @Transform(({ value }) => value?.trim())
-  sexo: string;
-  @IsNotEmpty()
-  fecha_nacimiento: Date;
   @IsNotEmpty()
   peso: number;
   @IsNotEmpty()
@@ -43,7 +23,5 @@ export class UpdateMascotaDto extends PartialType(CreateMascotaDto) {
   microchip: number;
   @IsNotEmpty()
   antecedentes: string;
-  @ValidateNested()
-  @Type(() => Dueno)
-  id_dueno: Dueno;
+  alergias: string;
 }

@@ -6,7 +6,7 @@ import type { Relation } from 'typeorm';
 export class Raza {
     @PrimaryGeneratedColumn()
     id_raza:number;
-    @Column()
+    @Column({type:'varchar',length:50})
     nombre_raza:string;
     @OneToMany(()=>Mascota,(mascota)=>mascota.raza)
     mascota:Relation<Mascota[]>;

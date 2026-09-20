@@ -20,6 +20,8 @@ import { EspeciesModule } from './especies/especies.module.js';
 import { RazasModule } from './razas/razas.module.js';
 import { Raza } from './razas/entities/raza.entity.js';
 import { Especy } from './especies/entities/especy.entity.js';
+import { VacunasModule } from './vacunas/vacunas.module.js';
+import { Vacuna } from './vacunas/entities/vacuna.entity.js';
 
 @Module({
   imports: [ TypeOrmModule.forRoot({
@@ -29,9 +31,9 @@ import { Especy } from './especies/entities/especy.entity.js';
       username: process.env.DB_USERNAME || 'root',
       password:"", // <-- Asegúrate de tener tu contraseña aquí o en process.env
       database: process.env.DB_DATABASE || 'veterinaria',
-      entities: [Dueno,Mascota,Negocio,Notificaciones,Cita,ContactoEmergencia,Raza,Especy],
+      entities: [Dueno,Mascota,Negocio,Notificaciones,Cita,ContactoEmergencia,Raza,Especy,Vacuna],
       synchronize: true,
-    }), MascotasModule, DuenosModule,NegocioModule, HistorialVacunasModule, NotificacionesModule, BoletasModule, CitasModule, ContactoEmergenciaModule, EspeciesModule, RazasModule],
+    }), MascotasModule, DuenosModule,NegocioModule, HistorialVacunasModule, NotificacionesModule, BoletasModule, CitasModule, ContactoEmergenciaModule, EspeciesModule, RazasModule, VacunasModule],
   controllers: [AppController],
   providers: [AppService],
 })

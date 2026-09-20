@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query } from '@nestjs/common';
 import { CitasService } from './citas.service.js';
 import { CreateCitaDto } from './dto/create-cita.dto.js';
 import { UpdateCitaDto } from './dto/update-cita.dto.js';
@@ -7,14 +7,16 @@ import { UpdateCitaDto } from './dto/update-cita.dto.js';
 export class CitasController {
   constructor(private readonly citasService: CitasService) {}
 
-  @Post()
-  create(@Body() createCitaDto: CreateCitaDto) {
-    return this.citasService.create(createCitaDto);
+  @Post('/:negocioId')
+  create(
+    @Param('negocioId',ParseIntPipe) negocioId:number,
+    @Body() createCitaDto: CreateCitaDto) {
+    return this.citasService.create(negocioId,createCitaDto);
   }
 
   @Get()
-  findAll() {
-    return this.citasService.findAll();
+  findAll(@Query('negocioId', ParseIntPipe) negocioId: number) {
+    return this.citasService.findAll(negocioId);
   }
 
   @Get(':id')

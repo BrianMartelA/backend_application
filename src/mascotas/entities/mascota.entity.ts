@@ -8,23 +8,22 @@ import { Raza } from "../../razas/entities/raza.entity.js";
 export class Mascota {
     @PrimaryGeneratedColumn()
     id_mascota:number;
-    @Column()
+    @Column({type:'varchar',length:100})
     nombre:string;
   
 
-    @Column()
+    @Column({type:'varchar',length:50})
     sexo:string;
     @Column()
     fecha_nacimiento:Date;
-    @Column()
+    @Column({type:'int'})
     peso:number;
-    @Column()
-    observaciones:string;
-    @Column()
+
+    @Column({type:'varchar',length:30})
     microchip:number;
-    @Column()
+    @Column({type:'text'})
     antecedentes:string;
-    @Column()
+    @Column({type:'varchar',length:50})
     alergias:string;
     @ManyToOne(()=> Dueno,(dueno)=>dueno.mascotas,{onDelete:'CASCADE'})
     @JoinColumn({name:'id_dueno'})

@@ -17,13 +17,16 @@ export class EspeciesService {
     return this.especieRepository.save(especie);
   }
 
+  findPerName(nombre_especie:string){
+    return this.especieRepository.findOne({where:{nombre_especie:nombre_especie}})
+  }
   findAll() {
     return this.especieRepository.find();
   }
 
   findOne(id: number) {
     
-    return this.especieRepository.findOneBy({id_especie:id});
+    return this.especieRepository.findOne({where:{id_especie:id}});
   }
 
   async update(id: number, updateEspecyDto: UpdateEspecyDto) {

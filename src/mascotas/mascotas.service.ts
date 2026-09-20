@@ -45,14 +45,13 @@ export class MascotasService {
     mascota.raza = raza;
     mascota.sexo = createMascotaDto.sexo;
     mascota.antecedentes = createMascotaDto.antecedentes;
-    mascota.observaciones = createMascotaDto.observaciones;
     mascota.alergias = createMascotaDto.alergias;
 
     return this.mascotaRepository.save(mascota);
   }
 
   findAll() {
-    return this.mascotaRepository.find();
+    return this.mascotaRepository.find({relations:{dueno:true}});
   }
 
   async findOneWithOwner(id: number) {
@@ -70,18 +69,32 @@ export class MascotasService {
   }
 
   async update(id: number, updateMascotaDto: UpdateMascotaDto) {
+    const mascota = await this.mascotaRepository.findOne({where:{
+      id_mascota:id
+    }})
+    if(!mascota){
+      throw new NotFoundException(`mascota no encontrada`);
+    }
+    mascota.alergias= updateMascotaDto.alergias??mascota.alergias;
+    mascota.antecedentes=updateMascotaDto.antecedentes??mascota.antecedentes;
+    mascota.microchip=updateMascotaDto.microchip??mascota.microchip;
+    mascota.peso=updateMascotaDto.peso??mascota.peso;
+    mascota.nombre=updateMascotaDto.nombre??mascota.nombre;
     await this.mascotaRepository.update(id, updateMascotaDto);
     return `This action updates a #${id} mascota`;
   }
 
   async remove(id: number) {
-    const mascota = await this.findOne(id);
+    const mascota = await this.mascotaRepository.findOne({
+      where:{id_mascota:id},
+      relations:{dueno:true}
+    });
     if (!mascota) {
       throw new NotFoundException(`dueño no encontrado`);
     }
 
     await this.mascotaRepository.delete(id);
 
-    return `Se elimino a usuario ${mascota.nombre}`;
+    return `Se la mascota de${mascota.dueno.nombre_completo} ${mascota.nombre}`;
   }
 }

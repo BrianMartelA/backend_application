@@ -1,11 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsInt, IsNotEmpty, IsObject, IsString, ValidateNested } from 'class-validator';
 
-export class NegocioRefDto {
-  @IsInt()
-  @IsNotEmpty()
-  negocioId: number;
-}
+
 
 export class CreateContactoEmergenciaDto {
   @IsString()
@@ -16,8 +12,5 @@ export class CreateContactoEmergenciaDto {
   @IsNotEmpty()
   nom_mascota: string;
 
-  @IsObject()
-  @ValidateNested()
-  @Type(() => NegocioRefDto)
-  negocioId: NegocioRefDto;
+
 }

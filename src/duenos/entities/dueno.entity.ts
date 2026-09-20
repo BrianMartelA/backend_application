@@ -17,16 +17,16 @@ import { ContactoEmergencia } from '../../contacto-emergencia/entities/contacto-
 export class Dueno {
   @PrimaryGeneratedColumn()
   id_dueno: number;
-  @Column()
+  @Column({type:'varchar',length:12})
   rut: string;
-  @Column()
+  @Column({type:'varchar',length:100})
   nombre_completo: string;
 
-  @Column()
+  @Column({type:'varchar',length:20})
   telefono: string;
-  @Column()
+  @Column({type:'varchar',length:150})
   correo: string;
-  @Column()
+  @Column({type:'text'})
   direccion: string;
   @CreateDateColumn()
   fecha_registro: Date;

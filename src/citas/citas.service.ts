@@ -12,6 +12,7 @@ import { Repository } from 'typeorm';
 import { Cita } from './entities/cita.entity.js';
 import { Dueno } from '../duenos/entities/dueno.entity.js';
 import { Mascota } from '../mascotas/entities/mascota.entity.js';
+import { Negocio } from '../negocio/entities/negocio.entity.js';
 
 @Injectable()
 export class CitasService {
@@ -19,8 +20,9 @@ export class CitasService {
     @InjectRepository(Cita) private citaRepository: Repository<Cita>,
     @InjectRepository(Dueno) private duenoRepository: Repository<Dueno>,
     @InjectRepository(Mascota) private mascotaRepository: Repository<Mascota>,
+    @InjectRepository(Negocio) private negocioRepository: Repository<Negocio>,
   ) {}
-  async create(createCitaDto: CreateCitaDto) {
+  async create(negocioId: number, createCitaDto: CreateCitaDto) {
     const cita = new Cita();
 
     const dueno = await this.duenoRepository.findOneBy({
@@ -30,6 +32,10 @@ export class CitasService {
       where: { id_mascota: createCitaDto.id_mascota.id_mascota },
       relations: { dueno: true },
     });
+    const negocio = await this.negocioRepository.findOneBy({ negocioId });
+    if (!negocio) {
+      throw new NotFoundException(`Negocio no encontrado`);
+    }
     if (!mascota) {
       throw new NotFoundException(`Mascota no encontrada`);
     }
@@ -46,19 +52,25 @@ export class CitasService {
     cita.mascota = mascota;
     cita.motivo = createCitaDto.motivo;
     cita.estado = createCitaDto.estado;
+    cita.negocio=negocio;
 
     const cita_exsitente = await this.citaRepository.findOne({
-      where: { fecha_hora: createCitaDto.fecha_hora },
+      where: { fecha_hora: createCitaDto.fecha_hora,negocio:{negocioId} },
     });
 
     if (cita_exsitente) {
       throw new ConflictException(`fecha y hora ya tomada`);
     }
+
     return this.citaRepository.save(cita);
   }
 
-  findAll() {
-    return this.citaRepository.find({
+  async findAll(negocioId:number) {
+        const negocio = await this.negocioRepository.findOneBy({ negocioId });
+    if (!negocio) {
+      throw new NotFoundException(`negocio no encontrado`);
+    }
+    return this.citaRepository.find({where:{negocio:{negocioId}},
       relations: { dueno: true, mascota: true },
     });
   }
@@ -95,14 +107,14 @@ export class CitasService {
   }
 
   async remove(id: number) {
-const cita = await this.citaRepository.findOne({
-  where:{id_cita:id},
-  relations:{dueno:true}
-})
-if(!cita){
-  throw new NotFoundException(`Cita no encontrada`)
-}
-await this.citaRepository.delete(id)
-    return `se elimino la cita para ${cita.dueno.nombre_completo}`
+    const cita = await this.citaRepository.findOne({
+      where: { id_cita: id },
+      relations: { dueno: true },
+    });
+    if (!cita) {
+      throw new NotFoundException(`Cita no encontrada`);
+    }
+    await this.citaRepository.delete(id);
+    return `se elimino la cita para ${cita.dueno.nombre_completo}`;
   }
 }
