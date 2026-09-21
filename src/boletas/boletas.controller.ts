@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { BoletasService } from './boletas.service.js';
 import { CreateBoletaDto } from './dto/create-boleta.dto.js';
 import { UpdateBoletaDto } from './dto/update-boleta.dto.js';
@@ -18,17 +27,25 @@ export class BoletasController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.boletasService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.boletasService.findOne(id);
+  }
+
+  @Get('dueno/:idDueno')
+  findByDueno(@Param('idDueno', ParseIntPipe) idDueno: number) {
+    return this.boletasService.findByDueno(idDueno);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBoletaDto: UpdateBoletaDto) {
-    return this.boletasService.update(+id, updateBoletaDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateBoletaDto: UpdateBoletaDto,
+  ) {
+    return this.boletasService.update(id, updateBoletaDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.boletasService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.boletasService.remove(id);
   }
 }
