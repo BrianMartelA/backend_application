@@ -1,0 +1,9 @@
+$kind: http-request
+url: "{{baseUrl}}/contacto-emergencia/:id"
+method: GET
+headers:
+  Accept: application/json
+pathVariables:
+  id: string
+examples: ./.resources/Contacto Emergencia Controller find One.resources/examples
+order: 1000

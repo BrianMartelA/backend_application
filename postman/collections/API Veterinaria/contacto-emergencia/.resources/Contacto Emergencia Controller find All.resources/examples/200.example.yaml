@@ -1,0 +1,47 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/contacto-emergencia?negocioId=4033.1809080436874"
+  method: GET
+  headers:
+    Accept: application/json
+  queryParams:
+    negocioId: "4033.1809080436874"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      [
+        {
+          "id_contacto": 1651.2055877861465,
+          "razon_consulta": "string",
+          "nom_mascota": "string",
+          "fecha_solicitud": "1960-03-04T06:16:04.858Z",
+          "fecha_actualizacion": "2001-06-04T13:02:40.330Z",
+          "estado": "string",
+          "negocio": {
+            "value": "<Circular reference to #/components/schemas/Negocio detected>"
+          },
+          "dueno": {
+            "value": "<Circular reference to #/components/schemas/Dueno detected>"
+          }
+        },
+        {
+          "id_contacto": 6272.859000257864,
+          "razon_consulta": "string",
+          "nom_mascota": "string",
+          "fecha_solicitud": "1971-04-23T01:14:27.764Z",
+          "fecha_actualizacion": "1973-02-09T17:28:57.045Z",
+          "estado": "string",
+          "negocio": {
+            "value": "<Circular reference to #/components/schemas/Negocio detected>"
+          },
+          "dueno": {
+            "value": "<Circular reference to #/components/schemas/Dueno detected>"
+          }
+        }
+      ]
+order: 1000

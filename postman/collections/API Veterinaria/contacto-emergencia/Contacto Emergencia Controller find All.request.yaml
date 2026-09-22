@@ -1,0 +1,9 @@
+$kind: http-request
+url: "{{baseUrl}}/contacto-emergencia?negocioId=4033.1809080436874"
+method: GET
+headers:
+  Accept: application/json
+queryParams:
+  negocioId: "4033.1809080436874"
+examples: ./.resources/Contacto Emergencia Controller find All.resources/examples
+order: 3000

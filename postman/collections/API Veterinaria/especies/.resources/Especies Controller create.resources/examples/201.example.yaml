@@ -1,0 +1,53 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/especies"
+  method: POST
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id_especie": 8856.213007484546,
+        "nombre_especie": "string"
+      }
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id_especie": 5272.168121222067,
+        "nombre_especie": "string",
+        "mascota": [
+          {
+            "value": "<Circular reference to #/components/schemas/Mascota detected>"
+          },
+          {
+            "value": "<Circular reference to #/components/schemas/Mascota detected>"
+          }
+        ],
+        "vacuna": [
+          {
+            "id_vacuna": 5952.086305857294,
+            "nombre_vacuna": "string",
+            "descripcion": "string",
+            "especy": {
+              "value": "<Circular reference to #/components/schemas/Especy detected>"
+            }
+          },
+          {
+            "id_vacuna": 546.1838237845118,
+            "nombre_vacuna": "string",
+            "descripcion": "string",
+            "especy": {
+              "value": "<Circular reference to #/components/schemas/Especy detected>"
+            }
+          }
+        ]
+      }
+order: 1000

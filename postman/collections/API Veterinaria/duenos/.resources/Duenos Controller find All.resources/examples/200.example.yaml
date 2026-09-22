@@ -1,0 +1,825 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/duenos?negocioId=4033.1809080436874"
+  method: GET
+  headers:
+    Accept: application/json
+  queryParams:
+    negocioId: "4033.1809080436874"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      [
+        {
+          "id_dueno": 5345.162591631909,
+          "rut": "string",
+          "nombre_completo": "string",
+          "telefono": "string",
+          "correo": "string",
+          "direccion": "string",
+          "fecha_registro": "1966-01-22T19:15:31.398Z",
+          "mascotas": [
+            {
+              "id_mascota": 5135.381196746683,
+              "nombre": "string",
+              "sexo": "string",
+              "fecha_nacimiento": "1955-12-31T10:30:52.221Z",
+              "peso": 2180.8609739091157,
+              "microchip": 6248.906469012952,
+              "antecedentes": "string",
+              "alergias": "string",
+              "dueno": {
+                "value": "<Circular reference to #/components/schemas/Dueno detected>"
+              },
+              "cita": {
+                "id_cita": 9571.041982328543,
+                "fecha_hora": "1950-10-11T19:25:45.667Z",
+                "motivo": "string",
+                "estado": "string",
+                "dueno": {
+                  "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                },
+                "mascota": {
+                  "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                },
+                "fecha_creacion": "2020-12-25T05:12:56.302Z",
+                "negocio": {
+                  "negocioId": 9732.359455830221,
+                  "nombre_negocio": "string",
+                  "direccion_negocio": "string",
+                  "rut": "string",
+                  "fecha_registro": "1965-08-30T15:11:51.246Z",
+                  "dueno": [
+                    {
+                      "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                    },
+                    {
+                      "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                    }
+                  ],
+                  "contactoEmergencia": [
+                    {
+                      "id_contacto": 1546.9142847730955,
+                      "razon_consulta": "string",
+                      "nom_mascota": "string",
+                      "fecha_solicitud": "1994-03-16T21:25:27.954Z",
+                      "fecha_actualizacion": "1947-12-21T23:38:22.675Z",
+                      "estado": "string",
+                      "negocio": {
+                        "value": "<Circular reference to #/components/schemas/Negocio detected>"
+                      },
+                      "dueno": {
+                        "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                      }
+                    },
+                    {
+                      "id_contacto": 8557.544958616729,
+                      "razon_consulta": "string",
+                      "nom_mascota": "string",
+                      "fecha_solicitud": "2006-07-28T14:59:45.588Z",
+                      "fecha_actualizacion": "1955-01-06T12:48:40.074Z",
+                      "estado": "string",
+                      "negocio": {
+                        "value": "<Circular reference to #/components/schemas/Negocio detected>"
+                      },
+                      "dueno": {
+                        "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                      }
+                    }
+                  ],
+                  "cita": [
+                    {
+                      "value": "<Circular reference to #/components/schemas/Cita detected>"
+                    },
+                    {
+                      "value": "<Circular reference to #/components/schemas/Cita detected>"
+                    }
+                  ]
+                }
+              },
+              "especy": {
+                "id_especie": 4849.9510653193065,
+                "nombre_especie": "string",
+                "mascota": [
+                  {
+                    "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                  },
+                  {
+                    "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                  }
+                ],
+                "vacuna": [
+                  {
+                    "id_vacuna": 52.71948117954839,
+                    "nombre_vacuna": "string",
+                    "descripcion": "string",
+                    "especy": {
+                      "value": "<Circular reference to #/components/schemas/Especy detected>"
+                    }
+                  },
+                  {
+                    "id_vacuna": 6644.186222074398,
+                    "nombre_vacuna": "string",
+                    "descripcion": "string",
+                    "especy": {
+                      "value": "<Circular reference to #/components/schemas/Especy detected>"
+                    }
+                  }
+                ]
+              },
+              "raza": {
+                "id_raza": 4782.632426411573,
+                "nombre_raza": "string",
+                "mascota": [
+                  {
+                    "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                  },
+                  {
+                    "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                  }
+                ]
+              }
+            },
+            {
+              "id_mascota": 4521.292309436418,
+              "nombre": "string",
+              "sexo": "string",
+              "fecha_nacimiento": "2001-03-11T16:49:54.726Z",
+              "peso": 7738.086867051246,
+              "microchip": 7147.235435371204,
+              "antecedentes": "string",
+              "alergias": "string",
+              "dueno": {
+                "value": "<Circular reference to #/components/schemas/Dueno detected>"
+              },
+              "cita": {
+                "id_cita": 2462.6739467403327,
+                "fecha_hora": "1964-02-16T13:58:18.107Z",
+                "motivo": "string",
+                "estado": "string",
+                "dueno": {
+                  "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                },
+                "mascota": {
+                  "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                },
+                "fecha_creacion": "2003-06-17T11:53:31.307Z",
+                "negocio": {
+                  "negocioId": 6255.552365470793,
+                  "nombre_negocio": "string",
+                  "direccion_negocio": "string",
+                  "rut": "string",
+                  "fecha_registro": "1994-10-28T20:37:55.482Z",
+                  "dueno": [
+                    {
+                      "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                    },
+                    {
+                      "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                    }
+                  ],
+                  "contactoEmergencia": [
+                    {
+                      "id_contacto": 3242.506977100765,
+                      "razon_consulta": "string",
+                      "nom_mascota": "string",
+                      "fecha_solicitud": "2002-05-03T23:50:44.498Z",
+                      "fecha_actualizacion": "1981-09-30T00:20:55.885Z",
+                      "estado": "string",
+                      "negocio": {
+                        "value": "<Circular reference to #/components/schemas/Negocio detected>"
+                      },
+                      "dueno": {
+                        "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                      }
+                    },
+                    {
+                      "id_contacto": 6001.805931638637,
+                      "razon_consulta": "string",
+                      "nom_mascota": "string",
+                      "fecha_solicitud": "1986-06-16T07:37:36.057Z",
+                      "fecha_actualizacion": "2002-08-04T18:06:03.560Z",
+                      "estado": "string",
+                      "negocio": {
+                        "value": "<Circular reference to #/components/schemas/Negocio detected>"
+                      },
+                      "dueno": {
+                        "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                      }
+                    }
+                  ],
+                  "cita": [
+                    {
+                      "value": "<Circular reference to #/components/schemas/Cita detected>"
+                    },
+                    {
+                      "value": "<Circular reference to #/components/schemas/Cita detected>"
+                    }
+                  ]
+                }
+              },
+              "especy": {
+                "id_especie": 2183.446958203672,
+                "nombre_especie": "string",
+                "mascota": [
+                  {
+                    "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                  },
+                  {
+                    "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                  }
+                ],
+                "vacuna": [
+                  {
+                    "id_vacuna": 4056.507284028321,
+                    "nombre_vacuna": "string",
+                    "descripcion": "string",
+                    "especy": {
+                      "value": "<Circular reference to #/components/schemas/Especy detected>"
+                    }
+                  },
+                  {
+                    "id_vacuna": 3356.115494640286,
+                    "nombre_vacuna": "string",
+                    "descripcion": "string",
+                    "especy": {
+                      "value": "<Circular reference to #/components/schemas/Especy detected>"
+                    }
+                  }
+                ]
+              },
+              "raza": {
+                "id_raza": 2138.74157581327,
+                "nombre_raza": "string",
+                "mascota": [
+                  {
+                    "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                  },
+                  {
+                    "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                  }
+                ]
+              }
+            }
+          ],
+          "negocio": {
+            "negocioId": 4216.588474123469,
+            "nombre_negocio": "string",
+            "direccion_negocio": "string",
+            "rut": "string",
+            "fecha_registro": "2019-11-28T03:36:45.535Z",
+            "dueno": [
+              {
+                "value": "<Circular reference to #/components/schemas/Dueno detected>"
+              },
+              {
+                "value": "<Circular reference to #/components/schemas/Dueno detected>"
+              }
+            ],
+            "contactoEmergencia": [
+              {
+                "id_contacto": 4009.4037737799495,
+                "razon_consulta": "string",
+                "nom_mascota": "string",
+                "fecha_solicitud": "1971-11-08T15:21:31.703Z",
+                "fecha_actualizacion": "2015-05-17T20:46:50.340Z",
+                "estado": "string",
+                "negocio": {
+                  "value": "<Circular reference to #/components/schemas/Negocio detected>"
+                },
+                "dueno": {
+                  "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                }
+              },
+              {
+                "id_contacto": 2027.921845383829,
+                "razon_consulta": "string",
+                "nom_mascota": "string",
+                "fecha_solicitud": "2006-02-18T16:10:31.439Z",
+                "fecha_actualizacion": "1997-07-09T22:32:56.345Z",
+                "estado": "string",
+                "negocio": {
+                  "value": "<Circular reference to #/components/schemas/Negocio detected>"
+                },
+                "dueno": {
+                  "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                }
+              }
+            ],
+            "cita": [
+              {
+                "value": "<Circular reference to #/components/schemas/Cita detected>"
+              },
+              {
+                "value": "<Circular reference to #/components/schemas/Cita detected>"
+              }
+            ]
+          },
+          "notifiacion": [],
+          "cita": {
+            "id_cita": 835.685834015234,
+            "fecha_hora": "2011-02-06T01:25:10.946Z",
+            "motivo": "string",
+            "estado": "string",
+            "dueno": {
+              "value": "<Circular reference to #/components/schemas/Dueno detected>"
+            },
+            "mascota": {
+              "value": "<Circular reference to #/components/schemas/Mascota detected>"
+            },
+            "fecha_creacion": "1996-04-20T18:23:24.516Z",
+            "negocio": {
+              "negocioId": 1515.8635530571662,
+              "nombre_negocio": "string",
+              "direccion_negocio": "string",
+              "rut": "string",
+              "fecha_registro": "2006-03-15T09:14:51.762Z",
+              "dueno": [
+                {
+                  "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                },
+                {
+                  "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                }
+              ],
+              "contactoEmergencia": [
+                {
+                  "id_contacto": 7736.355061587455,
+                  "razon_consulta": "string",
+                  "nom_mascota": "string",
+                  "fecha_solicitud": "1973-05-30T17:55:55.143Z",
+                  "fecha_actualizacion": "1987-01-14T11:27:27.262Z",
+                  "estado": "string",
+                  "negocio": {
+                    "value": "<Circular reference to #/components/schemas/Negocio detected>"
+                  },
+                  "dueno": {
+                    "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                  }
+                },
+                {
+                  "id_contacto": 2524.2198814565886,
+                  "razon_consulta": "string",
+                  "nom_mascota": "string",
+                  "fecha_solicitud": "2026-07-17T02:57:51.398Z",
+                  "fecha_actualizacion": "2004-08-18T03:56:19.672Z",
+                  "estado": "string",
+                  "negocio": {
+                    "value": "<Circular reference to #/components/schemas/Negocio detected>"
+                  },
+                  "dueno": {
+                    "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                  }
+                }
+              ],
+              "cita": [
+                {
+                  "value": "<Circular reference to #/components/schemas/Cita detected>"
+                },
+                {
+                  "value": "<Circular reference to #/components/schemas/Cita detected>"
+                }
+              ]
+            }
+          },
+          "contactosEmergencia": [
+            {
+              "id_contacto": 9985.093626331547,
+              "razon_consulta": "string",
+              "nom_mascota": "string",
+              "fecha_solicitud": "1988-06-26T05:17:09.334Z",
+              "fecha_actualizacion": "1982-08-05T11:05:13.513Z",
+              "estado": "string",
+              "negocio": {
+                "value": "<Circular reference to #/components/schemas/Negocio detected>"
+              },
+              "dueno": {
+                "value": "<Circular reference to #/components/schemas/Dueno detected>"
+              }
+            },
+            {
+              "id_contacto": 188.96069610325972,
+              "razon_consulta": "string",
+              "nom_mascota": "string",
+              "fecha_solicitud": "1966-09-19T15:42:26.904Z",
+              "fecha_actualizacion": "1965-09-07T00:22:30.461Z",
+              "estado": "string",
+              "negocio": {
+                "value": "<Circular reference to #/components/schemas/Negocio detected>"
+              },
+              "dueno": {
+                "value": "<Circular reference to #/components/schemas/Dueno detected>"
+              }
+            }
+          ]
+        },
+        {
+          "id_dueno": 1565.438208951313,
+          "rut": "string",
+          "nombre_completo": "string",
+          "telefono": "string",
+          "correo": "string",
+          "direccion": "string",
+          "fecha_registro": "1947-01-11T20:16:48.934Z",
+          "mascotas": [
+            {
+              "id_mascota": 6171.628232471955,
+              "nombre": "string",
+              "sexo": "string",
+              "fecha_nacimiento": "1999-09-25T12:19:28.906Z",
+              "peso": 6822.198883857013,
+              "microchip": 5314.633124329229,
+              "antecedentes": "string",
+              "alergias": "string",
+              "dueno": {
+                "value": "<Circular reference to #/components/schemas/Dueno detected>"
+              },
+              "cita": {
+                "id_cita": 8177.408241326005,
+                "fecha_hora": "1985-12-01T03:21:22.191Z",
+                "motivo": "string",
+                "estado": "string",
+                "dueno": {
+                  "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                },
+                "mascota": {
+                  "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                },
+                "fecha_creacion": "1992-11-03T22:07:34.523Z",
+                "negocio": {
+                  "negocioId": 2086.370421764978,
+                  "nombre_negocio": "string",
+                  "direccion_negocio": "string",
+                  "rut": "string",
+                  "fecha_registro": "1983-04-03T15:40:37.835Z",
+                  "dueno": [
+                    {
+                      "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                    },
+                    {
+                      "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                    }
+                  ],
+                  "contactoEmergencia": [
+                    {
+                      "id_contacto": 3111.6500804625293,
+                      "razon_consulta": "string",
+                      "nom_mascota": "string",
+                      "fecha_solicitud": "2013-06-10T22:05:54.729Z",
+                      "fecha_actualizacion": "2017-05-21T17:30:12.071Z",
+                      "estado": "string",
+                      "negocio": {
+                        "value": "<Circular reference to #/components/schemas/Negocio detected>"
+                      },
+                      "dueno": {
+                        "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                      }
+                    },
+                    {
+                      "id_contacto": 9493.204058516136,
+                      "razon_consulta": "string",
+                      "nom_mascota": "string",
+                      "fecha_solicitud": "1976-02-19T12:20:32.401Z",
+                      "fecha_actualizacion": "2016-12-16T18:26:42.530Z",
+                      "estado": "string",
+                      "negocio": {
+                        "value": "<Circular reference to #/components/schemas/Negocio detected>"
+                      },
+                      "dueno": {
+                        "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                      }
+                    }
+                  ],
+                  "cita": [
+                    {
+                      "value": "<Circular reference to #/components/schemas/Cita detected>"
+                    },
+                    {
+                      "value": "<Circular reference to #/components/schemas/Cita detected>"
+                    }
+                  ]
+                }
+              },
+              "especy": {
+                "id_especie": 1698.5585099434775,
+                "nombre_especie": "string",
+                "mascota": [
+                  {
+                    "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                  },
+                  {
+                    "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                  }
+                ],
+                "vacuna": [
+                  {
+                    "id_vacuna": 3803.3223709278996,
+                    "nombre_vacuna": "string",
+                    "descripcion": "string",
+                    "especy": {
+                      "value": "<Circular reference to #/components/schemas/Especy detected>"
+                    }
+                  },
+                  {
+                    "id_vacuna": 7729.1770204791765,
+                    "nombre_vacuna": "string",
+                    "descripcion": "string",
+                    "especy": {
+                      "value": "<Circular reference to #/components/schemas/Especy detected>"
+                    }
+                  }
+                ]
+              },
+              "raza": {
+                "id_raza": 300.5537594211205,
+                "nombre_raza": "string",
+                "mascota": [
+                  {
+                    "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                  },
+                  {
+                    "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                  }
+                ]
+              }
+            },
+            {
+              "id_mascota": 4523.770882228855,
+              "nombre": "string",
+              "sexo": "string",
+              "fecha_nacimiento": "1947-04-17T08:03:30.924Z",
+              "peso": 3573.1756046333985,
+              "microchip": 2676.8106552940308,
+              "antecedentes": "string",
+              "alergias": "string",
+              "dueno": {
+                "value": "<Circular reference to #/components/schemas/Dueno detected>"
+              },
+              "cita": {
+                "id_cita": 1091.4309698272696,
+                "fecha_hora": "1954-10-19T10:16:02.602Z",
+                "motivo": "string",
+                "estado": "string",
+                "dueno": {
+                  "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                },
+                "mascota": {
+                  "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                },
+                "fecha_creacion": "1966-03-12T08:22:01.379Z",
+                "negocio": {
+                  "negocioId": 7453.981685459097,
+                  "nombre_negocio": "string",
+                  "direccion_negocio": "string",
+                  "rut": "string",
+                  "fecha_registro": "1976-12-19T13:16:31.449Z",
+                  "dueno": [
+                    {
+                      "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                    },
+                    {
+                      "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                    }
+                  ],
+                  "contactoEmergencia": [
+                    {
+                      "id_contacto": 5381.977850031459,
+                      "razon_consulta": "string",
+                      "nom_mascota": "string",
+                      "fecha_solicitud": "1964-09-22T21:24:15.907Z",
+                      "fecha_actualizacion": "2003-03-21T13:37:27.938Z",
+                      "estado": "string",
+                      "negocio": {
+                        "value": "<Circular reference to #/components/schemas/Negocio detected>"
+                      },
+                      "dueno": {
+                        "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                      }
+                    },
+                    {
+                      "id_contacto": 3011.8108850319204,
+                      "razon_consulta": "string",
+                      "nom_mascota": "string",
+                      "fecha_solicitud": "1972-02-21T18:35:30.070Z",
+                      "fecha_actualizacion": "2001-05-16T07:30:49.899Z",
+                      "estado": "string",
+                      "negocio": {
+                        "value": "<Circular reference to #/components/schemas/Negocio detected>"
+                      },
+                      "dueno": {
+                        "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                      }
+                    }
+                  ],
+                  "cita": [
+                    {
+                      "value": "<Circular reference to #/components/schemas/Cita detected>"
+                    },
+                    {
+                      "value": "<Circular reference to #/components/schemas/Cita detected>"
+                    }
+                  ]
+                }
+              },
+              "especy": {
+                "id_especie": 8622.330624358443,
+                "nombre_especie": "string",
+                "mascota": [
+                  {
+                    "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                  },
+                  {
+                    "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                  }
+                ],
+                "vacuna": [
+                  {
+                    "id_vacuna": 303.4326697251277,
+                    "nombre_vacuna": "string",
+                    "descripcion": "string",
+                    "especy": {
+                      "value": "<Circular reference to #/components/schemas/Especy detected>"
+                    }
+                  },
+                  {
+                    "id_vacuna": 1970.7600900427115,
+                    "nombre_vacuna": "string",
+                    "descripcion": "string",
+                    "especy": {
+                      "value": "<Circular reference to #/components/schemas/Especy detected>"
+                    }
+                  }
+                ]
+              },
+              "raza": {
+                "id_raza": 865.6793546207853,
+                "nombre_raza": "string",
+                "mascota": [
+                  {
+                    "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                  },
+                  {
+                    "value": "<Circular reference to #/components/schemas/Mascota detected>"
+                  }
+                ]
+              }
+            }
+          ],
+          "negocio": {
+            "negocioId": 7141.026389833493,
+            "nombre_negocio": "string",
+            "direccion_negocio": "string",
+            "rut": "string",
+            "fecha_registro": "1953-06-05T20:02:57.607Z",
+            "dueno": [
+              {
+                "value": "<Circular reference to #/components/schemas/Dueno detected>"
+              },
+              {
+                "value": "<Circular reference to #/components/schemas/Dueno detected>"
+              }
+            ],
+            "contactoEmergencia": [
+              {
+                "id_contacto": 3534.2861328353315,
+                "razon_consulta": "string",
+                "nom_mascota": "string",
+                "fecha_solicitud": "2002-12-10T10:38:51.235Z",
+                "fecha_actualizacion": "1971-01-15T02:47:25.234Z",
+                "estado": "string",
+                "negocio": {
+                  "value": "<Circular reference to #/components/schemas/Negocio detected>"
+                },
+                "dueno": {
+                  "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                }
+              },
+              {
+                "id_contacto": 2490.539111321071,
+                "razon_consulta": "string",
+                "nom_mascota": "string",
+                "fecha_solicitud": "1978-03-29T23:44:30.694Z",
+                "fecha_actualizacion": "1966-05-21T15:57:21.701Z",
+                "estado": "string",
+                "negocio": {
+                  "value": "<Circular reference to #/components/schemas/Negocio detected>"
+                },
+                "dueno": {
+                  "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                }
+              }
+            ],
+            "cita": [
+              {
+                "value": "<Circular reference to #/components/schemas/Cita detected>"
+              },
+              {
+                "value": "<Circular reference to #/components/schemas/Cita detected>"
+              }
+            ]
+          },
+          "notifiacion": [],
+          "cita": {
+            "id_cita": 1120.5705513081955,
+            "fecha_hora": "1956-07-21T15:52:57.209Z",
+            "motivo": "string",
+            "estado": "string",
+            "dueno": {
+              "value": "<Circular reference to #/components/schemas/Dueno detected>"
+            },
+            "mascota": {
+              "value": "<Circular reference to #/components/schemas/Mascota detected>"
+            },
+            "fecha_creacion": "1999-05-27T09:11:39.570Z",
+            "negocio": {
+              "negocioId": 4353.288848383266,
+              "nombre_negocio": "string",
+              "direccion_negocio": "string",
+              "rut": "string",
+              "fecha_registro": "1959-08-27T16:49:13.138Z",
+              "dueno": [
+                {
+                  "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                },
+                {
+                  "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                }
+              ],
+              "contactoEmergencia": [
+                {
+                  "id_contacto": 514.0275142960515,
+                  "razon_consulta": "string",
+                  "nom_mascota": "string",
+                  "fecha_solicitud": "2010-06-19T14:47:47.373Z",
+                  "fecha_actualizacion": "2012-03-14T08:09:31.163Z",
+                  "estado": "string",
+                  "negocio": {
+                    "value": "<Circular reference to #/components/schemas/Negocio detected>"
+                  },
+                  "dueno": {
+                    "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                  }
+                },
+                {
+                  "id_contacto": 1945.5593617132627,
+                  "razon_consulta": "string",
+                  "nom_mascota": "string",
+                  "fecha_solicitud": "2017-02-11T11:40:09.957Z",
+                  "fecha_actualizacion": "1959-01-18T20:45:13.462Z",
+                  "estado": "string",
+                  "negocio": {
+                    "value": "<Circular reference to #/components/schemas/Negocio detected>"
+                  },
+                  "dueno": {
+                    "value": "<Circular reference to #/components/schemas/Dueno detected>"
+                  }
+                }
+              ],
+              "cita": [
+                {
+                  "value": "<Circular reference to #/components/schemas/Cita detected>"
+                },
+                {
+                  "value": "<Circular reference to #/components/schemas/Cita detected>"
+                }
+              ]
+            }
+          },
+          "contactosEmergencia": [
+            {
+              "id_contacto": 4952.783208358853,
+              "razon_consulta": "string",
+              "nom_mascota": "string",
+              "fecha_solicitud": "1973-06-17T11:40:20.863Z",
+              "fecha_actualizacion": "1982-01-25T01:34:38.497Z",
+              "estado": "string",
+              "negocio": {
+                "value": "<Circular reference to #/components/schemas/Negocio detected>"
+              },
+              "dueno": {
+                "value": "<Circular reference to #/components/schemas/Dueno detected>"
+              }
+            },
+            {
+              "id_contacto": 1897.3855643812642,
+              "razon_consulta": "string",
+              "nom_mascota": "string",
+              "fecha_solicitud": "1983-03-09T01:49:40.326Z",
+              "fecha_actualizacion": "1998-11-13T11:45:34.542Z",
+              "estado": "string",
+              "negocio": {
+                "value": "<Circular reference to #/components/schemas/Negocio detected>"
+              },
+              "dueno": {
+                "value": "<Circular reference to #/components/schemas/Dueno detected>"
+              }
+            }
+          ]
+        }
+      ]
+order: 1000

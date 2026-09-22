@@ -22,6 +22,7 @@ import { Raza } from './razas/entities/raza.entity.js';
 import { Especy } from './especies/entities/especy.entity.js';
 import { VacunasModule } from './vacunas/vacunas.module.js';
 import { Vacuna } from './vacunas/entities/vacuna.entity.js';
+import { Boleta } from './boletas/entities/boleta.entity.js';
 
 @Module({
   imports: [ TypeOrmModule.forRoot({
@@ -29,9 +30,10 @@ import { Vacuna } from './vacunas/entities/vacuna.entity.js';
       host: process.env.DB_HOST || 'localhost',
       port: 3306,
       username: process.env.DB_USERNAME || 'root',
-      password:"", // <-- Asegúrate de tener tu contraseña aquí o en process.env
+      password:"duocmuchacho1!", // <-- Asegúrate de tener tu contraseña aquí o en process.env
       database: process.env.DB_DATABASE || 'veterinaria',
-      entities: [Dueno,Mascota,Negocio,Notificaciones,Cita,ContactoEmergencia,Raza,Especy,Vacuna],
+      entities: [Dueno,Mascota,Negocio,Notificaciones,Cita,ContactoEmergencia,Raza,Especy,Vacuna,Boleta
+      ],
       synchronize: true,
     }), MascotasModule, DuenosModule,NegocioModule, HistorialVacunasModule, NotificacionesModule, BoletasModule, CitasModule, ContactoEmergenciaModule, EspeciesModule, RazasModule, VacunasModule],
   controllers: [AppController],

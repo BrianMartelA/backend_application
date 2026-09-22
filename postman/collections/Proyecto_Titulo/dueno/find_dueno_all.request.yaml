@@ -1,0 +1,6 @@
+$kind: http-request
+url: http://localhost:3001/duenos?negocioId=3
+method: GET
+queryParams:
+  negocioId: "3"
+order: 5000

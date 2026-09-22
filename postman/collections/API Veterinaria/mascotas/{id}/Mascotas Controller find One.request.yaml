@@ -1,0 +1,9 @@
+$kind: http-request
+url: "{{baseUrl}}/mascotas/:id"
+method: GET
+headers:
+  Accept: application/json
+pathVariables:
+  id: string
+examples: ./.resources/Mascotas Controller find One.resources/examples
+order: 1000

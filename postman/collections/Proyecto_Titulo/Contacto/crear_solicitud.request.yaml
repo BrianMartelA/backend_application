@@ -1,0 +1,33 @@
+$kind: http-request
+url: http://localhost:3001/contacto-emergencia/negocio/3
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"razon_consulta\": \"Mi mascota presenta vómitos y falta de apetito\",\r
+
+    \  \"nom_mascota\": \"Luna\",\r
+
+    \  \"dueno\": {\r
+
+    \    \"rut\": \"12.345.678-9\",\r
+
+    \    \"nombre_completo\": \"Juan Pérez\",\r
+
+    \    \"telefono\": \"+56912345678\",\r
+
+    \    \"correo\": \"juan.perez@email.com\",\r
+
+    \    \"direccion\": \"Av. Principal 123\",\r
+
+    \    \"negocioId\": {\r
+
+    \      \"negocioId\": 1\r
+
+    \    }\r
+
+    \  }\r
+
+    }"
+order: 1000

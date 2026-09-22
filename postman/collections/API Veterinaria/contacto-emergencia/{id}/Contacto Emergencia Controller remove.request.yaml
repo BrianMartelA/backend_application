@@ -1,0 +1,9 @@
+$kind: http-request
+url: "{{baseUrl}}/contacto-emergencia/:id"
+method: DELETE
+headers:
+  Accept: application/json
+pathVariables:
+  id: string
+examples: ./.resources/Contacto Emergencia Controller remove.resources/examples
+order: 3000

@@ -1,0 +1,39 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/contacto-emergencia/negocio/:negocioId"
+  method: POST
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  pathVariables:
+    negocioId: "4033.1809080436874"
+  body:
+    type: json
+    content: |-
+      {
+        "razon_consulta": "string",
+        "nom_mascota": "string"
+      }
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id_contacto": 7767.883800457714,
+        "razon_consulta": "string",
+        "nom_mascota": "string",
+        "fecha_solicitud": "1999-11-19T07:01:23.960Z",
+        "fecha_actualizacion": "1959-01-16T17:00:01.088Z",
+        "estado": "string",
+        "negocio": {
+          "value": "<Circular reference to #/components/schemas/Negocio detected>"
+        },
+        "dueno": {
+          "value": "<Circular reference to #/components/schemas/Dueno detected>"
+        }
+      }
+order: 1000

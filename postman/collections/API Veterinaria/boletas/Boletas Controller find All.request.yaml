@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{baseUrl}}/boletas"
+method: GET
+headers:
+  Accept: application/json
+examples: ./.resources/Boletas Controller find All.resources/examples
+order: 3000

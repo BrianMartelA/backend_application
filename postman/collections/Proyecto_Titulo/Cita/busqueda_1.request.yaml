@@ -1,0 +1,6 @@
+$kind: http-request
+url: http://localhost:3001/citas?negocioId=4
+method: GET
+queryParams:
+  negocioId: "4"
+order: 2000

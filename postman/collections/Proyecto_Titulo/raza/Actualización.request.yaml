@@ -1,0 +1,11 @@
+$kind: http-request
+url: http://localhost:3001/razas/1
+method: PATCH
+body:
+  type: json
+  content: "{\r
+
+    \    \"nombre_raza\":\"razacambiada2\"\r
+
+    }"
+order: 5000

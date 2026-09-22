@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{baseUrl}}/vacunas"
+method: GET
+headers:
+  Accept: application/json
+examples: ./.resources/Vacunas Controller find All.resources/examples
+order: 3000

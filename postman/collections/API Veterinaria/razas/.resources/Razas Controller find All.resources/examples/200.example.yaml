@@ -1,0 +1,41 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/razas"
+  method: GET
+  headers:
+    Accept: application/json
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      [
+        {
+          "id_raza": 9611.961851400913,
+          "nombre_raza": "string",
+          "mascota": [
+            {
+              "value": "<Circular reference to #/components/schemas/Mascota detected>"
+            },
+            {
+              "value": "<Circular reference to #/components/schemas/Mascota detected>"
+            }
+          ]
+        },
+        {
+          "id_raza": 964.6859059168089,
+          "nombre_raza": "string",
+          "mascota": [
+            {
+              "value": "<Circular reference to #/components/schemas/Mascota detected>"
+            },
+            {
+              "value": "<Circular reference to #/components/schemas/Mascota detected>"
+            }
+          ]
+        }
+      ]
+order: 1000

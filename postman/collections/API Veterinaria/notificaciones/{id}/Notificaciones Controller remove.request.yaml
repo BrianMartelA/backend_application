@@ -1,0 +1,9 @@
+$kind: http-request
+url: "{{baseUrl}}/notificaciones/:id"
+method: DELETE
+headers:
+  Accept: application/json
+pathVariables:
+  id: string
+examples: ./.resources/Notificaciones Controller remove.resources/examples
+order: 3000

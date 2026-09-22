@@ -1,0 +1,77 @@
+$kind: http-request
+url: http://localhost:3001/duenos/con-mascotas
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"rut\": \"12345678-9\",\r
+
+    \  \"nombre_completo\": \"Ana Pérez\",\r
+
+    \  \"telefono\": \"+56912345678\",\r
+
+    \  \"correo\": \"ana.perez@email.com\",\r
+
+    \  \"direccion\": \"Av. Siempre Viva 123\",\r
+
+    \  \"negocioId\": {\r
+
+    \    \"negocioId\": 1\r
+
+    \  },\r
+
+    \  \"mascotas\": [\r
+
+    \    {\r
+
+    \      \"nombre\": \"Firulais\",\r
+
+    \      \"especie\": \"Perro\",\r
+
+    \      \"raza\": \"Labrador\",\r
+
+    \      \"sexo\": \"Macho\",\r
+
+    \      \"fecha_nacimiento\": \"2022-05-10\",\r
+
+    \      \"peso\": 25.5,\r
+
+    \      \"observaciones\": \"Mascota saludable\",\r
+
+    \      \"microchip\": 123456789,\r
+
+    \      \"antecedentes\": \"Vacunas al día\",\r
+
+    \      \"alergias\": \"Ninguna\"\r
+
+    \    },\r
+
+    \    {\r
+
+    \      \"nombre\": \"Michi\",\r
+
+    \      \"especie\": \"Gato\",\r
+
+    \      \"raza\": \"Persa\",\r
+
+    \      \"sexo\": \"Hembra\",\r
+
+    \      \"fecha_nacimiento\": \"2023-02-15\",\r
+
+    \      \"peso\": 4.2,\r
+
+    \      \"observaciones\": \"Control anual pendiente\",\r
+
+    \      \"microchip\": 987654321,\r
+
+    \      \"antecedentes\": \"Esterilizada\",\r
+
+    \      \"alergias\": \"Ninguna\"\r
+
+    \    }\r
+
+    \  ]\r
+
+    }"
+order: 7000

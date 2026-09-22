@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:3001/razas/2
+method: DELETE
+order: 4000

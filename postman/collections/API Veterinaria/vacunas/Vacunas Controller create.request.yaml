@@ -1,0 +1,46 @@
+$kind: http-request
+url: "{{baseUrl}}/vacunas"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+body:
+  type: json
+  content: |-
+    {
+      "id_vacuna": 5264.337717172427,
+      "nombre_vacuna": "string",
+      "descripcion": "string",
+      "id_especie": {
+        "id_especie": 5975.316344389872,
+        "nombre_especie": "string",
+        "mascota": [
+          {
+            "value": "<Circular reference to #/components/schemas/Mascota detected>"
+          },
+          {
+            "value": "<Circular reference to #/components/schemas/Mascota detected>"
+          }
+        ],
+        "vacuna": [
+          {
+            "id_vacuna": 3739.232773316867,
+            "nombre_vacuna": "string",
+            "descripcion": "string",
+            "especy": {
+              "value": "<Circular reference to #/components/schemas/Especy detected>"
+            }
+          },
+          {
+            "id_vacuna": 6244.697048783898,
+            "nombre_vacuna": "string",
+            "descripcion": "string",
+            "especy": {
+              "value": "<Circular reference to #/components/schemas/Especy detected>"
+            }
+          }
+        ]
+      }
+    }
+examples: ./.resources/Vacunas Controller create.resources/examples
+order: 2000

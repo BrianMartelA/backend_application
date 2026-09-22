@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{baseUrl}}/mascotas/:id"
+method: PATCH
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  id: string
+body:
+  type: json
+  content: |-
+    {
+      "nombre": "string",
+      "peso": 7731.191589450444,
+      "microchip": 9453.007971747613,
+      "antecedentes": "string",
+      "alergias": "string"
+    }
+examples: ./.resources/Mascotas Controller update.resources/examples
+order: 2000

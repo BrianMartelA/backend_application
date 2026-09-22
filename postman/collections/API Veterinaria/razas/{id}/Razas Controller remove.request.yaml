@@ -1,0 +1,9 @@
+$kind: http-request
+url: "{{baseUrl}}/razas/:id"
+method: DELETE
+headers:
+  Accept: application/json
+pathVariables:
+  id: string
+examples: ./.resources/Razas Controller remove.resources/examples
+order: 3000

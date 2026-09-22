@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{baseUrl}}/negocio"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+body:
+  type: json
+  content: |-
+    {
+      "negocioId": 8768.67112246737,
+      "nombre_negocio": "string",
+      "direccion_negocio": "string",
+      "fecha_registro": "1969-11-05T07:21:02.061Z",
+      "rut": "17.504.610-0"
+    }
+examples: ./.resources/Negocio Controller create.resources/examples
+order: 2000

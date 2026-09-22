@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{baseUrl}}/vacunas/:id"
+method: PATCH
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  id: string
+body:
+  type: json
+  content: "{}"
+examples: ./.resources/Vacunas Controller update.resources/examples
+order: 2000

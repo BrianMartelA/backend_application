@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:3001/especies/2
+method: GET
+order: 2000

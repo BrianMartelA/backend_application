@@ -1,0 +1,4 @@
+$kind: collection
+description: Documentación de la API Veterinaria
+variables:
+  baseUrl: /
