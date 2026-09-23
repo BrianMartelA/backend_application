@@ -1,7 +1,0 @@
-$kind: http-request
-url: "{{baseUrl}}/notificaciones"
-method: GET
-headers:
-  Accept: application/json
-examples: ./.resources/Notificaciones Controller find All.resources/examples
-order: 3000

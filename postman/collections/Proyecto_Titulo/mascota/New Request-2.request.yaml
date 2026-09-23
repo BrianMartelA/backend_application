@@ -1,8 +1,0 @@
-$kind: http-request
-name: New Request
-url: http://localhost:3001/mascotas/7
-method: PATCH
-body:
-  type: json
-  content: '{"alergias":"este man tiene alergias 22 de septiembre"}'
-order: 6000

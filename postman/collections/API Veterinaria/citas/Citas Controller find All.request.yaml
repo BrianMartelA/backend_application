@@ -1,9 +1,0 @@
-$kind: http-request
-url: "{{baseUrl}}/citas?negocioId=4033.1809080436874"
-method: GET
-headers:
-  Accept: application/json
-queryParams:
-  negocioId: "4033.1809080436874"
-examples: ./.resources/Citas Controller find All.resources/examples
-order: 3000

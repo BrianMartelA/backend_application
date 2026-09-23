@@ -1,7 +1,0 @@
-$kind: http-request
-url: "{{baseUrl}}/negocio"
-method: GET
-headers:
-  Accept: application/json
-examples: ./.resources/Negocio Controller find All.resources/examples
-order: 3000

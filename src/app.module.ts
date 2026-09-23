@@ -30,7 +30,7 @@ import { Boleta } from './boletas/entities/boleta.entity.js';
       host: process.env.DB_HOST || 'localhost',
       port: 3306,
       username: process.env.DB_USERNAME || 'root',
-      password:"duocmuchacho1!", // <-- Asegúrate de tener tu contraseña aquí o en process.env
+      password:"", // <-- Asegúrate de tener tu contraseña aquí o en process.env
       database: process.env.DB_DATABASE || 'veterinaria',
       entities: [Dueno,Mascota,Negocio,Notificaciones,Cita,ContactoEmergencia,Raza,Especy,Vacuna,Boleta
       ],

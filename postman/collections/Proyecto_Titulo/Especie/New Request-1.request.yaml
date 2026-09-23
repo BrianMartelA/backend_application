@@ -1,7 +1,0 @@
-$kind: http-request
-name: New Request
-url: http://localhost:3001/especies/perName?nombre_especie=perro
-method: GET
-queryParams:
-  nombre_especie: perro
-order: 3000

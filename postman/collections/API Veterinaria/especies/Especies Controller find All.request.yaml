@@ -1,7 +1,0 @@
-$kind: http-request
-url: "{{baseUrl}}/especies"
-method: GET
-headers:
-  Accept: application/json
-examples: ./.resources/Especies Controller find All.resources/examples
-order: 4000

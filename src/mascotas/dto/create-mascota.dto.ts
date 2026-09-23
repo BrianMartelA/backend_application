@@ -1,5 +1,11 @@
 import { Type, Transform } from 'class-transformer';
-import { IsInt, IsNotEmpty, IsNumber, IsObject, ValidateNested } from 'class-validator';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsObject,
+  ValidateNested,
+} from 'class-validator';
 import { Dueno } from '../../duenos/entities/dueno.entity.js';
 export class RazaRefDto {
   @IsInt()
@@ -29,7 +35,8 @@ export class CreateMascotaDto {
   fecha_nacimiento: Date;
   @IsNotEmpty()
   peso: number;
-
+  @IsNotEmpty()
+  observaciones: string;
   @IsNotEmpty()
   @IsNumber()
   microchip: number;

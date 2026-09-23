@@ -1,9 +1,0 @@
-$kind: http-request
-url: "{{baseUrl}}/duenos/:id"
-method: DELETE
-headers:
-  Accept: application/json
-pathVariables:
-  id: string
-examples: ./.resources/Duenos Controller remove.resources/examples
-order: 3000

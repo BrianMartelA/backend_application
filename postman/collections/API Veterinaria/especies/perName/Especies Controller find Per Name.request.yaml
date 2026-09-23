@@ -1,9 +1,0 @@
-$kind: http-request
-url: "{{baseUrl}}/especies/perName?nombre_especie=string"
-method: GET
-headers:
-  Accept: application/json
-queryParams:
-  nombre_especie: string
-examples: ./.resources/Especies Controller find Per Name.resources/examples
-order: 1000

@@ -1,6 +1,0 @@
-$kind: http-request
-url: http://localhost:3001/contacto-emergencia?negocioId=3
-method: GET
-queryParams:
-  negocioId: "3"
-order: 2000

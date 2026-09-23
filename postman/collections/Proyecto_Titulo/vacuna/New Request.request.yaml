@@ -1,4 +1,0 @@
-$kind: http-request
-url: http://localhost:3001/vacunas/1
-method: GET
-order: 2000
