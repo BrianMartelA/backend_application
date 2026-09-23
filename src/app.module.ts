@@ -14,22 +14,28 @@ import { Notificaciones } from './notificaciones/entities/notificacione.entity.j
 import { BoletasModule } from './boletas/boletas.module.js';
 import { CitasModule } from './citas/citas.module.js';
 import { Cita } from './citas/entities/cita.entity.js';
-import { EspecieModule } from './especie/especie.module.js';
-import { RazaModule } from './raza/raza.module.js';
 import { ContactoEmergenciaModule } from './contacto-emergencia/contacto-emergencia.module.js';
 import { ContactoEmergencia } from './contacto-emergencia/entities/contacto-emergencia.entity.js';
+import { EspeciesModule } from './especies/especies.module.js';
+import { RazasModule } from './razas/razas.module.js';
+import { Raza } from './razas/entities/raza.entity.js';
+import { Especy } from './especies/entities/especy.entity.js';
+import { VacunasModule } from './vacunas/vacunas.module.js';
+import { Vacuna } from './vacunas/entities/vacuna.entity.js';
+import { Boleta } from './boletas/entities/boleta.entity.js';
 
 @Module({
   imports: [ TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: process.env.DB_HOST || 'localhost',
       port: 3306,
-      username: 'root',
-      password: '',
-      database: 'veterinaria',
-      entities: [Dueno,Mascota,Negocio,Notificaciones,Cita,ContactoEmergencia],
+      username: process.env.DB_USERNAME || 'root',
+      password:"", // <-- Asegúrate de tener tu contraseña aquí o en process.env
+      database: process.env.DB_DATABASE || 'veterinaria',
+      entities: [Dueno,Mascota,Negocio,Notificaciones,Cita,ContactoEmergencia,Raza,Especy,Vacuna,Boleta
+      ],
       synchronize: true,
-    }), MascotasModule, DuenosModule,NegocioModule, HistorialVacunasModule, NotificacionesModule, BoletasModule, CitasModule, EspecieModule, RazaModule, ContactoEmergenciaModule],
+    }), MascotasModule, DuenosModule,NegocioModule, HistorialVacunasModule, NotificacionesModule, BoletasModule, CitasModule, ContactoEmergenciaModule, EspeciesModule, RazasModule, VacunasModule],
   controllers: [AppController],
   providers: [AppService],
 })
