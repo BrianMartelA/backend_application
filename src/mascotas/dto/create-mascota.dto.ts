@@ -17,7 +17,7 @@ export class especieRefDto {
 }
 export class CreateMascotaDto {
   id_mascota: number;
-  @IsNotEmpty()
+  @IsNotEmpty({message:`Campo nombre no puede estar vacio`})
   @Transform(({ value }) => value?.trim())
   nombre: string;
   @IsObject()
@@ -31,16 +31,16 @@ export class CreateMascotaDto {
   @IsNotEmpty()
   @Transform(({ value }) => value?.trim())
   sexo: string;
-  @IsNotEmpty()
+  @IsNotEmpty({message:`Campo fecha no puede estar vacio`})
   fecha_nacimiento: Date;
-  @IsNotEmpty()
+  @IsNotEmpty({message:`Campo peso no puede estar vacio`})
   peso: number;
-  @IsNotEmpty()
+  @IsNotEmpty({message:`Campo observaciones no puede estar vacio`})
   observaciones: string;
-  @IsNotEmpty()
+  @IsNotEmpty({message:`Campo microchip no puede estar vacio`})
   @IsNumber()
   microchip: number;
-  @IsNotEmpty()
+  @IsNotEmpty({message:``})
   antecedentes: string;
   alergias: string;
 

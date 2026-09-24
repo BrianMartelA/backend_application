@@ -25,14 +25,16 @@ export class CreateDuenoDto {
   @Transform(({ value }) => value?.trim())
   @IsNotEmpty()
   @IsString()
+  @Transform(({ value }) => value?.trim())
   nombre_completo: string;
 
   @IsNotEmpty()
+  @Matches(/^\+?\d+$/, { message: `ingrese un numero de telefono valido` })
   telefono: string;
   @Transform(({ value }) => value.toLowerCase())
-  @IsNotEmpty()
+  @IsNotEmpty({message:`Campo correo no puede estar en blanco`})
   correo: string;
-  @IsNotEmpty()
+  @IsNotEmpty({message:`Campo dirección no puede estar en blanco`})
   direccion: string;
   fecha_registro: string;
   @IsObject()
