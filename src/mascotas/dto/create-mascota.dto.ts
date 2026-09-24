@@ -1,29 +1,46 @@
 import { Type, Transform } from 'class-transformer';
-import { IsNotEmpty, IsNumber, ValidateNested } from 'class-validator';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsObject,
+  ValidateNested,
+} from 'class-validator';
 import { Dueno } from '../../duenos/entities/dueno.entity.js';
-
+export class RazaRefDto {
+  @IsInt()
+  id_raza: number;
+}
+export class especieRefDto {
+  @IsInt()
+  id_especie: number;
+}
 export class CreateMascotaDto {
   id_mascota: number;
-  @IsNotEmpty()
+  @IsNotEmpty({message:`Campo nombre no puede estar vacio`})
   @Transform(({ value }) => value?.trim())
   nombre: string;
-  @IsNotEmpty()
-  especie: string;
-  @IsNotEmpty()
-  raza: string;
+  @IsObject()
+  @ValidateNested()
+  @Type(() => especieRefDto)
+  id_especie: especieRefDto;
+  @IsObject()
+  @ValidateNested()
+  @Type(() => RazaRefDto)
+  id_raza: RazaRefDto;
   @IsNotEmpty()
   @Transform(({ value }) => value?.trim())
   sexo: string;
-  @IsNotEmpty()
+  @IsNotEmpty({message:`Campo fecha no puede estar vacio`})
   fecha_nacimiento: Date;
-  @IsNotEmpty()
+  @IsNotEmpty({message:`Campo peso no puede estar vacio`})
   peso: number;
-  @IsNotEmpty()
+  @IsNotEmpty({message:`Campo observaciones no puede estar vacio`})
   observaciones: string;
-  @IsNotEmpty()
+  @IsNotEmpty({message:`Campo microchip no puede estar vacio`})
   @IsNumber()
   microchip: number;
-  @IsNotEmpty()
+  @IsNotEmpty({message:``})
   antecedentes: string;
   alergias: string;
 

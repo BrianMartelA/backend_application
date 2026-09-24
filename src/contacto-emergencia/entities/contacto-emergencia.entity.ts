@@ -14,16 +14,16 @@ import { Dueno } from '../../duenos/entities/dueno.entity.js';
 export class ContactoEmergencia {
   @PrimaryGeneratedColumn()
   id_contacto: number;
-  @Column()
+  @Column({type:'text'})
   razon_consulta: string;
 
-  @Column()
+  @Column({type:'varchar',length:50})
   nom_mascota: string;
   @CreateDateColumn()
   fecha_solicitud: Date;
   @UpdateDateColumn()
   fecha_actualizacion: Date;
-  @Column({default:'Pendiente'})
+  @Column({default:'Pendiente',type:'varchar',length:20})
   estado:string;
   @ManyToOne(() => Negocio, (negocio) => negocio.contactoEmergencia)
   @JoinColumn({ name: 'negocioId' })

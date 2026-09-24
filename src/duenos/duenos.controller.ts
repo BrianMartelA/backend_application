@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, ParseIntPipe, Query } from '@nestjs/common';
 import { DuenosService } from './duenos.service.js';
 import { CreateDuenoDto } from './dto/create-dueno.dto.js';
 import { UpdateDuenoDto } from './dto/update-dueno.dto.js';
@@ -8,9 +8,11 @@ import { CreateDuenoConMascotasDto } from './dto/create-dueno-mascota.dto.js';
 export class DuenosController {
   constructor(private readonly duenosService: DuenosService) {}
 
-  @Post()
-  create(@Body() createDuenoDto: CreateDuenoDto) {
-    return this.duenosService.create(createDuenoDto);
+  @Post('/:negocioId')
+  create(
+    @Param('negocioId', ParseIntPipe) negocioId: number,
+    @Body() createDuenoDto: CreateDuenoDto) {
+    return this.duenosService.create(negocioId,createDuenoDto);
   }
 /*
   @Post('con-mascotas')
@@ -21,8 +23,8 @@ createConMascotas(
 }
 */
   @Get()
-  findAll() {
-    return this.duenosService.findAll();
+  findAll(@Query('negocioId', ParseIntPipe) negocioId: number) {
+    return this.duenosService.findAll(negocioId);
   }
 
   @Get(':id')

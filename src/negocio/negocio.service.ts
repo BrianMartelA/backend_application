@@ -27,8 +27,9 @@ business.rut=createNegocioDto.rut;
     return `This action returns a #${id} negocio`;
   }
 
-  update(id: number, updateNegocioDto: UpdateNegocioDto) {
-    return `This action updates a #${id} negocio`;
+  async update(id: number, updateNegocioDto: UpdateNegocioDto) {
+    await this.negocioRepository.update(id,updateNegocioDto);
+    return this.negocioRepository.findOneBy({negocioId:id});
   }
 
   remove(id: number) {

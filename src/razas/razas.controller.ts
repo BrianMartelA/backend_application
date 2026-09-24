@@ -1,34 +1,34 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { RazaService } from './raza.service.js';
+import { RazasService } from './razas.service.js';
 import { CreateRazaDto } from './dto/create-raza.dto.js';
 import { UpdateRazaDto } from './dto/update-raza.dto.js';
 
-@Controller('raza')
-export class RazaController {
-  constructor(private readonly razaService: RazaService) {}
+@Controller('razas')
+export class RazasController {
+  constructor(private readonly razasService: RazasService) {}
 
   @Post()
   create(@Body() createRazaDto: CreateRazaDto) {
-    return this.razaService.create(createRazaDto);
+    return this.razasService.create(createRazaDto);
   }
 
   @Get()
   findAll() {
-    return this.razaService.findAll();
+    return this.razasService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.razaService.findOne(+id);
+    return this.razasService.findOne(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateRazaDto: UpdateRazaDto) {
-    return this.razaService.update(+id, updateRazaDto);
+    return this.razasService.update(+id, updateRazaDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.razaService.remove(+id);
+    return this.razasService.remove(+id);
   }
 }

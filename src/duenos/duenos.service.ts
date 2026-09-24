@@ -16,11 +16,11 @@ export class DuenosService {
     @InjectRepository(Mascota) private mascotaRepository: Repository<Mascota>,
   ) {}
 
-  async create(createDuenoDto: CreateDuenoDto) {
+  async create(negocioId:number,createDuenoDto: CreateDuenoDto) {
     const dueno = new Dueno();
 
     const negocio = await this.negocioRepository.findOneBy({
-      negocioId: createDuenoDto.negocioId.negocioId,
+      negocioId
     });
 
     if (!negocio) {
@@ -36,8 +36,14 @@ export class DuenosService {
     return this.duenoRepository.save(dueno);
   }
 
-  findAll() {
-    return this.duenoRepository.find();
+  async findAll(negocioId:number) {
+        const negocio = await this.negocioRepository.findOneBy({negocioId});
+    if(!negocio){
+      throw new NotFoundException(`negocio no encontrado`)
+    }
+    return this.duenoRepository.find(
+      {where:{negocio:{negocioId}}}
+    );
   }
 
   findOne(id: number) {
