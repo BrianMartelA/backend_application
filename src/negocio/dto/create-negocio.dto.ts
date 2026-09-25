@@ -2,9 +2,9 @@ import { IsNotEmpty, Matches } from 'class-validator';
 
 export class CreateNegocioDto {
   negocioId: number;
-  @IsNotEmpty()
+  @IsNotEmpty({message:`Ingrese el nombre del negocio`})
   nombre_negocio: string;
-  @IsNotEmpty()
+  @IsNotEmpty({message:`Ingrese dirección del negocio`})
   direccion_negocio: string;
   fecha_registro: Date;
   @IsNotEmpty()

@@ -28,7 +28,7 @@ export class CreateMascotaDto {
   @ValidateNested()
   @Type(() => RazaRefDto)
   id_raza: RazaRefDto;
-  @IsNotEmpty()
+  @IsNotEmpty({message:`Ingrese sexo de la mascota`})
   @Transform(({ value }) => value?.trim())
   sexo: string;
   @IsNotEmpty({message:`Campo fecha no puede estar vacio`})
@@ -40,7 +40,7 @@ export class CreateMascotaDto {
   @IsNotEmpty({message:`Campo microchip no puede estar vacio`})
   @IsNumber()
   microchip: number;
-  @IsNotEmpty({message:``})
+  @IsNotEmpty({message:`Campo antecedentes no puede estar vacio`})
   antecedentes: string;
   alergias: string;
 

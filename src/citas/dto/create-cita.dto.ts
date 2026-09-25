@@ -24,8 +24,9 @@ export class CreateCitaDto {
   id_cita: number;
   @Type(() => Date)
   @IsDate()
+  @IsNotEmpty({message:"Seleccione una fecha"})
   fecha_hora: Date;
-
+  @IsNotEmpty({ message: `Ingrese motivo de visita` })
   motivo: string;
   estado: string;
   fecha_creacion: Date;

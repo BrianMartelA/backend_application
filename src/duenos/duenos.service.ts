@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDuenoDto } from './dto/create-dueno.dto.js';
 import { UpdateDuenoDto } from './dto/update-dueno.dto.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Dueno } from './entities/dueno.entity.js';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { Negocio } from '../negocio/entities/negocio.entity.js';
 import { Mascota } from '../mascotas/entities/mascota.entity.js';
 import { CreateDuenoConMascotasDto } from './dto/create-dueno-mascota.dto.js';
@@ -27,12 +27,19 @@ export class DuenosService {
       throw new NotFoundException(`Negocio no existente`);
     }
 
+
+
     dueno.negocio = negocio;
     dueno.rut = createDuenoDto.rut;
     dueno.nombre_completo = createDuenoDto.nombre_completo;
     dueno.direccion = createDuenoDto.direccion;
     dueno.correo = createDuenoDto.correo;
     dueno.telefono = createDuenoDto.telefono;
+
+    const userExist = await this.duenoRepository.exists({where:{rut:dueno.rut}})
+    if(userExist){
+      throw new ConflictException(`Usuario existente`)
+    }
     return this.duenoRepository.save(dueno);
   }
 
