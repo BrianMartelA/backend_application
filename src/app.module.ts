@@ -23,6 +23,7 @@ import { Especy } from './especies/entities/especy.entity.js';
 import { VacunasModule } from './vacunas/vacunas.module.js';
 import { Vacuna } from './vacunas/entities/vacuna.entity.js';
 import { Boleta } from './boletas/entities/boleta.entity.js';
+import { HistorialVacuna } from './historial_vacunas/entities/historial_vacuna.entity.js';
 
 @Module({
   imports: [ TypeOrmModule.forRoot({
@@ -32,7 +33,7 @@ import { Boleta } from './boletas/entities/boleta.entity.js';
       username: process.env.DB_USERNAME || 'root',
       password:"", // <-- Asegúrate de tener tu contraseña aquí o en process.env
       database: process.env.DB_DATABASE || 'veterinaria',
-      entities: [Dueno,Mascota,Negocio,Notificaciones,Cita,ContactoEmergencia,Raza,Especy,Vacuna,Boleta
+      entities: [Dueno,Mascota,Negocio,Notificaciones,Cita,ContactoEmergencia,Raza,Especy,Vacuna,Boleta,HistorialVacuna
       ],
       synchronize: true,
     }), MascotasModule, DuenosModule,NegocioModule, HistorialVacunasModule, NotificacionesModule, BoletasModule, CitasModule, ContactoEmergenciaModule, EspeciesModule, RazasModule, VacunasModule],

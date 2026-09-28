@@ -10,7 +10,6 @@ import {
   Query,
 } from '@nestjs/common';
 import { ContactoEmergenciaService } from './contacto-emergencia.service.js';
-import { CreateContactoEmergenciaDto } from './dto/create-contacto-emergencia.dto.js';
 import { UpdateContactoEmergenciaDto } from './dto/update-contacto-emergencia.dto.js';
 import { CreateContactoConuenoDto } from './dto/create-contacto-dueno.dt.js';
 @Controller('contacto-emergencia')

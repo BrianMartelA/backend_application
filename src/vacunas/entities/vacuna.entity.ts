@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Especy } from "../../especies/entities/especy.entity.js";
 import type { Relation } from 'typeorm';
+import { HistorialVacuna } from "../../historial_vacunas/entities/historial_vacuna.entity.js";
 
 @Entity()
 export class Vacuna {
@@ -13,5 +14,7 @@ export class Vacuna {
     @ManyToOne(()=>Especy,(especy)=>especy.vacuna)
     @JoinColumn({name:'id_especie'})
     especy:Relation<Especy>
+    @OneToMany(()=>HistorialVacuna,(historialVacuna)=>historialVacuna.vacuna)
+    historialVacuna:Relation<HistorialVacuna[]>
 
 }

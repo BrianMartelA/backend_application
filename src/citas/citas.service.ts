@@ -70,7 +70,7 @@ export class CitasService {
     if (!negocio) {
       throw new NotFoundException(`negocio no encontrado`);
     }
-    return this.citaRepository.find({where:{negocio:{negocioId}},
+    return this.citaRepository.find({where:{negocio:{negocioId}, estado:`Pendiente`},
       relations: { dueno: true, mascota: true },
     });
   }
