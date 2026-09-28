@@ -11,6 +11,7 @@ import type { Relation } from 'typeorm';
 import { Cita } from '../../citas/entities/cita.entity.js';
 import { Especy } from '../../especies/entities/especy.entity.js';
 import { Raza } from '../../razas/entities/raza.entity.js';
+import { HistorialVacuna } from '../../historial_vacunas/entities/historial_vacuna.entity.js';
 @Entity()
 export class Mascota {
   @PrimaryGeneratedColumn()
@@ -45,4 +46,7 @@ export class Mascota {
   @ManyToOne(() => Raza, (raza) => raza.mascota)
   @JoinColumn({ name: 'id_raza' })
   raza: Relation<Raza>;
+  @OneToMany(()=>HistorialVacuna,(historialVacuna)=>historialVacuna.mascota)
+  historialVacuna:Relation<HistorialVacuna[]>
+
 }
