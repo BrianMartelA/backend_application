@@ -51,14 +51,14 @@ export class ContactoEmergenciaService {
   }
 
   async findAll(negocioId: number) {
-    const negocio = await this.negocioRepository.findOneBy({ negocioId });
-    if (!negocio) {
-      throw new NotFoundException(`negocio no encontrado`);
-    }
-    return this.contactoRepository.find({
+    const contacto = this.contactoRepository.find({
       where: { negocio: { negocioId },estado:'Pendiente' },
       relations: { dueno: true, negocio: true },
     });
+    if (!contacto) {
+      throw new NotFoundException(`contacto no encontrado`);
+    }
+    return contacto
   }
 
   findOne(id: number) {

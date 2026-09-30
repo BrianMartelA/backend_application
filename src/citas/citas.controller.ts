@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+  Query,
+  ParseDatePipe,
+} from '@nestjs/common';
 import { CitasService } from './citas.service.js';
 import { CreateCitaDto } from './dto/create-cita.dto.js';
 import { UpdateCitaDto } from './dto/update-cita.dto.js';
@@ -9,15 +20,29 @@ export class CitasController {
 
   @Post('/:negocioId')
   create(
-    @Param('negocioId',ParseIntPipe) negocioId:number,
-    @Body() createCitaDto: CreateCitaDto) {
-    return this.citasService.create(negocioId,createCitaDto);
+    @Param('negocioId', ParseIntPipe) negocioId: number,
+    @Body() createCitaDto: CreateCitaDto,
+  ) {
+    return this.citasService.create(negocioId, createCitaDto);
   }
 
-  @Get()
-  findAll(@Query('negocioId', ParseIntPipe) negocioId: number) {
-    return this.citasService.findAll(negocioId);
+    @Get('citastest')
+  findAllCitas(
+    @Query('negocioId', ParseIntPipe) negocioId: number,
+    @Query('id_mascota', ParseIntPipe) id_mascota: number,
+  ) {
+    return this.citasService.findAllCitas(negocioId, id_mascota);
   }
+
+  @Get(':negocioId')
+  findAll(
+    @Param('negocioId', ParseIntPipe) negocioId: number,
+    @Query('fechaInicio') fechaInicio: string,
+    @Query('fechaFin') fechaFin:string
+  ) {
+    return this.citasService.findAll(negocioId,fechaInicio,fechaFin);
+  }
+
 
   @Get(':id')
   findOne(@Param('id') id: string) {
