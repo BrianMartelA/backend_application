@@ -44,13 +44,13 @@ export class DuenosService {
   }
 
   async findAll(negocioId:number) {
-        const negocio = await this.negocioRepository.findOneBy({negocioId});
-    if(!negocio){
-      throw new NotFoundException(`negocio no encontrado`)
-    }
-    return this.duenoRepository.find(
+        const dueno = await this.duenoRepository.find(
       {where:{negocio:{negocioId}}}
     );
+    if(dueno.length==0){
+      throw new NotFoundException(`duenos no encontrado`)
+    }
+    return dueno
   }
 
   findOne(id: number) {

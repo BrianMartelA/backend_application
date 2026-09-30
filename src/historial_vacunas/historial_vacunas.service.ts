@@ -40,19 +40,48 @@ export class HistorialVacunasService {
     return this.historialRepository.save(historialVacuna);
   }
 
-  findAll() {
-    return `This action returns all historialVacunas`;
+  async findAll(negocioId:number,id_mascota:number) {
+    const historialVacuna = await this.historialRepository.find({
+    where: {
+      mascota: {
+        id_mascota,
+        dueno: {
+          negocio: {
+            negocioId,
+          },
+        },
+      },
+    },
+    relations: {
+      mascota: {
+        dueno: {
+          negocio: true,
+        },
+      },
+      vacuna: true,
+    },
+  });
+
+  if(historialVacuna.length==0) throw new NotFoundException("No existe historial vacunas")
+
+    return historialVacuna;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} historialVacuna`;
+
+    return  this.historialRepository.findOneBy({id_historial:id});
   }
 
-  update(id: number, updateHistorialVacunaDto: UpdateHistorialVacunaDto) {
-    return `This action updates a #${id} historialVacuna`;
+  async update(id: number, updateHistorialVacunaDto: UpdateHistorialVacunaDto) {
+    await this.historialRepository.update(id,updateHistorialVacunaDto)
+    return this.historialRepository.findOneBy({id_historial:id});
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} historialVacuna`;
+  async remove(id: number) {
+    const historial = await this.findOne(id)
+    if(historial) throw new NotFoundException("historial no encontrado")
+
+      await this.historialRepository.delete(id);
+    return `historial removido`;
   }
 }

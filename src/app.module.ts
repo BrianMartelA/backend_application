@@ -24,15 +24,19 @@ import { VacunasModule } from './vacunas/vacunas.module.js';
 import { Vacuna } from './vacunas/entities/vacuna.entity.js';
 import { Boleta } from './boletas/entities/boleta.entity.js';
 import { HistorialVacuna } from './historial_vacunas/entities/historial_vacuna.entity.js';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [ TypeOrmModule.forRoot({
+  imports: [ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+ TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.DB_HOST || 'localhost',
-      port: 3306,
-      username: process.env.DB_USERNAME || 'root',
-      password:"", // <-- Asegúrate de tener tu contraseña aquí o en process.env
-      database: process.env.DB_DATABASE || 'veterinaria',
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USERNAME,
+      password:process.env.DB_PASSWORD, // <-- Asegúrate de tener tu contraseña aquí o en process.env
+      database: process.env.DB_DATABASE ,
       entities: [Dueno,Mascota,Negocio,Notificaciones,Cita,ContactoEmergencia,Raza,Especy,Vacuna,Boleta,HistorialVacuna
       ],
       synchronize: true,
