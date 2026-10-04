@@ -17,14 +17,14 @@ import { Cita } from './citas/entities/cita.entity.js';
 import { ContactoEmergenciaModule } from './contacto-emergencia/contacto-emergencia.module.js';
 import { ContactoEmergencia } from './contacto-emergencia/entities/contacto-emergencia.entity.js';
 import { EspeciesModule } from './especies/especies.module.js';
-import { RazasModule } from './razas/razas.module.js';
-import { Raza } from './razas/entities/raza.entity.js';
+
 import { Especy } from './especies/entities/especy.entity.js';
 import { VacunasModule } from './vacunas/vacunas.module.js';
 import { Vacuna } from './vacunas/entities/vacuna.entity.js';
 import { Boleta } from './boletas/entities/boleta.entity.js';
 import { HistorialVacuna } from './historial_vacunas/entities/historial_vacuna.entity.js';
 import { ConfigModule } from '@nestjs/config';
+
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -37,10 +37,10 @@ import { ConfigModule } from '@nestjs/config';
       username: process.env.DB_USERNAME,
       password:process.env.DB_PASSWORD, // <-- Asegúrate de tener tu contraseña aquí o en process.env
       database: process.env.DB_DATABASE ,
-      entities: [Dueno,Mascota,Negocio,Notificaciones,Cita,ContactoEmergencia,Raza,Especy,Vacuna,Boleta,HistorialVacuna
+      entities: [Dueno,Mascota,Negocio,Notificaciones,Cita,ContactoEmergencia,Especy,Vacuna,Boleta,HistorialVacuna,
       ],
       synchronize: true,
-    }), MascotasModule, DuenosModule,NegocioModule, HistorialVacunasModule, NotificacionesModule, BoletasModule, CitasModule, ContactoEmergenciaModule, EspeciesModule, RazasModule, VacunasModule],
+    }), MascotasModule, DuenosModule,NegocioModule, HistorialVacunasModule, NotificacionesModule, BoletasModule, CitasModule, ContactoEmergenciaModule, EspeciesModule, VacunasModule, ],
   controllers: [AppController],
   providers: [AppService],
 })

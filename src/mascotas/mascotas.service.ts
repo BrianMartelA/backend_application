@@ -5,7 +5,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Mascota } from './entities/mascota.entity.js';
 import { Dueno } from '../duenos/entities/dueno.entity.js';
-import { Raza } from '../razas/entities/raza.entity.js';
 import { Especy } from '../especies/entities/especy.entity.js';
 
 @Injectable()
@@ -13,7 +12,6 @@ export class MascotasService {
   constructor(
     @InjectRepository(Mascota) private mascotaRepository: Repository<Mascota>,
     @InjectRepository(Dueno) private duenoRepository: Repository<Dueno>,
-    @InjectRepository(Raza) private razaRepository: Repository<Raza>,
     @InjectRepository(Especy) private especieRepository: Repository<Especy>,
   ) {}
   async create(createMascotaDto: CreateMascotaDto) {
@@ -31,12 +29,7 @@ export class MascotasService {
     if (!especie) {
       throw new NotFoundException('Especie no encontrada');
     }
-    const raza = await this.razaRepository.findOneBy({
-      id_raza: createMascotaDto.id_raza.id_raza,
-    });
-    if (!raza) {
-      throw new NotFoundException('Raza no encontrada');
-    }
+   
 
     mascota.dueno = dueno;
     mascota.especy = especie;
@@ -44,7 +37,7 @@ export class MascotasService {
     mascota.microchip = createMascotaDto.microchip;
     mascota.nombre = createMascotaDto.nombre;
     mascota.peso = createMascotaDto.peso;
-    mascota.raza = raza;
+    mascota.raza = createMascotaDto.raza;
     mascota.sexo = createMascotaDto.sexo;
     mascota.antecedentes = createMascotaDto.antecedentes;
     mascota.alergias = createMascotaDto.alergias;

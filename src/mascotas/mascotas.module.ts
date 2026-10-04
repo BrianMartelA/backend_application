@@ -6,12 +6,11 @@ import { Mascota } from './entities/mascota.entity.js';
 import { Dueno } from '../duenos/entities/dueno.entity.js';
 import { Entity } from 'typeorm';
 import { Especy } from '../especies/entities/especy.entity.js';
-import { Raza } from '../razas/entities/raza.entity.js';
 
 @Entity()
 @Module({
   controllers: [MascotasController],
   providers: [MascotasService],
-  imports:[TypeOrmModule.forFeature([Mascota,Dueno,Especy,Raza])]
+  imports:[TypeOrmModule.forFeature([Mascota,Dueno,Especy])]
 })
 export class MascotasModule {}

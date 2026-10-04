@@ -79,7 +79,7 @@ export class HistorialVacunasService {
 
   async remove(id: number) {
     const historial = await this.findOne(id)
-    if(historial) throw new NotFoundException("historial no encontrado")
+    if(!historial) throw new NotFoundException("historial no encontrado")
 
       await this.historialRepository.delete(id);
     return `historial removido`;
