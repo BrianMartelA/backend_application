@@ -31,11 +31,14 @@ export class VacunasService {
     return this.vacunaRepository.find({where:{id_vacuna:id},relations:{especy:true}});
   }
 
-  update(id: number, updateVacunaDto: UpdateVacunaDto) {
+  async update(id: number, updateVacunaDto: UpdateVacunaDto) {
+    await this.vacunaRepository.update(id,updateVacunaDto)
     return `This action updates a #${id} vacuna`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} vacuna`;
+  async remove(id: number) {
+    const vacuna = await this.findOne(id);
+    if(!vacuna) throw new NotFoundException("Vacuna no encontrada")
+    return `vacuna eliminada`;
   }
 }
