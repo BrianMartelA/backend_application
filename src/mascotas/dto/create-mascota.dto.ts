@@ -31,8 +31,6 @@ export class CreateMascotaDto {
   fecha_nacimiento: Date;
   @IsNotEmpty({ message: `Campo peso no puede estar vacio` })
   peso: number;
-  @IsNotEmpty({ message: `Campo observaciones no puede estar vacio` })
-  observaciones: string;
   @IsNotEmpty({ message: `Campo microchip no puede estar vacio` })
   @IsNumber()
   microchip: number;

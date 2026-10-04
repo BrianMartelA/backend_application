@@ -18,8 +18,7 @@ export class Mascota {
   @Column({ type: 'varchar', length: 100 })
   nombre: string;
 
-  @Column({ type: 'text' })
-  observaciones: string;
+
   @Column({ type: 'varchar', length: 50 })
   sexo: string;
   @Column()
