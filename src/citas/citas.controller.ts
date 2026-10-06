@@ -26,12 +26,14 @@ export class CitasController {
     return this.citasService.create(negocioId, createCitaDto);
   }
 
-    @Get('citastest')
+    @Get('/citas')
   findAllCitas(
     @Query('negocioId', ParseIntPipe) negocioId: number,
-    @Query('id_mascota', ParseIntPipe) id_mascota: number,
+    
   ) {
-    return this.citasService.findAllCitas(negocioId, id_mascota);
+    return this.citasService.findAllCitas(negocioId);
+
+
   }
 
   @Get(':negocioId')

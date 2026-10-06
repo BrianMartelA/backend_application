@@ -79,16 +79,15 @@ export class CitasService {
     });
   }
 
-  async findAllCitas(negocioId: number, id_mascota: number) {
+  async findAllCitas(negocioId: number) {
 
-    const citas = await this.citaRepository.find({
-      where: { negocio: { negocioId }, mascota: { id_mascota } },
-      relations: { mascota: true },
+    const negocio = await this.negocioRepository.findOneBy({ negocioId });
+    if (!negocio) {
+      throw new NotFoundException("Negocio no encontrado");
+    }
+    return this.citaRepository.find({where:{negocio:{negocioId}},
+      relations: { dueno: true, mascota: true },
     });
-
-    if(citas.length == 0) throw new NotFoundException("no existen citas para el conjunto de datos enviados")
-
-    return citas;
   }
 
   findOne(id: number) {

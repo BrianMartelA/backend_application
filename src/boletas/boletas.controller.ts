@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { BoletasService } from './boletas.service.js';
 import { CreateBoletaDto } from './dto/create-boleta.dto.js';
@@ -22,8 +23,8 @@ export class BoletasController {
   }
 
   @Get()
-  findAll() {
-    return this.boletasService.findAll();
+  findAll(@Query('negocioId', ParseIntPipe) negocioId?: number) {
+    return this.boletasService.findAll(negocioId);
   }
 
   @Get(':id')
