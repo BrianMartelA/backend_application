@@ -10,7 +10,7 @@ import { Dueno } from '../../duenos/entities/dueno.entity.js';
 import type { Relation } from 'typeorm';
 import { Cita } from '../../citas/entities/cita.entity.js';
 import { Especy } from '../../especies/entities/especy.entity.js';
-import { Raza } from '../../razas/entities/raza.entity.js';
+import { HistorialVacuna } from '../../historial_vacunas/entities/historial_vacuna.entity.js';
 @Entity()
 export class Mascota {
   @PrimaryGeneratedColumn()
@@ -18,8 +18,7 @@ export class Mascota {
   @Column({ type: 'varchar', length: 100 })
   nombre: string;
 
-  @Column({ type: 'text' })
-  observaciones: string;
+
   @Column({ type: 'varchar', length: 50 })
   sexo: string;
   @Column()
@@ -42,7 +41,10 @@ export class Mascota {
   @JoinColumn({ name: 'id_especie' })
   especy: Relation<Especy>;
 
-  @ManyToOne(() => Raza, (raza) => raza.mascota)
-  @JoinColumn({ name: 'id_raza' })
-  raza: Relation<Raza>;
+  @Column({type:'varchar',})
+  raza:string;
+  @OneToMany(()=>HistorialVacuna,(historialVacuna)=>historialVacuna.mascota)
+  historialVacuna:Relation<HistorialVacuna[]>
+
+
 }

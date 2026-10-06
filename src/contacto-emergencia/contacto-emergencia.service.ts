@@ -17,22 +17,7 @@ export class ContactoEmergenciaService {
     private negocioRepository: Repository<Negocio>,
     @InjectRepository(Dueno) private duenoRepository: Repository<Dueno>,
   ) {}
-  /*
-  async create(createContactoEmergenciaDto: CreateContactoEmergenciaDto) {
-    const contacto = new ContactoEmergencia;
-    const negocio = await this.negocioRepository.findOneBy({negocioId:createContactoEmergenciaDto.negocioId.negocioId})
-  if(!negocio){
-    throw new NotFoundException(`Negocio inexistente`)
-  } 
-  contacto.correo=createContactoEmergenciaDto.correo;
-  contacto.direccion=createContactoEmergenciaDto.direccion;
-  contacto.nom_contacto=createContactoEmergenciaDto.nom_contacto;
-  contacto.telefono=createContactoEmergenciaDto.telefono;
-  contacto.razon_consulta=createContactoEmergenciaDto.razon_consulta;
-  contacto.negocio=negocio;
-    return this.contactoRepository.save(contacto);
-  }
-*/
+
   async createConDueño(
     negocioId: number,
     createConDueño: CreateContactoConuenoDto,
@@ -66,22 +51,27 @@ export class ContactoEmergenciaService {
   }
 
   async findAll(negocioId: number) {
-    const negocio = await this.negocioRepository.findOneBy({ negocioId });
-    if (!negocio) {
-      throw new NotFoundException(`negocio no encontrado`);
-    }
-    return this.contactoRepository.find({
-      where: { negocio: { negocioId } },
+    const contacto = this.contactoRepository.find({
+      where: { negocio: { negocioId },estado:'Pendiente' },
       relations: { dueno: true, negocio: true },
     });
+    if (!contacto) {
+      throw new NotFoundException(`contacto no encontrado`);
+    }
+    return contacto
   }
 
   findOne(id: number) {
     return this.contactoRepository.findOneBy({ id_contacto: id });
   }
 
-  update(id: number, updateContactoEmergenciaDto: UpdateContactoEmergenciaDto) {
-    return `This action updates a #${id} contactoEmergencia`;
+  async update(id: number, updateContactoEmergenciaDto: UpdateContactoEmergenciaDto) {
+    const contacto = await this.contactoRepository.findOne({where:{id_contacto:id}})
+    if(!contacto){
+      throw new NotFoundException(`Solicitud no encontrada`)
+    }
+  this.contactoRepository.update(id,updateContactoEmergenciaDto);
+    return `contacto actualizado`
   }
 
   async remove(id: number) {
@@ -91,6 +81,6 @@ export class ContactoEmergenciaService {
     }
 
     await this.contactoRepository.delete(id);
-    return `Se elimino el mensaje de ${contacto.dueno.nombre_completo}`;
+    return `Se elimino el mensaje`;
   }
 }
