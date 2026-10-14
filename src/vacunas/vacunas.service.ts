@@ -32,8 +32,16 @@ export class VacunasService {
   }
 
   async update(id: number, updateVacunaDto: UpdateVacunaDto) {
-    await this.vacunaRepository.update(id,updateVacunaDto)
-    return `This action updates a #${id} vacuna`;
+    const vacuna = await this.vacunaRepository.findOne({where:{id_vacuna:id}})
+
+    if(!vacuna){
+      throw new NotFoundException('Vacuna no encontrada')
+    }
+
+    vacuna.descripcion=updateVacunaDto.descripcion??vacuna.descripcion;
+    vacuna.precio=updateVacunaDto.precio??vacuna.precio;
+    vacuna.nombre_vacuna=updateVacunaDto.nombre_vacuna??vacuna.nombre_vacuna;
+    return 'Vacuna actualizada';
   }
 
   async remove(id: number) {
