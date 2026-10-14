@@ -99,7 +99,7 @@ export class MascotasService {
     mascota.peso = updateMascotaDto.peso ?? mascota.peso;
     mascota.nombre = updateMascotaDto.nombre ?? mascota.nombre;
     await this.mascotaRepository.update(id, updateMascotaDto);
-    return `This action updates a #${id} mascota`;
+    return `Mascota actualizada`;
   }
 
   async remove(id: number) {
