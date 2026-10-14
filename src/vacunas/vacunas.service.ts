@@ -41,6 +41,7 @@ export class VacunasService {
     vacuna.descripcion=updateVacunaDto.descripcion??vacuna.descripcion;
     vacuna.precio=updateVacunaDto.precio??vacuna.precio;
     vacuna.nombre_vacuna=updateVacunaDto.nombre_vacuna??vacuna.nombre_vacuna;
+    await this.vacunaRepository.update(id,vacuna);
     return 'Vacuna actualizada';
   }
 
