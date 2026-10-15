@@ -22,8 +22,7 @@ async findAll(negocioId?: number): Promise<Boleta[]> {
     where: negocioId ? { negocio: { negocioId: negocioId } } : {},
     relations: {
       negocio: true,
-      dueno: true,
-      cita: true,
+      cita: {mascota:{dueno:true}},
     },
   });
 }
@@ -31,11 +30,10 @@ async findAll(negocioId?: number): Promise<Boleta[]> {
   async findOne(id: number): Promise<Boleta> {
     const boleta = await this.boletaRepository.findOne({
       where: { idBoleta: id },
-      relations: {
-        negocio: true,
-        dueno: true,
-        cita: true,
-      },
+     relations: {
+      negocio: true,
+      cita: {mascota:{dueno:true}},
+    },
     });
     if (!boleta) {
       throw new NotFoundException(`Boleta con ID ${id} no encontrada`);

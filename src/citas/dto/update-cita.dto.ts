@@ -1,7 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import {
   CreateCitaDto,
-  DuenoRefDto,
   MascotaRefDto,
 } from './create-cita.dto.js';
 import { Type } from 'class-transformer';
@@ -20,7 +19,5 @@ export class UpdateCitaDto extends PartialType(CreateCitaDto) {
   @ValidateNested()
   @Type(() => Mascota)
   id_mascota: MascotaRefDto;
-  @ValidateNested()
-  @Type(() => Dueno)
-  id_dueno: DuenoRefDto;
+
 }
