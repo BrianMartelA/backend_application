@@ -23,7 +23,8 @@ export class Boleta {
 
   @Column({ name: 'id_dueno' })
   idDueno: number;
-
+  @Column({ name: 'id_dueno' })
+  id_mascota: number;
   @Column({ name: 'monto_total', type: 'int' })
   montoTotal: number;
 
@@ -45,6 +46,9 @@ export class Boleta {
   @JoinColumn({ name: 'id_negocio' })
   negocio: Negocio;
 
+  @ManyToOne(() => Dueno, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+  @JoinColumn({ name: 'id_dueno' })
+  dueno: Dueno;
 
   @ManyToOne(() => Cita, { onDelete: 'SET NULL', onUpdate: 'CASCADE', nullable: true })
   @JoinColumn({ name: 'id_cita' })

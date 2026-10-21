@@ -37,7 +37,8 @@ export class Dueno {
   negocio: Negocio;
   @OneToMany(() => Notificaciones, (notificacion) => notificacion.dueno)
   notifiacion: Relation<Notification[]>;
-
+  @OneToMany(() => Cita, (cita) => cita.dueno)
+  cita: Cita;
   @OneToMany(() => ContactoEmergencia, (contacto) => contacto.dueno)
   contactosEmergencia: Relation<ContactoEmergencia[]>;
 }
