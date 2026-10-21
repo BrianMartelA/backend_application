@@ -23,7 +23,7 @@ export class BoletasController {
   }
 
   @Get()
-  findAll(@Query('negocioId', ParseIntPipe) negocioId?: number) {
+  findAll(@Query('negocioId', ParseIntPipe) negocioId: number) {
     return this.boletasService.findAll(negocioId);
   }
 

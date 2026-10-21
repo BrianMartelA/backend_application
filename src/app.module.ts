@@ -24,23 +24,53 @@ import { Vacuna } from './vacunas/entities/vacuna.entity.js';
 import { Boleta } from './boletas/entities/boleta.entity.js';
 import { HistorialVacuna } from './historial_vacunas/entities/historial_vacuna.entity.js';
 import { ConfigModule } from '@nestjs/config';
-
+import { RecordatorioModule } from './recordatorio/recordatorio.module.js';
+import { ScheduleModule } from '@nestjs/schedule';
+import { RecetasMedicasModule } from './recetas_medicas/recetas_medicas.module.js';
+import { RecetasMedica } from './recetas_medicas/entities/recetas_medica.entity.js';
 
 @Module({
-  imports: [ConfigModule.forRoot({
+  imports: [
+    ConfigModule.forRoot({
       isGlobal: true,
     }),
- TypeOrmModule.forRoot({
+    TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
       port: Number(process.env.DB_PORT),
       username: process.env.DB_USERNAME,
-      password:process.env.DB_PASSWORD, // <-- Asegúrate de tener tu contraseña aquí o en process.env
-      database: process.env.DB_DATABASE ,
-      entities: [Dueno,Mascota,Negocio,Notificaciones,Cita,ContactoEmergencia,Especy,Vacuna,Boleta,HistorialVacuna,
+      password: process.env.DB_PASSWORD, // <-- Asegúrate de tener tu contraseña aquí o en process.env
+      database: process.env.DB_DATABASE,
+      entities: [
+        Dueno,
+        Mascota,
+        Negocio,
+        Notificaciones,
+        Cita,
+        ContactoEmergencia,
+        Especy,
+        Vacuna,
+        Boleta,
+        HistorialVacuna,
+        RecetasMedica
       ],
       synchronize: true,
-    }), MascotasModule, DuenosModule,NegocioModule, HistorialVacunasModule, NotificacionesModule, BoletasModule, CitasModule, ContactoEmergenciaModule, EspeciesModule, VacunasModule, ],
+    }),
+    ScheduleModule.forRoot(),
+    MascotasModule,
+    DuenosModule,
+    NegocioModule,
+    HistorialVacunasModule,
+    NotificacionesModule,
+    BoletasModule,
+    CitasModule,
+    ContactoEmergenciaModule,
+    EspeciesModule,
+    VacunasModule,
+    RecordatorioModule,
+    NotificacionesModule,
+    RecetasMedicasModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

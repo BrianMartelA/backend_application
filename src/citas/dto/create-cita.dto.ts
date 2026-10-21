@@ -4,6 +4,11 @@ import { Mascota } from '../../mascotas/entities/mascota.entity.js';
 import { Type } from 'class-transformer';
 import { Negocio } from '../../negocio/entities/negocio.entity.js';
 
+export class DuenoRefDto {
+  @IsInt()
+  @IsNotEmpty()
+  id_dueno: number;
+}
 
 export class NegocioRefDto {
   @IsInt()
@@ -28,7 +33,9 @@ export class CreateCitaDto {
   @ValidateNested()
   @Type(() => Mascota)
   id_mascota: MascotaRefDto;
-
+  @ValidateNested()
+  @Type(() => Dueno)
+  id_dueno: DuenoRefDto;
   @ValidateNested()
   @Type(() => Negocio)
   negocioId: NegocioRefDto;
