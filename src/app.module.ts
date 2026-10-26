@@ -28,6 +28,7 @@ import { RecordatorioModule } from './recordatorio/recordatorio.module.js';
 import { ScheduleModule } from '@nestjs/schedule';
 import { RecetasMedicasModule } from './recetas_medicas/recetas_medicas.module.js';
 import { RecetasMedica } from './recetas_medicas/entities/recetas_medica.entity.js';
+import { EmailModule } from './email/email.module.js';
 
 @Module({
   imports: [
@@ -69,7 +70,8 @@ import { RecetasMedica } from './recetas_medicas/entities/recetas_medica.entity.
     VacunasModule,
     RecordatorioModule,
     NotificacionesModule,
-    RecetasMedicasModule
+    RecetasMedicasModule,
+    EmailModule
   ],
   controllers: [AppController],
   providers: [AppService],

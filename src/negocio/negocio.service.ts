@@ -15,6 +15,7 @@ const business= new Negocio();
 business.nombre_negocio=createNegocioDto.nombre_negocio;
 business.direccion_negocio=createNegocioDto.direccion_negocio;
 business.rut=createNegocioDto.rut;
+business.correo=createNegocioDto.correo;
     
     return this.negocioRepository.save(business);
   }
