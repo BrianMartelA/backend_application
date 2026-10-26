@@ -5,11 +5,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Cita } from '../citas/entities/cita.entity.js';
 import { Notificaciones } from '../notificaciones/entities/notificacione.entity.js';
 import { HistorialVacuna } from '../historial_vacunas/entities/historial_vacuna.entity.js';
+import { EmailModule } from '../email/email.module.js';
 
 @Module({
   controllers: [RecordatorioController],
   providers: [RecordatorioService],  imports: [
-    TypeOrmModule.forFeature([Cita,Notificaciones,HistorialVacuna]),
+    TypeOrmModule.forFeature([Cita,Notificaciones,HistorialVacuna]),EmailModule,
   ],
   
 })

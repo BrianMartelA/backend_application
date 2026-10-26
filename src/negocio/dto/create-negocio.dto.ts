@@ -12,4 +12,5 @@ export class CreateNegocioDto {
     message: 'El RUT debe tener el formato 12.345.678-5.',
   })
   rut: string;
+  correo:string;
 }

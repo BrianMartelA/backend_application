@@ -22,6 +22,8 @@ export class Negocio {
   rut: string;
   @CreateDateColumn()
   fecha_registro: Date;
+  @Column()
+  correo:string;
   @OneToMany(() => Dueno, (dueno) => dueno.negocio)
   dueno: Relation<Dueno[]>;
   @OneToMany(

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateContactoEmergenciaDto } from './dto/create-contacto-emergencia.dto.js';
 import { UpdateContactoEmergenciaDto } from './dto/update-contacto-emergencia.dto.js';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -30,6 +30,13 @@ export class ContactoEmergenciaService {
       throw new NotFoundException(`Negocio no encontrado`);
     }
 
+    const duenoExistente= await this.duenoRepository.findOne({
+      where:{rut:createConDueño.dueno.rut}
+    })
+
+    if(duenoExistente){
+      throw new ForbiddenException('Dueño existente, favor contactar a la veterinaria')
+    }
     const dueno = this.duenoRepository.create({
       rut: createConDueño.dueno.rut,
       nombre_completo: createConDueño.dueno.nombre_completo,
