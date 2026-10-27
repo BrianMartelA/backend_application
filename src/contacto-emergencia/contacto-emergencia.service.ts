@@ -30,14 +30,12 @@ export class ContactoEmergenciaService {
       throw new NotFoundException(`Negocio no encontrado`);
     }
 
-    const duenoExistente= await this.duenoRepository.findOne({
-      where:{rut:createConDueño.dueno.rut}
+    let duenoExistente= await this.duenoRepository.findOne({
+      where:{rut:createConDueño.dueno.rut,negocio:{negocioId}}
     })
 
-    if(duenoExistente){
-      throw new ForbiddenException('Dueño existente, favor contactar a la veterinaria')
-    }
-    const dueno = this.duenoRepository.create({
+    if(!duenoExistente){
+      const dueno = this.duenoRepository.create({
       rut: createConDueño.dueno.rut,
       nombre_completo: createConDueño.dueno.nombre_completo,
       telefono: createConDueño.dueno.telefono,
@@ -45,13 +43,15 @@ export class ContactoEmergenciaService {
       direccion: createConDueño.dueno.direccion,
       negocio,
     });
-    const duenoGuardado = await this.duenoRepository.save(dueno);
+   duenoExistente = await this.duenoRepository.save(dueno);
+
+    }
 
     const contacto = this.contactoRepository.create({
       razon_consulta: createConDueño.razon_consulta,
       nom_mascota: createConDueño.nom_mascota,
       negocio,
-      dueno: duenoGuardado,
+      dueno: duenoExistente,
     });
 
     return await this.contactoRepository.save(contacto);
