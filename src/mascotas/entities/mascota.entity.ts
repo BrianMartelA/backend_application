@@ -10,8 +10,9 @@ import { Dueno } from '../../duenos/entities/dueno.entity.js';
 import type { Relation } from 'typeorm';
 import { Cita } from '../../citas/entities/cita.entity.js';
 import { Especy } from '../../especies/entities/especy.entity.js';
-import { Raza } from '../../razas/entities/raza.entity.js';
 import { HistorialVacuna } from '../../historial_vacunas/entities/historial_vacuna.entity.js';
+import { RecetasMedica } from '../../recetas_medicas/entities/recetas_medica.entity.js';
+import { Boleta } from '../../boletas/entities/boleta.entity.js';
 @Entity()
 export class Mascota {
   @PrimaryGeneratedColumn()
@@ -19,7 +20,6 @@ export class Mascota {
   @Column({ type: 'varchar', length: 100 })
   nombre: string;
 
-  
   @Column({ type: 'varchar', length: 50 })
   sexo: string;
   @Column()
@@ -41,11 +41,12 @@ export class Mascota {
   @ManyToOne(() => Especy, (especy) => especy.mascota)
   @JoinColumn({ name: 'id_especie' })
   especy: Relation<Especy>;
-
-  @ManyToOne(() => Raza, (raza) => raza.mascota)
-  @JoinColumn({ name: 'id_raza' })
-  raza: Relation<Raza>;
-  @OneToMany(()=>HistorialVacuna,(historialVacuna)=>historialVacuna.mascota)
-  historialVacuna:Relation<HistorialVacuna[]>
-
+  @Column({ type: 'varchar' })
+  raza: string;
+  @OneToMany(() => HistorialVacuna,(historialVacuna) => historialVacuna.mascota,)
+  historialVacuna: Relation<HistorialVacuna[]>;
+  @OneToMany(() => RecetasMedica, (recetasMedica) => recetasMedica.mascota)
+  recetasMedica: Relation<RecetasMedica[]>;
+  @OneToMany(() => Boleta, (boleta) => boleta.mascota)
+  boleta: Relation<Boleta[]>;
 }

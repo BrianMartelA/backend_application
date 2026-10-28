@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateContactoEmergenciaDto } from './dto/create-contacto-emergencia.dto.js';
 import { UpdateContactoEmergenciaDto } from './dto/update-contacto-emergencia.dto.js';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -30,7 +30,12 @@ export class ContactoEmergenciaService {
       throw new NotFoundException(`Negocio no encontrado`);
     }
 
-    const dueno = this.duenoRepository.create({
+    let duenoExistente= await this.duenoRepository.findOne({
+      where:{rut:createConDueño.dueno.rut,negocio:{negocioId}}
+    })
+
+    if(!duenoExistente){
+      const dueno = this.duenoRepository.create({
       rut: createConDueño.dueno.rut,
       nombre_completo: createConDueño.dueno.nombre_completo,
       telefono: createConDueño.dueno.telefono,
@@ -38,27 +43,29 @@ export class ContactoEmergenciaService {
       direccion: createConDueño.dueno.direccion,
       negocio,
     });
-    const duenoGuardado = await this.duenoRepository.save(dueno);
+   duenoExistente = await this.duenoRepository.save(dueno);
+
+    }
 
     const contacto = this.contactoRepository.create({
       razon_consulta: createConDueño.razon_consulta,
       nom_mascota: createConDueño.nom_mascota,
       negocio,
-      dueno: duenoGuardado,
+      dueno: duenoExistente,
     });
 
     return await this.contactoRepository.save(contacto);
   }
 
   async findAll(negocioId: number) {
-    const negocio = await this.negocioRepository.findOneBy({ negocioId });
-    if (!negocio) {
-      throw new NotFoundException(`negocio no encontrado`);
-    }
-    return this.contactoRepository.find({
+    const contacto = this.contactoRepository.find({
       where: { negocio: { negocioId },estado:'Pendiente' },
       relations: { dueno: true, negocio: true },
     });
+    if (!contacto) {
+      throw new NotFoundException(`contacto no encontrado`);
+    }
+    return contacto
   }
 
   findOne(id: number) {

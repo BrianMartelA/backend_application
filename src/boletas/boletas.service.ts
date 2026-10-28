@@ -17,8 +17,8 @@ export class BoletasService {
     return await this.boletaRepository.save(nuevaBoleta);
   }
 
-  async findAll(): Promise<Boleta[]> {
-    return await this.boletaRepository.find({
+  async findAll(negocioId:number): Promise<Boleta[]> {
+    return await this.boletaRepository.find({where:{negocio:{negocioId:negocioId}},
       relations: {
         negocio: true,
         dueno: true,

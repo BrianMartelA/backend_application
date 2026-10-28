@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query,ParseIntPipe } from '@nestjs/common';
 import { HistorialVacunasService } from './historial_vacunas.service.js';
 import { CreateHistorialVacunaDto } from './dto/create-historial_vacuna.dto.js';
 import { UpdateHistorialVacunaDto } from './dto/update-historial_vacuna.dto.js';
@@ -13,8 +13,11 @@ export class HistorialVacunasController {
   }
 
   @Get()
-  findAll() {
-    return this.historialVacunasService.findAll();
+  findAll(
+    @Query('negocioId',ParseIntPipe) negocioId:number,
+    @Query('id_mascota',ParseIntPipe) id_mascota:number,
+  ) {
+    return this.historialVacunasService.findAll(negocioId,id_mascota);
   }
 
   @Get(':id')
