@@ -18,7 +18,7 @@ export class RecordatorioService {
     private readonly historialVacunaRepository: Repository<HistorialVacuna>,
     private readonly emailService: EmailService,
   ) {}
-/*
+
   @Cron('* * * * *', {
     timeZone: 'America/Santiago',
   })
@@ -26,7 +26,7 @@ export class RecordatorioService {
     console.log('Scheduler ejecutado');
     return this.ejecutarRecordatorio();
   }
-*/
+
   async ejecutarRecordatorio() {
 const fechaChileStr = new Date().toLocaleDateString('en-CA', {
   timeZone: 'America/Santiago',
