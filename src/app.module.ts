@@ -1,28 +1,36 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Raza } from './razas/entities/raza.entity.js';
+
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
-import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { MascotasModule } from './mascotas/mascotas.module.js';
 import { DuenosModule } from './duenos/duenos.module.js';
-import { Dueno } from './duenos/entities/dueno.entity.js';
-import { Mascota } from './mascotas/entities/mascota.entity.js';
-import { Negocio } from './negocio/entities/negocio.entity.js';
 import { NegocioModule } from './negocio/negocio.module.js';
 import { HistorialVacunasModule } from './historial_vacunas/historial_vacunas.module.js';
 import { NotificacionesModule } from './notificaciones/notificaciones.module.js';
-import { Notificaciones } from './notificaciones/entities/notificacione.entity.js';
 import { BoletasModule } from './boletas/boletas.module.js';
 import { CitasModule } from './citas/citas.module.js';
-import { Cita } from './citas/entities/cita.entity.js';
 import { ContactoEmergenciaModule } from './contacto-emergencia/contacto-emergencia.module.js';
-import { ContactoEmergencia } from './contacto-emergencia/entities/contacto-emergencia.entity.js';
 import { EspeciesModule } from './especies/especies.module.js';
 
 import { Especy } from './especies/entities/especy.entity.js';
 import { VacunasModule } from './vacunas/vacunas.module.js';
+import { AuthModule } from './auth/auth.module.js';
+
+import { Dueno } from './duenos/entities/dueno.entity.js';
+import { Mascota } from './mascotas/entities/mascota.entity.js';
+import { Negocio } from './negocio/entities/negocio.entity.js';
+import { Notificaciones } from './notificaciones/entities/notificacione.entity.js';
+import { Cita } from './citas/entities/cita.entity.js';
+import { ContactoEmergencia } from './contacto-emergencia/entities/contacto-emergencia.entity.js';
+import { Especy } from './especies/entities/especy.entity.js';
 import { Vacuna } from './vacunas/entities/vacuna.entity.js';
 import { Boleta } from './boletas/entities/boleta.entity.js';
 import { HistorialVacuna } from './historial_vacunas/entities/historial_vacuna.entity.js';
+import { Usuario } from './usuarios/entities/usuario.entity.js';
 import { ConfigModule } from '@nestjs/config';
 import { RecordatorioModule } from './recordatorio/recordatorio.module.js';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -34,13 +42,16 @@ import { EmailModule } from './email/email.module.js';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: '.env',
+    }),
+
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
       port: Number(process.env.DB_PORT),
       username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD, // <-- Asegúrate de tener tu contraseña aquí o en process.env
+      password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities: [
         Dueno,
@@ -53,9 +64,13 @@ import { EmailModule } from './email/email.module.js';
         Vacuna,
         Boleta,
         HistorialVacuna,
-        RecetasMedica
+        Usuario,
+        Raza,
+        RecetasMedica,
       ],
       synchronize: true,
+    }),
+  
     }),
     ScheduleModule.forRoot(),
     MascotasModule,
@@ -68,6 +83,7 @@ import { EmailModule } from './email/email.module.js';
     ContactoEmergenciaModule,
     EspeciesModule,
     VacunasModule,
+    AuthModule,
     RecordatorioModule,
     NotificacionesModule,
     RecetasMedicasModule,
