@@ -1,8 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Raza } from './razas/entities/raza.entity.js';
-
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 
@@ -16,7 +13,6 @@ import { CitasModule } from './citas/citas.module.js';
 import { ContactoEmergenciaModule } from './contacto-emergencia/contacto-emergencia.module.js';
 import { EspeciesModule } from './especies/especies.module.js';
 
-import { Especy } from './especies/entities/especy.entity.js';
 import { VacunasModule } from './vacunas/vacunas.module.js';
 import { AuthModule } from './auth/auth.module.js';
 
@@ -44,8 +40,6 @@ import { EmailModule } from './email/email.module.js';
       isGlobal: true,
       envFilePath: '.env',
     }),
-
-    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
@@ -65,12 +59,9 @@ import { EmailModule } from './email/email.module.js';
         Boleta,
         HistorialVacuna,
         Usuario,
-        Raza,
         RecetasMedica,
       ],
       synchronize: true,
-    }),
-  
     }),
     ScheduleModule.forRoot(),
     MascotasModule,
@@ -87,8 +78,7 @@ import { EmailModule } from './email/email.module.js';
     RecordatorioModule,
     NotificacionesModule,
     RecetasMedicasModule,
-    EmailModule
-  ],
+    EmailModule],
   controllers: [AppController],
   providers: [AppService],
 })

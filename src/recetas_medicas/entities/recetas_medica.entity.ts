@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Mascota } from '../../mascotas/entities/mascota.entity.js';
 import type { Relation } from 'typeorm';
+import { Usuario } from '../../usuarios/entities/usuario.entity.js';
 
 @Entity()
 export class RecetasMedica {
@@ -20,4 +21,7 @@ export class RecetasMedica {
   @ManyToOne(() => Mascota, (mascota) => mascota.cita)
   @JoinColumn({ name: 'id_mascota' })
   mascota: Relation<Mascota>;
+  @ManyToOne(()=>Usuario,(usuario)=> usuario.recetaMedica)
+  @JoinColumn({name:'id_usuario'})
+  usuario:Relation<Usuario>
 }
