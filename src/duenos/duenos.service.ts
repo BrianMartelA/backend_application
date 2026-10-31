@@ -1,75 +1,136 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
 import { CreateDuenoDto } from './dto/create-dueno.dto.js';
 import { UpdateDuenoDto } from './dto/update-dueno.dto.js';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Dueno } from './entities/dueno.entity.js';
-import { Like, Repository } from 'typeorm';
 import { Negocio } from '../negocio/entities/negocio.entity.js';
 import { Mascota } from '../mascotas/entities/mascota.entity.js';
-import { CreateDuenoConMascotasDto } from './dto/create-dueno-mascota.dto.js';
 
 @Injectable()
 export class DuenosService {
   constructor(
-    @InjectRepository(Dueno) private duenoRepository: Repository<Dueno>,
-    @InjectRepository(Negocio) private negocioRepository: Repository<Negocio>,
-    @InjectRepository(Mascota) private mascotaRepository: Repository<Mascota>,
+    @InjectRepository(Dueno)
+    private readonly duenoRepository: Repository<Dueno>,
+
+    @InjectRepository(Negocio)
+    private readonly negocioRepository: Repository<Negocio>,
+
+    @InjectRepository(Mascota)
+    private readonly mascotaRepository: Repository<Mascota>,
   ) {}
 
-  async create(negocioId:number,createDuenoDto: CreateDuenoDto) {
-    const dueno = new Dueno();
-
+  // Crear un dueño dentro del negocio autenticado
+  async create(
+    negocioId: number,
+    createDuenoDto: CreateDuenoDto,
+  ): Promise<Dueno> {
     const negocio = await this.negocioRepository.findOneBy({
-      negocioId
+      negocioId,
     });
 
     if (!negocio) {
-      throw new NotFoundException(`Negocio no existente`);
+      throw new NotFoundException('Negocio no existente');
     }
 
+    const userExist = await this.duenoRepository.exists({
+      where: {
+        rut: createDuenoDto.rut,
+        negocio: { negocioId },
+      },
+    });
 
-
-    dueno.negocio = negocio;
-    dueno.rut = createDuenoDto.rut;
-    dueno.nombre_completo = createDuenoDto.nombre_completo;
-    dueno.direccion = createDuenoDto.direccion;
-    dueno.correo = createDuenoDto.correo;
-    dueno.telefono = createDuenoDto.telefono;
-
-    const userExist = await this.duenoRepository.exists({where:{rut:dueno.rut}})
-    if(userExist){
-      throw new ConflictException(`Usuario existente`)
+    if (userExist) {
+      throw new ConflictException(
+        'Ya existe un dueño con ese RUT en este negocio',
+      );
     }
+
+    const dueno = this.duenoRepository.create({
+      rut: createDuenoDto.rut,
+      nombre_completo: createDuenoDto.nombre_completo,
+      direccion: createDuenoDto.direccion,
+      correo: createDuenoDto.correo,
+      telefono: createDuenoDto.telefono,
+      negocio,
+    });
+
     return this.duenoRepository.save(dueno);
   }
 
-  async findAll(negocioId:number) {
-        const negocio = await this.negocioRepository.findOneBy({negocioId});
-    if(!negocio){
-      throw new NotFoundException(`negocio no encontrado`)
-    }
-    return this.duenoRepository.find(
-      {where:{negocio:{negocioId}}}
-    );
+  // Listar únicamente los dueños del negocio autenticado
+  async findAll(negocioId: number): Promise<Dueno[]> {
+    return this.duenoRepository.find({
+      where: {
+        negocio: { negocioId },
+      },
+      relations: {
+  mascotas: true,
+},
+    });
   }
 
-  findOne(id: number) {
-    return this.duenoRepository.findOneBy({ id_dueno: id });
-  }
+  // Buscar un dueño dentro del negocio autenticado
+  async findOne(
+    id: number,
+    negocioId: number,
+  ): Promise<Dueno> {
+    const dueno = await this.duenoRepository.findOne({
+      where: {
+        id_dueno: id,
+        negocio: { negocioId },
+      },
+      relations: {
+  mascotas: true,
+},
+    });
 
-  async update(id: number, updateDuenoDto: UpdateDuenoDto) {
-    await this.duenoRepository.update(id, updateDuenoDto);
-    return this.duenoRepository.findOneBy({ id_dueno: id });
-  }
-
-  async remove(id: number) {
-    const dueno = await this.findOne(id);
     if (!dueno) {
-      throw new NotFoundException(`dueño no encontrado`);
+      throw new NotFoundException('Dueño no encontrado');
     }
 
-    await this.duenoRepository.delete(id);
+    return dueno;
+  }
 
-    return `Se elimino a usuario ${dueno.nombre_completo}`;
+  // Actualizar únicamente un dueño del negocio autenticado
+  async update(
+    id: number,
+    negocioId: number,
+    updateDuenoDto: UpdateDuenoDto,
+  ): Promise<Dueno> {
+    const dueno = await this.findOne(id, negocioId);
+
+    // Solo se actualizan campos permitidos por el DTO.
+    await this.duenoRepository.update(
+      {
+        id_dueno: dueno.id_dueno,
+        negocio: { negocioId },
+      },
+      updateDuenoDto,
+    );
+
+    return this.findOne(id, negocioId);
+  }
+
+  // Eliminar únicamente un dueño del negocio autenticado
+  async remove(
+    id: number,
+    negocioId: number,
+  ): Promise<{ mensaje: string }> {
+    const dueno = await this.findOne(id, negocioId);
+
+    await this.duenoRepository.delete({
+      id_dueno: dueno.id_dueno,
+      negocio: { negocioId },
+    });
+
+    return {
+      mensaje: `Se eliminó al dueño ${dueno.nombre_completo}`,
+    };
   }
 }
