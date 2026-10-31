@@ -14,8 +14,7 @@ export class UpdateMascotaDto extends PartialType(CreateMascotaDto) {
   @Transform(({ value }) => value?.trim())
   nombre: string;
   peso: number;
-  
-  @IsNotEmpty()
+
   @IsNumber()
   microchip: number;
   antecedentes: string;

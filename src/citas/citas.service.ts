@@ -8,7 +8,7 @@ import {
 import { CreateCitaDto } from './dto/create-cita.dto.js';
 import { UpdateCitaDto } from './dto/update-cita.dto.js';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { Cita } from './entities/cita.entity.js';
 import { Dueno } from '../duenos/entities/dueno.entity.js';
 import { Mascota } from '../mascotas/entities/mascota.entity.js';
@@ -52,10 +52,10 @@ export class CitasService {
     cita.mascota = mascota;
     cita.motivo = createCitaDto.motivo;
     cita.estado = createCitaDto.estado;
-    cita.negocio=negocio;
+    cita.negocio = negocio;
 
     const cita_exsitente = await this.citaRepository.findOne({
-      where: { fecha_hora: createCitaDto.fecha_hora,negocio:{negocioId} },
+      where: { fecha_hora: createCitaDto.fecha_hora, negocio: { negocioId } },
     });
 
     if (cita_exsitente) {
@@ -65,12 +65,27 @@ export class CitasService {
     return this.citaRepository.save(cita);
   }
 
-  async findAll(negocioId:number) {
-        const negocio = await this.negocioRepository.findOneBy({ negocioId });
-    if (!negocio) {
-      throw new NotFoundException(`negocio no encontrado`);
+  async findAll(negocioId: number, fechaInicio: string, fechaFin: string) {
+    const inicio = new Date(fechaInicio);
+    const fin = new Date(fechaFin);
+
+    if (isNaN(inicio.getTime()) || isNaN(fin.getTime())) {
+      throw new BadRequestException('Las fechas deben tener un formato válido');
     }
-    return this.citaRepository.find({where:{negocio:{negocioId}, estado:`Pendiente`},
+
+    return this.citaRepository.find({
+      where: { negocio: { negocioId }, fecha_hora: Between(inicio, fin) },
+      relations: { dueno: true, mascota: true },
+    });
+  }
+
+  async findAllCitas(negocioId: number) {
+
+    const negocio = await this.negocioRepository.findOneBy({ negocioId });
+    if (!negocio) {
+      throw new NotFoundException("Negocio no encontrado");
+    }
+    return this.citaRepository.find({where:{negocio:{negocioId}},
       relations: { dueno: true, mascota: true },
     });
   }

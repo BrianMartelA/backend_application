@@ -1,5 +1,6 @@
 import { Transform, Type } from 'class-transformer';
 import {
+  IsEmail,
   IsInt,
   IsNotEmpty,
   IsObject,
@@ -32,8 +33,12 @@ export class CreateDuenoDto {
   @Matches(/^\+?\d+$/, { message: `ingrese un numero de telefono valido` })
   telefono: string;
   @Transform(({ value }) => value.toLowerCase())
+  @IsEmail({},{message:"Ingrese un correo valido"})
   @IsNotEmpty({message:`Campo correo no puede estar en blanco`})
   correo: string;
+  @Matches(/^[\p{L}\p{N}\s.,#°º()\/-]+$/u, {
+  message: 'La dirección contiene caracteres no permitidos',
+})
   @IsNotEmpty({message:`Campo dirección no puede estar en blanco`})
   direccion: string;
   fecha_registro: string;
