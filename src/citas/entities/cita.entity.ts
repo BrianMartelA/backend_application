@@ -16,7 +16,7 @@ import { Notificaciones } from '../../notificaciones/entities/notificacione.enti
 export class Cita {
   @PrimaryGeneratedColumn({ type: 'int' })
   id_cita: number;
-  @Column({ type: 'datetime', default: '2026-09-17 23:00:00' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   fecha_hora: Date;
 
   @Column({ type: 'text' })
