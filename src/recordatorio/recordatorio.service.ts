@@ -31,6 +31,7 @@ export class RecordatorioService {
 const fechaChileStr = new Date().toLocaleDateString('en-CA', {
   timeZone: 'America/Santiago',
 }); 
+console.log(fechaChileStr)
 
 
 const inicio = new Date(`${fechaChileStr}T00:00:00`);
@@ -325,10 +326,10 @@ console.log(
         `Error enviando correo del historial ${historial.id_historial}:`,
         error,
       );
-      continue; // sin correo enviado, no se guarda notificación
+      continue; 
     }
 
-    // --- Guardado de la notificación ---
+  
     try {
       const guardada = await this.notificacionRepository.save(
         this.notificacionRepository.create({
