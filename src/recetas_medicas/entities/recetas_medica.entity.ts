@@ -14,7 +14,7 @@ import { Usuario } from '../../usuarios/entities/usuario.entity.js';
 export class RecetasMedica {
   @PrimaryGeneratedColumn({ type: 'int' })
   id_receta: number;
-  @CreateDateColumn({ type: 'datetime' })
+  @CreateDateColumn({ type: 'timestamp' })
   fecha: Date;
   @Column({ type: 'text' })
   medicamentos_indicaciones: string;
