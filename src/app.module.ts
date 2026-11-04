@@ -62,7 +62,13 @@ import { EmailModule } from './email/email.module.js';
         RecetasMedica,
       ],
       synchronize: true,
-      ssl: { rejectUnauthorized: false },
+      ssl: process.env.DB_SSL_REJECT_UNAUTHORIZED == 'true',
+      extra: {
+        ssl:
+          process.env.rejectUnauthorized == 'true'
+            ? { rejectUnauthorized: false }
+            : null,
+      },
     }),
     ScheduleModule.forRoot(),
     MascotasModule,
