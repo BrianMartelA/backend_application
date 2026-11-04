@@ -1,15 +1,40 @@
-import { Type } from "class-transformer";
-import { ValidateNested } from "class-validator";
-import { Dueno } from "../../duenos/entities/dueno.entity.js";
+import { Type } from 'class-transformer';
+import {
+  IsDate,
+  IsInt,
+  IsNotEmpty,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+
+export class DuenoRefDto {
+  @IsInt()
+  @IsNotEmpty()
+  id_dueno: number;
+}
 
 export class CreateNotificacioneDto {
-    id_notificacion:string;
-    mensaje:string;
-    tipo:string;
-    estado:string;
-    fecha_envio:Date;
-    @ValidateNested()
-    @Type(()=>Dueno)
-    id_dueno:Dueno;
+  @IsString()
+  @IsNotEmpty()
+  mensaje: string;
 
+  @IsString()
+  @IsNotEmpty()
+  tipo: string;
+
+  @IsString()
+  @IsNotEmpty()
+  estado: string;
+
+  @IsInt()
+  referencia_id:number
+  @Type(() => Date)
+  @IsDate()
+  @IsNotEmpty()
+  fecha_envio: Date;
+
+  @ValidateNested()
+  @Type(() => DuenoRefDto)
+  id_dueno: DuenoRefDto;
+  
 }

@@ -31,7 +31,9 @@ export class CreateBoletaDto {
   @IsInt()
   @IsNotEmpty()
   idDueno: number;
-
+  @IsInt()
+  @IsNotEmpty()
+  id_mascota: number;
   @IsInt()
   @Min(0)
   @IsNotEmpty()

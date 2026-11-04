@@ -10,7 +10,7 @@ import { Negocio } from '../negocio/entities/negocio.entity.js';
 @Module({
   controllers: [CitasController],
   providers: [CitasService],
-    imports:[TypeOrmModule.forFeature([Dueno,Mascota,Cita,Negocio])]
+    imports:[TypeOrmModule.forFeature([Dueno,Mascota,Cita,Negocio,])]
   
 })
 export class CitasModule {}
