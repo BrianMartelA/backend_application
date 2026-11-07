@@ -29,14 +29,14 @@ export class RecordatorioService {
     return { statusCode: 200, mensaje: 'Servicio en funcionamiento' };
   }
   /*
-  @Cron('* * * * *', {
+  @Cron('30 13 * * *', {
     timeZone: 'America/Santiago',
-  })
+  })*/
   async ejecutarAutomaticamente() {
     console.log('Scheduler ejecutado');
     return this.ejecutarRecordatorio();
   }
-*/
+
   async ejecutarRecordatorio() {
     const fechaChileStr = new Date().toLocaleDateString('en-CA', {
       timeZone: 'America/Santiago',
