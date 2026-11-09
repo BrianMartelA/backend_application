@@ -19,10 +19,10 @@ export class RecordatorioService {
     private readonly emailService: EmailService,
   ) {}
 
-  @Cron('*/14 * * * *')
-  async actividad() {
-    await fetch(`${process.env.URL}/recordatorio/probar`);
-  }
+ // @Cron('*/14 * * * *')
+  //async actividad() {
+  //  await fetch(`${process.env.URL}/recordatorio/probar`);
+  //}
 
   async ComprobacionEstado() {
     console.log('Servicio activo');
