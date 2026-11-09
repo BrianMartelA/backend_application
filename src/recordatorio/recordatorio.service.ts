@@ -21,8 +21,8 @@ export class RecordatorioService {
 
  // @Cron('*/14 * * * *')
   //async actividad() {
- //   await fetch(`${process.env.URL}/recordatorio/probar`);
-//}
+  //  await fetch(`${process.env.URL}/recordatorio/probar`);
+  //}
 
   async ComprobacionEstado() {
     console.log('Servicio activo');
