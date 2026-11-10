@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateStorageDto } from './dto/create-storage.dto.js';
 import { UpdateStorageDto } from './dto/update-storage.dto.js';
 import { ConfigService } from '@nestjs/config';
@@ -39,6 +39,7 @@ export class StorageService {
     tipoExamen: string,
     fechaRealizacion: string,
     resultadoDetalles: string,
+    user:AuthenticatedUser,
   ) {
     if (!archivo) {
       throw new BadRequestException('Debe enviar un archivo');
@@ -58,6 +59,8 @@ export class StorageService {
     if (!mascota) {
       throw new NotFoundException('Mascota no encontrada');
     }
+
+    if(mascota.dueno.negocio.negocioId!== user.negocioId) throw new ForbiddenException('la mascota no pertenece al negocio')
 
     const fecha = new Date(fechaRealizacion);
 
