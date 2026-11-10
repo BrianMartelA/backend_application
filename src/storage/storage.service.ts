@@ -70,11 +70,14 @@ export class StorageService {
     const extension =
       archivo.originalname.split('.').pop() ?? 'bin';
 
-    const ruta = [
-      'examenes',
-      `mascota-${idMascota}`,
-      `${randomUUID()}.${extension}`,
-    ].join('/');
+const nombreArchivo = archivo.originalname
+  .replace(/[^a-zA-Z0-9._-]/g, '_');
+
+const ruta = [
+  'examenes',
+  `mascota-${idMascota}`,
+  nombreArchivo,
+].join('/');
 
     const { error: uploadError } = await this.supabase.storage
       .from(this.bucket)
