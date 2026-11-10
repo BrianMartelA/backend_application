@@ -33,7 +33,8 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { RecetasMedicasModule } from './recetas_medicas/recetas_medicas.module.js';
 import { RecetasMedica } from './recetas_medicas/entities/recetas_medica.entity.js';
 import { EmailModule } from './email/email.module.js';
-
+import { Storage } from './storage/entities/storage.entity.js';
+import { StorageModule } from './storage/storage.module.js';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -60,6 +61,7 @@ import { EmailModule } from './email/email.module.js';
         HistorialVacuna,
         Usuario,
         RecetasMedica,
+        Storage
       ],
       synchronize: true,
       ssl: process.env.DB_SSL_REJECT_UNAUTHORIZED == 'true',
@@ -86,6 +88,7 @@ import { EmailModule } from './email/email.module.js';
     NotificacionesModule,
     RecetasMedicasModule,
     EmailModule,
+    StorageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
