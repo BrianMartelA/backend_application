@@ -42,7 +42,6 @@ export class CreateDuenoDto {
   @IsNotEmpty({message:`Campo dirección no puede estar en blanco`})
   direccion: string;
   fecha_registro: string;
-  @IsObject()
   @ValidateNested()
   @Type(() => Negocio)
   negocioId: NegocioRefDto;
