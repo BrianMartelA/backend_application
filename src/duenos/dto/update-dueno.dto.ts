@@ -1,25 +1,55 @@
 import { PartialType } from '@nestjs/mapped-types';
+import { Transform } from 'class-transformer';
 import { CreateDuenoDto } from './create-dueno.dto.js';
-import { Transform, Type } from 'class-transformer';
-import { IsNotEmpty, IsString, Matches, ValidateNested } from 'class-validator';
-import { Negocio } from '../../negocio/entities/negocio.entity.js';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  Matches,
+} from 'class-validator';
 
 export class UpdateDuenoDto extends PartialType(CreateDuenoDto) {
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value.trim() : value,
+  )
+  @IsString()
+  @IsNotEmpty()
   @Matches(/^\d{1,2}\.\d{3}\.\d{3}-[\dkK]$/, {
     message: 'El RUT debe tener el formato 12.345.678-5.',
   })
-  rut: string;
-  @Transform(({ value }) => value?.trim())
+  rut?: string;
+
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value.trim() : value,
+  )
   @IsString()
-  nombre_completo: string;
-  @Transform(({ value }) => value.trim())
-  apellido: string;
-  telefono: string;
-  @Transform(({ value }) => value.toLowerCase())
-  email: string;
-  direccion: string;
-  fecha_registro: string;
-  @ValidateNested()
-  @Type(() => Negocio)
-  negocioId: Negocio;
+  @IsNotEmpty()
+  nombre_completo?: string;
+
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value.trim() : value,
+  )
+  @IsString()
+  @IsNotEmpty()
+  @Matches(/^\+?\d+$/, {
+    message: 'Ingrese un número de teléfono válido.',
+  })
+  telefono?: string;
+
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value.trim().toLowerCase() : value,
+  )
+  @IsEmail({}, { message: 'Ingrese un correo válido.' })
+  @IsNotEmpty()
+  correo?: string;
+
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value.trim() : value,
+  )
+  @IsString()
+  @IsNotEmpty()
+  @Matches(/^[\p{L}\p{N}\s.,#°º()\/-]+$/u, {
+    message: 'La dirección contiene caracteres no permitidos.',
+  })
+  direccion?: string;
 }

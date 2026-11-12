@@ -4,59 +4,70 @@ import {
   IsNotEmpty,
   IsNumber,
   IsObject,
+  IsString,
   ValidateNested,
+  IsDateString,
+  Min,
+  IsOptional,
 } from 'class-validator';
 
-export class RazaRefDto {
+export class EspecieRefDto {
   @IsInt()
-  id_raza: number;
-}
-
-export class especieRefDto {
-  @IsInt()
+  @Min(1)
   id_especie: number;
 }
 
 export class DuenoRefDto {
   @IsInt()
+  @Min(1)
   id_dueno: number;
 }
 
 export class CreateMascotaDto {
-  id_mascota: number;
-
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value.trim() : value,
+  )
+  @IsString()
   @IsNotEmpty({ message: 'Campo nombre no puede estar vacío' })
-  @Transform(({ value }) => value?.trim())
   nombre: string;
 
   @IsObject()
   @ValidateNested()
-  @Type(() => especieRefDto)
-  id_especie: especieRefDto;
+  @Type(() => EspecieRefDto)
+  id_especie: EspecieRefDto;
 
-  @IsObject()
-  @ValidateNested()
-  @Type(() => RazaRefDto)
-  id_raza: RazaRefDto;
-
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value.trim() : value,
+  )
+  @IsString()
   @IsNotEmpty({ message: 'Ingrese sexo de la mascota' })
-  @Transform(({ value }) => value?.trim())
   sexo: string;
 
-  @IsNotEmpty({ message: 'Campo fecha no puede estar vacío' })
-  fecha_nacimiento: Date;
+  @IsOptional()
+  @IsDateString(
+  {},
+  { message: 'Ingrese una fecha de nacimiento válida (YYYY-MM-DD)' },
+)
+fecha_nacimiento?: string;
 
-  @IsNotEmpty({ message: 'Campo peso no puede estar vacío' })
+  @IsNumber()
+  @Min(0, { message: 'El peso no puede ser negativo' })
   peso: number;
 
-  @IsNotEmpty({ message: 'Campo microchip no puede estar vacío' })
-  @IsNumber()
-  microchip: number;
+ @Transform(({ value }) =>
+    typeof value === 'string' ? value.trim() : value,
+  )
+  @IsOptional()
+  @IsString()
+  microchip?: string;
 
-  @IsNotEmpty({ message: 'Campo antecedentes no puede estar vacío' })
-  antecedentes: string;
+  @IsOptional()
+  @IsString()
+  antecedentes?: string;
 
-  alergias: string;
+  @IsOptional()
+  @IsString()
+  alergias?: string;
 
   @IsObject()
   @ValidateNested()

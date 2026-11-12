@@ -1,3 +1,4 @@
+
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMascotaDto } from './dto/create-mascota.dto.js';
 import { UpdateMascotaDto } from './dto/update-mascota.dto.js';
@@ -5,7 +6,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Mascota } from './entities/mascota.entity.js';
 import { Dueno } from '../duenos/entities/dueno.entity.js';
-import { Raza } from '../razas/entities/raza.entity.js';
 import { Especy } from '../especies/entities/especy.entity.js';
 
 @Injectable()
@@ -16,9 +16,6 @@ export class MascotasService {
 
     @InjectRepository(Dueno)
     private duenoRepository: Repository<Dueno>,
-
-    @InjectRepository(Raza)
-    private razaRepository: Repository<Raza>,
 
     @InjectRepository(Especy)
     private especieRepository: Repository<Especy>,
@@ -37,6 +34,7 @@ export class MascotasService {
       throw new NotFoundException('Dueño no encontrado en este negocio');
     }
 
+    // Verificar que la especie exista
     const especie = await this.especieRepository.findOneBy({
       id_especie: createMascotaDto.id_especie.id_especie,
     });
@@ -45,26 +43,19 @@ export class MascotasService {
       throw new NotFoundException('Especie no encontrada');
     }
 
-    const raza = await this.razaRepository.findOneBy({
-      id_raza: createMascotaDto.id_raza.id_raza,
-    });
-
-    if (!raza) {
-      throw new NotFoundException('Raza no encontrada');
-    }
-
     const mascota = new Mascota();
 
     mascota.dueno = dueno;
     mascota.especy = especie;
-    mascota.raza = raza;
-    mascota.fecha_nacimiento = createMascotaDto.fecha_nacimiento;
-    mascota.microchip = createMascotaDto.microchip;
+    mascota.fecha_nacimiento = createMascotaDto.fecha_nacimiento
+  ? new Date(createMascotaDto.fecha_nacimiento)
+  : null;
+    mascota.microchip = createMascotaDto.microchip ?? '';
     mascota.nombre = createMascotaDto.nombre;
     mascota.peso = createMascotaDto.peso;
     mascota.sexo = createMascotaDto.sexo;
-    mascota.antecedentes = createMascotaDto.antecedentes;
-    mascota.alergias = createMascotaDto.alergias;
+    mascota.antecedentes = createMascotaDto.antecedentes ?? '';
+    mascota.alergias = createMascotaDto.alergias ?? '';
 
     return this.mascotaRepository.save(mascota);
   }
@@ -78,7 +69,6 @@ export class MascotasService {
       },
       relations: {
         dueno: true,
-        raza: true,
         especy: true,
       },
     });
@@ -94,7 +84,6 @@ export class MascotasService {
       },
       relations: {
         dueno: true,
-        raza: true,
         especy: true,
       },
     });
@@ -113,7 +102,6 @@ export class MascotasService {
   ) {
     const mascota = await this.findOne(id, negocioId);
 
-    // Solo se actualizan los campos editables.
     // No permitimos cambiar el dueño mediante este endpoint.
     mascota.nombre = updateMascotaDto.nombre ?? mascota.nombre;
     mascota.peso = updateMascotaDto.peso ?? mascota.peso;
@@ -121,10 +109,12 @@ export class MascotasService {
     mascota.antecedentes =
       updateMascotaDto.antecedentes ?? mascota.antecedentes;
     mascota.alergias = updateMascotaDto.alergias ?? mascota.alergias;
-
     mascota.sexo = updateMascotaDto.sexo ?? mascota.sexo;
-    mascota.fecha_nacimiento =
-      updateMascotaDto.fecha_nacimiento ?? mascota.fecha_nacimiento;
+    if (updateMascotaDto.fecha_nacimiento !== undefined) {
+  mascota.fecha_nacimiento = updateMascotaDto.fecha_nacimiento
+    ? new Date(updateMascotaDto.fecha_nacimiento)
+    : null;
+}
 
     return this.mascotaRepository.save(mascota);
   }

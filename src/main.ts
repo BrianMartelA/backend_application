@@ -4,9 +4,14 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
   // Validación y transformación de DTOs global
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useGlobalPipes(
+  new ValidationPipe({
+    transform: true,
+    whitelist: true,
+    forbidNonWhitelisted: true,
+  }),
+);
 
   // Configuración explícita de CORS para permitir peticiones desde Next.js
   app.enableCors({

@@ -10,7 +10,6 @@ import { CreateDuenoDto } from './dto/create-dueno.dto.js';
 import { UpdateDuenoDto } from './dto/update-dueno.dto.js';
 import { Dueno } from './entities/dueno.entity.js';
 import { Negocio } from '../negocio/entities/negocio.entity.js';
-import { Mascota } from '../mascotas/entities/mascota.entity.js';
 
 @Injectable()
 export class DuenosService {
@@ -20,9 +19,6 @@ export class DuenosService {
 
     @InjectRepository(Negocio)
     private readonly negocioRepository: Repository<Negocio>,
-
-    @InjectRepository(Mascota)
-    private readonly mascotaRepository: Repository<Mascota>,
   ) {}
 
   // Crear un dueño dentro del negocio autenticado
@@ -70,8 +66,8 @@ export class DuenosService {
         negocio: { negocioId },
       },
       relations: {
-  mascotas: true,
-},
+        mascotas: true,
+      },
     });
   }
 
@@ -86,8 +82,8 @@ export class DuenosService {
         negocio: { negocioId },
       },
       relations: {
-  mascotas: true,
-},
+        mascotas: true,
+      },
     });
 
     if (!dueno) {
@@ -105,7 +101,6 @@ export class DuenosService {
   ): Promise<Dueno> {
     const dueno = await this.findOne(id, negocioId);
 
-    // Solo se actualizan campos permitidos por el DTO.
     await this.duenoRepository.update(
       {
         id_dueno: dueno.id_dueno,
