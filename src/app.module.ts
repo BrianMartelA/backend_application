@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
 
@@ -33,16 +32,17 @@ import { Boleta } from './boletas/entities/boleta.entity.js';
 import { HistorialVacuna } from './historial_vacunas/entities/historial_vacuna.entity.js';
 import { Usuario } from './usuarios/entities/usuario.entity.js';
 import { RecetasMedica } from './recetas_medicas/entities/recetas_medica.entity.js';
-
+import { EmailModule } from './email/email.module.js';
+import { Storage } from './storage/entities/storage.entity.js';
+import { StorageModule } from './storage/storage.module.js';
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
     }),
-
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      type: 'postgres',
       host: process.env.DB_HOST,
       port: Number(process.env.DB_PORT),
       username: process.env.DB_USERNAME,
@@ -62,8 +62,16 @@ import { RecetasMedica } from './recetas_medicas/entities/recetas_medica.entity.
         HistorialVacuna,
         Usuario,
         RecetasMedica,
+        Storage
       ],
-      synchronize: false,
+      synchronize: true,
+      ssl: process.env.DB_SSL_REJECT_UNAUTHORIZED == 'true',
+      extra: {
+        ssl:
+          process.env.rejectUnauthorized == 'true'
+            ? { rejectUnauthorized: false }
+            : null,
+      },
     }),
 
     ScheduleModule.forRoot(),
@@ -82,6 +90,7 @@ import { RecetasMedica } from './recetas_medicas/entities/recetas_medica.entity.
     RecordatorioModule,
     RecetasMedicasModule,
     EmailModule,
+    StorageModule,
   ],
   controllers: [AppController],
   providers: [AppService],

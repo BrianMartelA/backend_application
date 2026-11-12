@@ -15,7 +15,7 @@ import { Especy } from '../../especies/entities/especy.entity.js';
 import { HistorialVacuna } from '../../historial_vacunas/entities/historial_vacuna.entity.js';
 import { RecetasMedica } from '../../recetas_medicas/entities/recetas_medica.entity.js';
 import { Boleta } from '../../boletas/entities/boleta.entity.js';
-
+import { Storage } from '../../storage/entities/storage.entity.js';
 @Entity()
 export class Mascota {
   @PrimaryGeneratedColumn()
@@ -72,4 +72,6 @@ export class Mascota {
 
   @OneToMany(() => Boleta, (boleta) => boleta.mascota)
   boleta: Relation<Boleta[]>;
+@OneToMany(() => Storage, (storage) => storage.mascota)
+storage: Relation<Storage[]>;
 }

@@ -5,13 +5,13 @@ import type {Relation} from "typeorm";
 
 @Entity()
 export class Notificaciones {
-    @PrimaryGeneratedColumn()
-    id_notificacion:string;
-    @Column()
+    @PrimaryGeneratedColumn({ type: 'int' })
+    id_notificacion:number;
+    @Column({type:'text'})
     mensaje:string;
-    @Column()
+    @Column({type:'varchar'})
     tipo:string;
-    @Column()
+    @Column({type:'varchar'})
     estado:string;
     @CreateDateColumn({type:'timestamp'})
     fecha_envio:Date;

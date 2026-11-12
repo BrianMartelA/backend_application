@@ -17,6 +17,11 @@ export class RecordatorioController {
     return this.recordatorioService.findAll();
   }
 
+  @Get('probar')
+probarCron() {
+  return this.recordatorioService.ComprobacionEstado();
+}
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.recordatorioService.findOne(+id);
