@@ -6,11 +6,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Dueno } from '../duenos/entities/dueno.entity.js';
 import { Mascota } from '../mascotas/entities/mascota.entity.js';
 import { Negocio } from '../negocio/entities/negocio.entity.js';
-
+import { AuthModule } from '../auth/auth.module.js';
 @Module({
+  imports: [
+    AuthModule,
+    TypeOrmModule.forFeature([
+      Dueno,
+      Mascota,
+      Cita,
+      Negocio,
+    ]),
+  ],
   controllers: [CitasController],
   providers: [CitasService],
-    imports:[TypeOrmModule.forFeature([Dueno,Mascota,Cita,Negocio,])]
-  
 })
 export class CitasModule {}

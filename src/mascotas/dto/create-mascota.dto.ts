@@ -4,41 +4,73 @@ import {
   IsNotEmpty,
   IsNumber,
   IsObject,
+  IsString,
   ValidateNested,
+  IsDateString,
+  Min,
+  IsOptional,
 } from 'class-validator';
-import { Dueno } from '../../duenos/entities/dueno.entity.js';
 
-export class especieRefDto {
+export class EspecieRefDto {
   @IsInt()
+  @Min(1)
   id_especie: number;
 }
+
+export class DuenoRefDto {
+  @IsInt()
+  @Min(1)
+  id_dueno: number;
+}
+
 export class CreateMascotaDto {
-  id_mascota: number;
-  @IsNotEmpty({ message: `Campo nombre no puede estar vacio` })
-  @Transform(({ value }) => value?.trim())
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value.trim() : value,
+  )
+  @IsString()
+  @IsNotEmpty({ message: 'Campo nombre no puede estar vacío' })
   nombre: string;
+
   @IsObject()
   @ValidateNested()
-  @Type(() => especieRefDto)
-  id_especie: especieRefDto;
-  @IsNotEmpty({ message: `Campo raza no puede estar vacio` })
-  @Transform(({ value }) => value?.trim())
-  raza: string;
-  @IsNotEmpty({ message: `Ingrese sexo de la mascota` })
-  @Transform(({ value }) => value?.trim())
-  sexo: string;
-  @IsNotEmpty({ message: `Campo fecha no puede estar vacio` })
-  fecha_nacimiento: Date;
-  @IsNotEmpty({ message: `Campo peso no puede estar vacio` })
-  peso: number;
-  @IsNotEmpty({ message: `Campo microchip no puede estar vacio` })
-  @IsNumber()
-  microchip: number;
-  @IsNotEmpty({ message: `Campo antecedentes no puede estar vacio` })
-  antecedentes: string;
-  alergias: string;
+  @Type(() => EspecieRefDto)
+  id_especie: EspecieRefDto;
 
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value.trim() : value,
+  )
+  @IsString()
+  @IsNotEmpty({ message: 'Ingrese sexo de la mascota' })
+  sexo: string;
+
+  @IsOptional()
+  @IsDateString(
+  {},
+  { message: 'Ingrese una fecha de nacimiento válida (YYYY-MM-DD)' },
+)
+fecha_nacimiento?: string;
+
+  @IsNumber()
+  @Min(0, { message: 'El peso no puede ser negativo' })
+  peso: number;
+
+ @Transform(({ value }) =>
+    typeof value === 'string' ? value.trim() : value,
+  )
+  @IsOptional()
+  @IsString()
+  microchip?: string;
+
+  @IsOptional()
+  @IsString()
+  antecedentes?: string;
+
+  @IsOptional()
+  @IsString()
+  alergias?: string;
+
+  @IsObject()
   @ValidateNested()
-  @Type(() => Dueno)
-  id_dueno: Dueno;
+  @Type(() => DuenoRefDto)
+  id_dueno: DuenoRefDto;
 }

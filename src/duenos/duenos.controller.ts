@@ -1,52 +1,77 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, ParseIntPipe, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
+import type { Request } from 'express';
+
 import { DuenosService } from './duenos.service.js';
 import { CreateDuenoDto } from './dto/create-dueno.dto.js';
 import { UpdateDuenoDto } from './dto/update-dueno.dto.js';
-import { CreateDuenoConMascotasDto } from './dto/create-dueno-mascota.dto.js';
+import { JwtAuthGuard } from '../auth/jwt-guard.auth.js';
+
+interface AuthenticatedRequest extends Request {
+  user: {
+    sub: number;
+    negocioId: number;
+    rol: string;
+  };
+}
 
 @Controller('duenos')
+@UseGuards(JwtAuthGuard)
 export class DuenosController {
   constructor(private readonly duenosService: DuenosService) {}
 
-  @Post('/:negocioId')
+  @Post()
   create(
-    @Param('negocioId', ParseIntPipe) negocioId: number,
-    @Body() createDuenoDto: CreateDuenoDto) {
-    return this.duenosService.create(negocioId,createDuenoDto);
+    @Req() req: AuthenticatedRequest,
+    @Body() createDuenoDto: CreateDuenoDto,
+  ) {
+    return this.duenosService.create(
+      req.user.negocioId,
+      createDuenoDto,
+    );
   }
-/*
-  @Post('con-mascotas')
-createConMascotas(
-  @Body() dto: CreateDuenoConMascotasDto,
-) {
-  return this.duenosService.createConMascota(dto);
-}
-*/
+
   @Get()
-  findAll(@Query('negocioId', ParseIntPipe) negocioId: number) {
-    return this.duenosService.findAll(negocioId);
+  findAll(@Req() req: AuthenticatedRequest) {
+    return this.duenosService.findAll(req.user.negocioId);
   }
 
   @Get(':id')
-  async findOne(@Param('id',ParseIntPipe) id: string) {
-    const duenoFind= await this.duenosService.findOne(parseInt(id));
-    if(!duenoFind){
-      throw new NotFoundException(`Usuario con nombre ${id} inexistente`)
-    }
-    return duenoFind;
+  findOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Req() req: AuthenticatedRequest,
+  ) {
+    return this.duenosService.findOne(id, req.user.negocioId);
   }
 
   @Patch(':id')
-  async update(@Param('id',ParseIntPipe) id: string, @Body() updateDuenoDto: UpdateDuenoDto) {
-    const patchDueno = await this.duenosService.update(+id,updateDuenoDto);
-    if(!patchDueno){
-      throw new NotFoundException(`Máscota no existente`)
-    }
-    return patchDueno;
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Req() req: AuthenticatedRequest,
+    @Body() updateDuenoDto: UpdateDuenoDto,
+  ) {
+    return this.duenosService.update(
+      id,
+      req.user.negocioId,
+      updateDuenoDto,
+    );
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.duenosService.remove(+id);
+  remove(
+    @Param('id', ParseIntPipe) id: number,
+    @Req() req: AuthenticatedRequest,
+  ) {
+    return this.duenosService.remove(id, req.user.negocioId);
   }
 }

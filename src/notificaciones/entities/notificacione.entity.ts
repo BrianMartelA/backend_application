@@ -17,7 +17,7 @@ export class Notificaciones {
     fecha_envio:Date;
     @Column()
     referencia_id:number;
-    @ManyToOne(()=>Dueno,(dueno)=>dueno.notifiacion)
+    @ManyToOne(() => Dueno, (dueno) => dueno.notificaciones)
     @JoinColumn({name:'id_dueno'})
     dueno:Relation<Dueno>;
 
