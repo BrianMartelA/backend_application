@@ -113,6 +113,8 @@ export class MascotasService {
 
     await this.mascotaRepository.delete(id);
 
-    return `Se la mascota de${mascota.dueno.nombre_completo} ${mascota.nombre}`;
+    return `Se eliminó la mascota de ${
+    mascota.dueno?.nombre_completo ?? 'un dueño eliminado'
+  }: ${mascota.nombre}`;;
   }
 }

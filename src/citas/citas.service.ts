@@ -39,13 +39,15 @@ export class CitasService {
     if (!mascota) {
       throw new NotFoundException(`Mascota no encontrada`);
     }
-    if (!dueno || !mascota.dueno.id_dueno) {
-      throw new NotFoundException(`Dueño no encontrado`);
-    }
+if (!dueno || !mascota.dueno) {
+  throw new NotFoundException('Dueño no encontrado');
+}
 
-    if (mascota.dueno.id_dueno !== dueno.id_dueno) {
-      throw new ForbiddenException('Mascota no vinculada al dueño');
-    }
+if (mascota.dueno.id_dueno !== dueno.id_dueno) {
+  throw new ForbiddenException(
+    'Mascota no vinculada al dueño',
+  );
+}
 
     cita.fecha_hora = createCitaDto.fecha_hora;
     cita.dueno = dueno;
@@ -129,7 +131,9 @@ export class CitasService {
     if (!cita) {
       throw new NotFoundException(`Cita no encontrada`);
     }
-    await this.citaRepository.delete(id);
-    return `se elimino la cita para ${cita.dueno.nombre_completo}`;
+const nombreDueno =
+  cita.dueno?.nombre_completo ?? 'un dueño eliminado';
+
+return `Se eliminó la cita para ${nombreDueno}`;
   }
 }

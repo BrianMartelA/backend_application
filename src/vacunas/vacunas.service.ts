@@ -20,6 +20,7 @@ export class VacunasService {
     vacuna.especy=especie;
     vacuna.descripcion=createVacunaDto.descripcion;
     vacuna.nombre_vacuna=createVacunaDto.nombre_vacuna;
+    vacuna.precio = createVacunaDto.precio;
     return this.vacunaRepository.save(vacuna);
   }
 

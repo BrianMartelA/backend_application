@@ -28,10 +28,10 @@ export class RecordatorioService {
     console.log('Servicio activo');
     return { statusCode: 200, mensaje: 'Servicio en funcionamiento' };
   }
-  /*
-  @Cron('30 13 * * *', {
+  
+  @Cron('* * * * *', {
     timeZone: 'America/Santiago',
-  })*/
+  })
   async ejecutarAutomaticamente() {
     console.log('Scheduler ejecutado');
     return this.ejecutarRecordatorio();
@@ -178,7 +178,7 @@ export class RecordatorioService {
           <tr>
             <td style="padding:8px;border:1px solid #ddd;">${i + 1}</td>
             <td style="padding:8px;border:1px solid #ddd;">${c.mascota.nombre}</td>
-            <td style="padding:8px;border:1px solid #ddd;">${c.mascota.dueno.nombre_completo}</td>
+            <td style="padding:8px;border:1px solid #ddd;">${c.mascota.dueno?.nombre_completo ?? 'Dueño eliminado'}</td>
             <td style="padding:8px;border:1px solid #ddd;">${new Date(
               c.fecha_hora,
             ).toLocaleString('es-ES', {
@@ -369,7 +369,15 @@ export class RecordatorioService {
     console.log('==================================================');
 
     for (const [idNegocio, historialesDelNegocio] of historialPorNegocio) {
-      const negocio = historialesDelNegocio[0].mascota.dueno.negocio;
+ const primerHistorial = historialesDelNegocio[0];
+  const negocio = primerHistorial.mascota?.dueno?.negocio;
+
+  if (!negocio) {
+    console.warn(
+      `No se encontró negocio para el grupo ${idNegocio}`,
+    );
+    continue;
+  }
       const nombreNegocio = negocio.nombre_negocio || `Negocio #${idNegocio}`;
 
       // Ajusta el nombre del campo según tu entidad Negocio (correo, email, etc.)
@@ -390,7 +398,7 @@ export class RecordatorioService {
           <tr>
             <td style="padding:8px;border:1px solid #ddd;">${i + 1}</td>
             <td style="padding:8px;border:1px solid #ddd;">${h.mascota.nombre}</td>
-            <td style="padding:8px;border:1px solid #ddd;">${h.mascota.dueno.nombre_completo}</td>
+            <td style="padding:8px;border:1px solid #ddd;">${h.mascota.dueno?.nombre_completo ?? 'Dueño eliminado'}</td>
             <td style="padding:8px;border:1px solid #ddd;">${h.vacuna?.nombre_vacuna ?? 'vacuna'}</td>
             <td style="padding:8px;border:1px solid #ddd;">${new Date(
               h.proxima_dosis,

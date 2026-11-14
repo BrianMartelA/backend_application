@@ -36,7 +36,7 @@ export class Mascota {
   alergias: string;
   @ManyToOne(() => Dueno, (dueno) => dueno.mascotas, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'id_dueno' })
-  dueno: Relation<Dueno>;
+  dueno: Relation<Dueno|null>;
   @OneToMany(() => Cita, (cita) => cita.mascota)
   cita: Cita;
   @ManyToOne(() => Especy, (especy) => especy.mascota, { onDelete: 'CASCADE' })
