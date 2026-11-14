@@ -1,28 +1,23 @@
+import { PartialType } from '@nestjs/mapped-types';
 import {
-  IsDate,
-  IsIn,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  MaxLength,
-} from 'class-validator';
-
+  CreateCitaDto,
+  MascotaRefDto,
+} from './create-cita.dto.js';
 import { Type } from 'class-transformer';
+import { IsDate, ValidateNested } from 'class-validator';
+import { Dueno } from '../../duenos/entities/dueno.entity.js';
+import { Mascota } from '../../mascotas/entities/mascota.entity.js';
 
-export class UpdateCitaDto {
-  @IsOptional()
+export class UpdateCitaDto extends PartialType(CreateCitaDto) {
   @Type(() => Date)
   @IsDate()
-  fecha_hora?: Date;
+  fecha_hora: Date;
 
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty({ message: 'Ingrese motivo de visita' })
-  @MaxLength(500)
-  motivo?: string;
+  motivo: string;
+  estado: string;
+  fecha_creación: Date;
+  @ValidateNested()
+  @Type(() => Mascota)
+  id_mascota: MascotaRefDto;
 
-  @IsOptional()
-  @IsString()
-  @IsIn(['Pendiente', 'Confirmada', 'Cancelada', 'Completada'])
-  estado?: string;
 }

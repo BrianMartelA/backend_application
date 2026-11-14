@@ -6,10 +6,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-
-import type { Relation } from 'typeorm';
-
 import { Dueno } from '../../duenos/entities/dueno.entity.js';
+import type { Relation } from 'typeorm';
 import { Cita } from '../../citas/entities/cita.entity.js';
 import { Especy } from '../../especies/entities/especy.entity.js';
 import { HistorialVacuna } from '../../historial_vacunas/entities/historial_vacuna.entity.js';
@@ -20,32 +18,23 @@ import { Storage } from '../../storage/entities/storage.entity.js';
 export class Mascota {
   @PrimaryGeneratedColumn()
   id_mascota: number;
-
   @Column({ type: 'varchar', length: 100 })
   nombre: string;
 
   @Column({ type: 'varchar', length: 50 })
   sexo: string;
-
-  @Column({ type: 'date', nullable: true })
-  fecha_nacimiento: Date | null;
-
-  @Column({ type: 'decimal', precision: 6, scale: 2 })
+  @Column()
+  fecha_nacimiento: Date;
+  @Column({ type: 'int' })
   peso: number;
 
   @Column({ type: 'varchar', length: 30 })
-  microchip: string;
-
+  microchip: number;
   @Column({ type: 'text' })
   antecedentes: string;
-
   @Column({ type: 'varchar', length: 50 })
   alergias: string;
-
-  @ManyToOne(() => Dueno, (dueno) => dueno.mascotas, {
-    onDelete: 'CASCADE',
-    nullable: false,
-  })
+  @ManyToOne(() => Dueno, (dueno) => dueno.mascotas, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'id_dueno' })
   dueno: Relation<Dueno|null>;
   @OneToMany(() => Cita, (cita) => cita.mascota)
@@ -53,19 +42,12 @@ export class Mascota {
   @ManyToOne(() => Especy, (especy) => especy.mascota, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'id_especie' })
   especy: Relation<Especy>;
-
-  @OneToMany(
-    () => HistorialVacuna,
-    (historialVacuna) => historialVacuna.mascota,
-  )
+  @Column({ type: 'varchar' })
+  raza: string;
+  @OneToMany(() => HistorialVacuna,(historialVacuna) => historialVacuna.mascota,)
   historialVacuna: Relation<HistorialVacuna[]>;
-
-  @OneToMany(
-    () => RecetasMedica,
-    (recetasMedica) => recetasMedica.mascota,
-  )
+  @OneToMany(() => RecetasMedica, (recetasMedica) => recetasMedica.mascota)
   recetasMedica: Relation<RecetasMedica[]>;
-
   @OneToMany(() => Boleta, (boleta) => boleta.mascota)
   boleta: Relation<Boleta[]>;
 @OneToMany(() => Storage, (storage) => storage.mascota)

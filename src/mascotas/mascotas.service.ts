@@ -1,4 +1,3 @@
-
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMascotaDto } from './dto/create-mascota.dto.js';
 import { UpdateMascotaDto } from './dto/update-mascota.dto.js';
@@ -11,51 +10,37 @@ import { Especy } from '../especies/entities/especy.entity.js';
 @Injectable()
 export class MascotasService {
   constructor(
-    @InjectRepository(Mascota)
-    private mascotaRepository: Repository<Mascota>,
-
-    @InjectRepository(Dueno)
-    private duenoRepository: Repository<Dueno>,
-
-    @InjectRepository(Especy)
-    private especieRepository: Repository<Especy>,
+    @InjectRepository(Mascota) private mascotaRepository: Repository<Mascota>,
+    @InjectRepository(Dueno) private duenoRepository: Repository<Dueno>,
+    @InjectRepository(Especy) private especieRepository: Repository<Especy>,
   ) {}
-
-  async create(negocioId: number, createMascotaDto: CreateMascotaDto) {
-    // Verificar que el dueño pertenezca al negocio autenticado
-    const dueno = await this.duenoRepository.findOne({
-      where: {
-        id_dueno: createMascotaDto.id_dueno.id_dueno,
-        negocio: { negocioId },
-      },
+  async create(createMascotaDto: CreateMascotaDto) {
+    const mascota = new Mascota();
+    const dueno = await this.duenoRepository.findOneBy({
+      id_dueno: createMascotaDto.id_dueno.id_dueno,
     });
 
     if (!dueno) {
-      throw new NotFoundException('Dueño no encontrado en este negocio');
+      throw new NotFoundException(`Dueño no encontrado`);
     }
-
-    // Verificar que la especie exista
     const especie = await this.especieRepository.findOneBy({
       id_especie: createMascotaDto.id_especie.id_especie,
     });
-
     if (!especie) {
       throw new NotFoundException('Especie no encontrada');
     }
-
-    const mascota = new Mascota();
+   
 
     mascota.dueno = dueno;
     mascota.especy = especie;
-    mascota.fecha_nacimiento = createMascotaDto.fecha_nacimiento
-  ? new Date(createMascotaDto.fecha_nacimiento)
-  : null;
-    mascota.microchip = createMascotaDto.microchip ?? '';
+    mascota.fecha_nacimiento = createMascotaDto.fecha_nacimiento;
+    mascota.microchip = createMascotaDto.microchip;
     mascota.nombre = createMascotaDto.nombre;
     mascota.peso = createMascotaDto.peso;
+    mascota.raza = createMascotaDto.raza;
     mascota.sexo = createMascotaDto.sexo;
-    mascota.antecedentes = createMascotaDto.antecedentes ?? '';
-    mascota.alergias = createMascotaDto.alergias ?? '';
+    mascota.antecedentes = createMascotaDto.antecedentes;
+    mascota.alergias = createMascotaDto.alergias;
 
     return this.mascotaRepository.save(mascota);
   }
@@ -64,65 +49,69 @@ export class MascotasService {
     return this.mascotaRepository.find({
       where: {
         dueno: {
-          negocio: { negocioId },
+          negocio: {
+            negocioId,
+          },
         },
       },
       relations: {
-        dueno: true,
-        especy: true,
+        dueno: {
+          negocio: true,
+        },
       },
     });
   }
 
-  async findOne(id: number, negocioId: number) {
-    const mascota = await this.mascotaRepository.findOne({
-      where: {
-        id_mascota: id,
-        dueno: {
-          negocio: { negocioId },
-        },
-      },
-      relations: {
-        dueno: true,
-        especy: true,
-      },
+  async findOneWithOwner(id: number) {
+    const mascota = this.mascotaRepository.findOne({
+      where: { id_mascota: id },
+      relations: { dueno: true },
     });
-
-    if (!mascota) {
-      throw new NotFoundException('Mascota no encontrada');
-    }
 
     return mascota;
   }
 
-  async update(
-    id: number,
-    negocioId: number,
-    updateMascotaDto: UpdateMascotaDto,
-  ) {
-    const mascota = await this.findOne(id, negocioId);
-
-    // No permitimos cambiar el dueño mediante este endpoint.
-    mascota.nombre = updateMascotaDto.nombre ?? mascota.nombre;
-    mascota.peso = updateMascotaDto.peso ?? mascota.peso;
-    mascota.microchip = updateMascotaDto.microchip ?? mascota.microchip;
-    mascota.antecedentes =
-      updateMascotaDto.antecedentes ?? mascota.antecedentes;
-    mascota.alergias = updateMascotaDto.alergias ?? mascota.alergias;
-    mascota.sexo = updateMascotaDto.sexo ?? mascota.sexo;
-    if (updateMascotaDto.fecha_nacimiento !== undefined) {
-  mascota.fecha_nacimiento = updateMascotaDto.fecha_nacimiento
-    ? new Date(updateMascotaDto.fecha_nacimiento)
-    : null;
-}
-
-    return this.mascotaRepository.save(mascota);
+  async findOne(id: number, negocioId: number) {
+    const mascota = this.mascotaRepository.findOne({
+      where: { id_mascota: id, dueno: { negocio: { negocioId: negocioId } } },
+      relations: {
+        dueno: {
+          negocio: true,
+        },
+      },
+    });
+    return mascota;
   }
 
-  async remove(id: number, negocioId: number) {
-    const mascota = await this.findOne(id, negocioId);
+  async update(id: number, updateMascotaDto: UpdateMascotaDto) {
+    const mascota = await this.mascotaRepository.findOne({
+      where: {
+        id_mascota: id,
+      },
+    });
+    if (!mascota) {
+      throw new NotFoundException(`mascota no encontrada`);
+    }
+    mascota.alergias = updateMascotaDto.alergias ?? mascota.alergias;
+    mascota.antecedentes =
+      updateMascotaDto.antecedentes ?? mascota.antecedentes;
+    mascota.microchip = updateMascotaDto.microchip ?? mascota.microchip;
+    mascota.peso = updateMascotaDto.peso ?? mascota.peso;
+    mascota.nombre = updateMascotaDto.nombre ?? mascota.nombre;
+    await this.mascotaRepository.update(id, updateMascotaDto);
+    return `Mascota actualizada`;
+  }
 
-    await this.mascotaRepository.remove(mascota);
+  async remove(id: number) {
+    const mascota = await this.mascotaRepository.findOne({
+      where: { id_mascota: id },
+      relations: { dueno: true },
+    });
+    if (!mascota) {
+      throw new NotFoundException(`dueño no encontrado`);
+    }
+
+    await this.mascotaRepository.delete(id);
 
     return `Se eliminó la mascota de ${
     mascota.dueno?.nombre_completo ?? 'un dueño eliminado'
