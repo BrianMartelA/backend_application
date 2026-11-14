@@ -23,10 +23,7 @@ export class Cita {
   motivo: string;
   @Column({ type: 'varchar', length: 20, default: 'Pendiente' })
   estado: string;
-  @ManyToOne(() => Dueno, (dueno) => dueno.cita, {
-  onDelete: 'SET NULL',
-  nullable: true,
-})
+  @ManyToOne(() => Dueno, (dueno) => dueno.citas)
   @JoinColumn({ name: 'id_dueno' })
   dueno: Relation<Dueno | null>;
   @ManyToOne(() => Mascota, (mascota) => mascota.cita,{

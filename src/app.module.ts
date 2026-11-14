@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ScheduleModule } from '@nestjs/schedule';
+
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 
@@ -12,10 +14,10 @@ import { BoletasModule } from './boletas/boletas.module.js';
 import { CitasModule } from './citas/citas.module.js';
 import { ContactoEmergenciaModule } from './contacto-emergencia/contacto-emergencia.module.js';
 import { EspeciesModule } from './especies/especies.module.js';
-
 import { VacunasModule } from './vacunas/vacunas.module.js';
 import { AuthModule } from './auth/auth.module.js';
-
+import { RecordatorioModule } from './recordatorio/recordatorio.module.js';
+import { RecetasMedicasModule } from './recetas_medicas/recetas_medicas.module.js';
 import { Dueno } from './duenos/entities/dueno.entity.js';
 import { Mascota } from './mascotas/entities/mascota.entity.js';
 import { Negocio } from './negocio/entities/negocio.entity.js';
@@ -27,14 +29,11 @@ import { Vacuna } from './vacunas/entities/vacuna.entity.js';
 import { Boleta } from './boletas/entities/boleta.entity.js';
 import { HistorialVacuna } from './historial_vacunas/entities/historial_vacuna.entity.js';
 import { Usuario } from './usuarios/entities/usuario.entity.js';
-import { ConfigModule } from '@nestjs/config';
-import { RecordatorioModule } from './recordatorio/recordatorio.module.js';
-import { ScheduleModule } from '@nestjs/schedule';
-import { RecetasMedicasModule } from './recetas_medicas/recetas_medicas.module.js';
 import { RecetasMedica } from './recetas_medicas/entities/recetas_medica.entity.js';
 import { EmailModule } from './email/email.module.js';
 import { Storage } from './storage/entities/storage.entity.js';
 import { StorageModule } from './storage/storage.module.js';
+import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -72,7 +71,9 @@ import { StorageModule } from './storage/storage.module.js';
             : null,
       },
     }),
+
     ScheduleModule.forRoot(),
+
     MascotasModule,
     DuenosModule,
     NegocioModule,
@@ -85,7 +86,6 @@ import { StorageModule } from './storage/storage.module.js';
     VacunasModule,
     AuthModule,
     RecordatorioModule,
-    NotificacionesModule,
     RecetasMedicasModule,
     EmailModule,
     StorageModule,
