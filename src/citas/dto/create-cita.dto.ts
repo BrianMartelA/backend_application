@@ -1,8 +1,15 @@
-import { IsDate, IsInt, IsNotEmpty, ValidateNested } from 'class-validator';
-import { Dueno } from '../../duenos/entities/dueno.entity.js';
-import { Mascota } from '../../mascotas/entities/mascota.entity.js';
+import {
+  IsDate,
+  IsInt,
+  IsNotEmpty,
+  IsString,
+  MaxLength,
+  ValidateNested,
+  IsOptional,
+  IsIn,
+} from 'class-validator';
+
 import { Type } from 'class-transformer';
-import { Negocio } from '../../negocio/entities/negocio.entity.js';
 
 export class DuenoRefDto {
   @IsInt()
@@ -10,33 +17,33 @@ export class DuenoRefDto {
   id_dueno: number;
 }
 
-export class NegocioRefDto {
-  @IsInt()
-  negocioId: number;
-}
-
 export class MascotaRefDto {
   @IsInt()
   @IsNotEmpty()
   id_mascota: number;
 }
+
 export class CreateCitaDto {
-  id_cita: number;
   @Type(() => Date)
   @IsDate()
-  @IsNotEmpty({message:"Seleccione una fecha"})
+  @IsNotEmpty({ message: 'Seleccione una fecha' })
   fecha_hora: Date;
-  @IsNotEmpty({ message: `Ingrese motivo de visita` })
+
+  @IsString()
+  @IsNotEmpty({ message: 'Ingrese motivo de visita' })
+  @MaxLength(500)
   motivo: string;
-  estado: string;
-  fecha_creacion: Date;
+
+  @IsOptional()
+  @IsString()
+  @IsIn(['Pendiente', 'Confirmada', 'Cancelada', 'Completada'])
+  estado?: string;
+
   @ValidateNested()
-  @Type(() => Mascota)
+  @Type(() => MascotaRefDto)
   id_mascota: MascotaRefDto;
+
   @ValidateNested()
-  @Type(() => Dueno)
+  @Type(() => DuenoRefDto)
   id_dueno: DuenoRefDto;
-  @ValidateNested()
-  @Type(() => Negocio)
-  negocioId: NegocioRefDto;
 }

@@ -1,38 +1,76 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, NotFoundException, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
+import type { Request } from 'express';
 import { MascotasService } from './mascotas.service.js';
 import { CreateMascotaDto } from './dto/create-mascota.dto.js';
 import { UpdateMascotaDto } from './dto/update-mascota.dto.js';
+import { JwtAuthGuard } from '../auth/jwt-guard.auth.js';
+
+interface AuthenticatedRequest extends Request {
+  user: {
+    sub: number;
+    negocioId: number;
+    rol: string;
+  };
+}
 
 @Controller('mascotas')
+@UseGuards(JwtAuthGuard)
 export class MascotasController {
   constructor(private readonly mascotasService: MascotasService) {}
 
   @Post()
-  create(@Body() createMascotaDto: CreateMascotaDto) {
-    return this.mascotasService.create(createMascotaDto);
+  create(
+    @Req() req: AuthenticatedRequest,
+    @Body() createMascotaDto: CreateMascotaDto,
+  ) {
+    return this.mascotasService.create(
+      req.user.negocioId,
+      createMascotaDto,
+    );
   }
 
   @Get()
-  findAll(@Query('negocioId', ParseIntPipe) negocioId: number) {
-    return this.mascotasService.findAll(negocioId);
+  findAll(@Req() req: AuthenticatedRequest) {
+    return this.mascotasService.findAll(req.user.negocioId);
   }
 
   @Get(':id')
-  async findOne(@Param('id',ParseIntPipe) id: string,@Query('negocioId', ParseIntPipe) negocioId: number) {
-    const mascotaFind=await this.mascotasService.findOne(parseInt(id),negocioId);
-    if(!mascotaFind){
-throw new NotFoundException(`Mascota no encontrada `)
-    }
-    return this.mascotasService.findOne(+id,negocioId);
+  findOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Req() req: AuthenticatedRequest,
+  ) {
+    return this.mascotasService.findOne(id, req.user.negocioId);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMascotaDto: UpdateMascotaDto) {
-    return this.mascotasService.update(+id, updateMascotaDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Req() req: AuthenticatedRequest,
+    @Body() updateMascotaDto: UpdateMascotaDto,
+  ) {
+    return this.mascotasService.update(
+      id,
+      req.user.negocioId,
+      updateMascotaDto,
+    );
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.mascotasService.remove(+id);
+  remove(
+    @Param('id', ParseIntPipe) id: number,
+    @Req() req: AuthenticatedRequest,
+  ) {
+    return this.mascotasService.remove(id, req.user.negocioId);
   }
 }
