@@ -25,8 +25,11 @@ export class Cita {
   estado: string;
   @ManyToOne(() => Dueno, (dueno) => dueno.citas)
   @JoinColumn({ name: 'id_dueno' })
-  dueno: Relation<Dueno>;
-  @ManyToOne(() => Mascota, (mascota) => mascota.cita)
+  dueno: Relation<Dueno | null>;
+  @ManyToOne(() => Mascota, (mascota) => mascota.cita,{
+  onDelete: 'SET NULL',
+  nullable: true,
+})
   @JoinColumn({ name: 'id_mascota' })
   mascota: Relation<Mascota>;
   @CreateDateColumn()
