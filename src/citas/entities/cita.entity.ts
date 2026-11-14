@@ -31,7 +31,10 @@ export class Cita {
   mascota: Relation<Mascota>;
   @CreateDateColumn()
   fecha_creacion: Date;
-  @ManyToOne(() => Negocio, (negocio) => negocio.cita)
+  @ManyToOne(() => Negocio, (negocio) => negocio.cita,{
+  onDelete: 'SET NULL',
+  nullable: true,
+})
   @JoinColumn({ name: 'negocioId' })
   negocio: Relation<Negocio>;
 
