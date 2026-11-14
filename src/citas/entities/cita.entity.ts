@@ -26,12 +26,18 @@ export class Cita {
   @ManyToOne(() => Dueno, (dueno) => dueno.cita)
   @JoinColumn({ name: 'id_dueno' })
   dueno: Relation<Dueno>;
-  @ManyToOne(() => Mascota, (mascota) => mascota.cita)
+  @ManyToOne(() => Mascota, (mascota) => mascota.cita,{
+  onDelete: 'SET NULL',
+  nullable: true,
+})
   @JoinColumn({ name: 'id_mascota' })
   mascota: Relation<Mascota>;
   @CreateDateColumn()
   fecha_creacion: Date;
-  @ManyToOne(() => Negocio, (negocio) => negocio.cita)
+  @ManyToOne(() => Negocio, (negocio) => negocio.cita,{
+  onDelete: 'SET NULL',
+  nullable: true,
+})
   @JoinColumn({ name: 'negocioId' })
   negocio: Relation<Negocio>;
 

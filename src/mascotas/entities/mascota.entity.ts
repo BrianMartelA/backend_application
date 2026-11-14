@@ -39,7 +39,7 @@ export class Mascota {
   dueno: Relation<Dueno>;
   @OneToMany(() => Cita, (cita) => cita.mascota)
   cita: Cita;
-  @ManyToOne(() => Especy, (especy) => especy.mascota)
+  @ManyToOne(() => Especy, (especy) => especy.mascota, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'id_especie' })
   especy: Relation<Especy>;
   @Column({ type: 'varchar' })
