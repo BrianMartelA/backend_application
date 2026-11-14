@@ -2,7 +2,10 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
+  OneToMany,
 } from 'typeorm';
+import { RecetasMedica } from '../../recetas_medicas/entities/recetas_medica.entity.js';
+import type { Relation } from 'typeorm';
 
 @Entity({ name: 'usuario' })
 export class Usuario {
@@ -40,4 +43,7 @@ export class Usuario {
     default: () => 'CURRENT_TIMESTAMP',
   })
   fechaCreacion: Date;
+
+  @OneToMany(()=>RecetasMedica,(recetaMedica)=>recetaMedica.usuario)
+  recetaMedica:Relation<RecetasMedica[]>
 }

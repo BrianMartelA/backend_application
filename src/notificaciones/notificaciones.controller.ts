@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
 import { NotificacionesService } from './notificaciones.service.js';
 import { CreateNotificacioneDto } from './dto/create-notificacione.dto.js';
 import { UpdateNotificacioneDto } from './dto/update-notificacione.dto.js';
@@ -13,8 +13,8 @@ export class NotificacionesController {
   }
 
   @Get()
-  findAll() {
-    return this.notificacionesService.findAll();
+  findAll(@Query('negocioId', ParseIntPipe) negocioId: number) {
+    return this.notificacionesService.findAll(negocioId);
   }
 
   @Get(':id')

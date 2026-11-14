@@ -21,4 +21,7 @@ export class CreateContactoEmergenciaDto {
   @IsNotEmpty()
   @Transform(({ value }) => value?.trim())
   nom_mascota: string;
+
+  aceptado:boolean;
+
 }

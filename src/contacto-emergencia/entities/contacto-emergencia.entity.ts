@@ -16,13 +16,14 @@ export class ContactoEmergencia {
   id_contacto: number;
   @Column({type:'text'})
   razon_consulta: string;
-
   @Column({type:'varchar',length:50})
   nom_mascota: string;
   @CreateDateColumn()
   fecha_solicitud: Date;
   @UpdateDateColumn()
   fecha_actualizacion: Date;
+  @Column({type:'boolean',default:'TRUE'})
+  terminos_aceptados:boolean;
   @Column({default:'Pendiente',type:'varchar',length:20})
   estado:string;
   @ManyToOne(() => Negocio, (negocio) => negocio.contactoEmergencia)
