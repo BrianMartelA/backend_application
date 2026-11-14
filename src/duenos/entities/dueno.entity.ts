@@ -7,54 +7,38 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-
-import type { Relation } from 'typeorm';
-
 import { Mascota } from '../../mascotas/entities/mascota.entity.js';
 import { Negocio } from '../../negocio/entities/negocio.entity.js';
+import type { Relation } from 'typeorm';
 import { Notificaciones } from '../../notificaciones/entities/notificacione.entity.js';
 import { Cita } from '../../citas/entities/cita.entity.js';
 import { ContactoEmergencia } from '../../contacto-emergencia/entities/contacto-emergencia.entity.js';
-
 @Entity()
 export class Dueno {
   @PrimaryGeneratedColumn()
   id_dueno: number;
-
-  @Column({ type: 'varchar', length: 12 })
+  @Column({type:'varchar',length:12})
   rut: string;
-
-  @Column({ type: 'varchar', length: 100 })
+  @Column({type:'varchar',length:100})
   nombre_completo: string;
 
-  @Column({ type: 'varchar', length: 20 })
+  @Column({type:'varchar',length:20})
   telefono: string;
-
-  @Column({ type: 'varchar', length: 150 })
+  @Column({type:'varchar',length:150})
   correo: string;
-
-  @Column({ type: 'text' })
+  @Column({type:'text'})
   direccion: string;
-
   @CreateDateColumn()
   fecha_registro: Date;
-
   @OneToMany(() => Mascota, (mascota) => mascota.dueno)
   mascotas: Relation<Mascota[]>;
-
-  @ManyToOne(() => Negocio, (negocio) => negocio.dueno, {
-    onDelete: 'CASCADE',
-    nullable: false,
-  })
+  @ManyToOne(() => Negocio, (negocio) => negocio.dueno, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'negocioId' })
-  negocio: Relation<Negocio>;
-
+  negocio: Negocio;
   @OneToMany(() => Notificaciones, (notificacion) => notificacion.dueno)
-  notificaciones: Relation<Notificaciones[]>;
-
+  notifiacion: Relation<Notification[]>;
   @OneToMany(() => Cita, (cita) => cita.dueno)
-  citas: Relation<Cita[]>;
-
+  cita: Cita;
   @OneToMany(() => ContactoEmergencia, (contacto) => contacto.dueno)
   contactosEmergencia: Relation<ContactoEmergencia[]>;
 }

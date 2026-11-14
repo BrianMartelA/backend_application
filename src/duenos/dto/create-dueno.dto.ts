@@ -1,54 +1,45 @@
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsEmail,
+  IsInt,
   IsNotEmpty,
+  IsObject,
   IsString,
   Matches,
+  ValidateNested,
 } from 'class-validator';
+import { Negocio } from '../../negocio/entities/negocio.entity.js';
+
+export class NegocioRefDto {
+  @IsInt()
+  @IsNotEmpty()
+  negocioId: number;
+}
 
 export class CreateDuenoDto {
-  @Transform(({ value }) =>
-    typeof value === 'string' ? value.trim() : value,
-  )
-  @IsString()
-  @IsNotEmpty({ message: 'El RUT no puede quedar en blanco.' })
+  id_dueno: number;
+  @IsNotEmpty({ message: 'El campo no puede quedar en blanco.' })
   @Matches(/^\d{1,2}\.\d{3}\.\d{3}-[\dkK]$/, {
     message: 'El RUT debe tener el formato 12.345.678-5.',
   })
   rut: string;
-
-  @Transform(({ value }) =>
-    typeof value === 'string' ? value.trim() : value,
-  )
+  @Transform(({ value }) => value?.trim())
+  @IsNotEmpty()
   @IsString()
-  @IsNotEmpty({ message: 'El nombre no puede quedar en blanco.' })
+  @Transform(({ value }) => value?.trim())
   nombre_completo: string;
 
-  @Transform(({ value }) =>
-    typeof value === 'string' ? value.trim() : value,
-  )
-  @IsString()
-  @IsNotEmpty({ message: 'El teléfono no puede quedar en blanco.' })
-  @Matches(/^\+?\d+$/, {
-    message: 'Ingrese un número de teléfono válido.',
-  })
+  @IsNotEmpty()
+  @Matches(/^\+?\d+$/, { message: `ingrese un numero de telefono valido` })
   telefono: string;
-
-  @Transform(({ value }) =>
-    typeof value === 'string' ? value.trim().toLowerCase() : value,
-  )
-  @IsEmail({}, { message: 'Ingrese un correo válido.' })
-  @IsNotEmpty({ message: 'El correo no puede quedar en blanco.' })
+  @Transform(({ value }) => value.toLowerCase())
+  @IsEmail({},{message:"Ingrese un correo valido"})
+  @IsNotEmpty({message:`Campo correo no puede estar en blanco`})
   correo: string;
-
-  @Transform(({ value }) =>
-    typeof value === 'string' ? value.trim() : value,
-  )
-  @IsString()
-  @IsNotEmpty({ message: 'La dirección no puede quedar en blanco.' })
   @Matches(/^[\p{L}\p{N}\s.,#°º()\/-]+$/u, {
-    message: 'La dirección contiene caracteres no permitidos.',
-  })
+  message: 'La dirección contiene caracteres no permitidos',
+})
+  @IsNotEmpty({message:`Campo dirección no puede estar en blanco`})
   direccion: string;
   fecha_registro: string;
   @ValidateNested()
