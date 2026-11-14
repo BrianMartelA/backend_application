@@ -1,7 +1,15 @@
-import { timestamp } from "rxjs";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Dueno } from "../../duenos/entities/dueno.entity.js";
-import type {Relation} from "typeorm";
+import { timestamp } from 'rxjs';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Dueno } from '../../duenos/entities/dueno.entity.js';
+import type { Relation } from 'typeorm';
 
 @Entity()
 export class Notificaciones {
