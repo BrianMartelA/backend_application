@@ -60,12 +60,22 @@ export class CitasService {
       },
       relations: { dueno: true },
     });
-
-    if (!mascota) {
-      throw new NotFoundException(
-        'Mascota no encontrada en este negocio o no pertenece al dueño indicado',
-      );
+    const negocio = await this.negocioRepository.findOneBy({ negocioId });
+    if (!negocio) {
+      throw new NotFoundException(`Negocio no encontrado`);
     }
+    if (!mascota) {
+      throw new NotFoundException(`Mascota no encontrada`);
+    }
+if (!dueno || !mascota.dueno) {
+  throw new NotFoundException('Dueño no encontrado');
+}
+
+if (mascota.dueno.id_dueno !== dueno.id_dueno) {
+  throw new ForbiddenException(
+    'Mascota no vinculada al dueño',
+  );
+}
 
     const fechaHora = createCitaDto.fecha_hora;
 
@@ -235,11 +245,9 @@ export class CitasService {
     if (!cita) {
       throw new NotFoundException('Cita no encontrada');
     }
+const nombreDueno =
+  cita.dueno?.nombre_completo ?? 'un dueño eliminado';
 
-    await this.citaRepository.delete({
-      id_cita: cita.id_cita,
-    });
-
-    return `Se eliminó la cita para ${cita.dueno.nombre_completo}`;
+return `Se eliminó la cita para ${nombreDueno}`;
   }
 }

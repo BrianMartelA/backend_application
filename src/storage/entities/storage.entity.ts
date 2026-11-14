@@ -14,7 +14,9 @@ fecha_realizacion:Date;
 resultado_detalles:string;
 @Column({type:"varchar",length:255})
 archivo_path:string;
-@ManyToOne(()=>Mascota,(mascota)=>mascota.storage)
+@ManyToOne(()=>Mascota,(mascota)=>mascota.storage, {
+  onDelete: 'SET NULL',
+  nullable: true,})
 @JoinColumn({name:'id_mascota'})
-mascota:Relation<Mascota>
+mascota:Relation<Mascota|null>
 }

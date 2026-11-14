@@ -50,4 +50,8 @@ export class CreateDuenoDto {
     message: 'La dirección contiene caracteres no permitidos.',
   })
   direccion: string;
+  fecha_registro: string;
+  @ValidateNested()
+  @Type(() => Negocio)
+  negocioId: NegocioRefDto;
 }

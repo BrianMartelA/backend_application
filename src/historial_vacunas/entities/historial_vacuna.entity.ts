@@ -15,9 +15,15 @@ export class HistorialVacuna {
     proxima_dosis:Date;
     @Column({type:'varchar',length:50})
     lote:string;
-    @ManyToOne(()=>Mascota,(mascota)=>mascota.historialVacuna)
+    @ManyToOne(()=>Mascota,(mascota)=>mascota.historialVacuna,{
+  onDelete: 'SET NULL',
+  nullable: true,
+})
     @JoinColumn({name:'id_mascota'})
     mascota:Relation<Mascota>
-    @ManyToOne(()=>Vacuna,(vacuna)=>vacuna.historialVacuna)
+    @ManyToOne(()=>Vacuna,(vacuna)=>vacuna.historialVacuna,{
+  onDelete: 'SET NULL',
+  nullable: true,
+})
     vacuna:Relation<Vacuna>
 }
