@@ -67,11 +67,7 @@ if (!mascota.dueno || !mascota.dueno.negocio) {
 
 const negocio = mascota.dueno.negocio;
 
-if (negocio.negocioId !== user.negocioId) {
-  throw new ForbiddenException(
-    'La mascota no pertenece al negocio',
-  );
-}
+
     if(mascota.dueno.negocio.negocioId!== user.negocioId) throw new ForbiddenException('la mascota no pertenece al negocio')
 
     const fecha = new Date(fechaRealizacion);

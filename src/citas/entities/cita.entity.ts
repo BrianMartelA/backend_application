@@ -31,7 +31,7 @@ export class Cita {
   nullable: true,
 })
   @JoinColumn({ name: 'id_mascota' })
-  mascota: Relation<Mascota>;
+  mascota: Relation<Mascota|null>;
   @CreateDateColumn()
   fecha_creacion: Date;
   @ManyToOne(() => Negocio, (negocio) => negocio.cita,{

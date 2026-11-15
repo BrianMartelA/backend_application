@@ -20,10 +20,10 @@ export class HistorialVacuna {
   nullable: true,
 })
     @JoinColumn({name:'id_mascota'})
-    mascota:Relation<Mascota>
+    mascota:Relation<Mascota|null>
     @ManyToOne(()=>Vacuna,(vacuna)=>vacuna.historialVacuna,{
   onDelete: 'SET NULL',
   nullable: true,
 })
-    vacuna:Relation<Vacuna>
+    vacuna:Relation<Vacuna|null>
 }
