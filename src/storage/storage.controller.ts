@@ -19,6 +19,11 @@ import { CreateStorageDto } from './dto/create-storage.dto.js';
 import { UpdateStorageDto } from './dto/update-storage.dto.js';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../auth/jwt-guard.auth.js';
+const tiposPermitidos = [
+  'application/pdf',
+  'image/jpeg',
+  'image/png',
+];
 interface AuthenticatedRequest {
   user: {
     sub: number;
@@ -32,7 +37,23 @@ export class StorageController {
   constructor(private readonly storageService: StorageService) {}
 
   @Post('examen')
-  @UseInterceptors(FileInterceptor('archivo'))
+  @UseInterceptors(FileInterceptor('archivo', {
+    limits: {
+      fileSize: 10 * 1024 * 1024,
+    },
+    fileFilter: (req, file, callback) => {
+      if (!tiposPermitidos.includes(file.mimetype)) {
+        return callback(
+          new BadRequestException(
+            'Solo se permiten archivos PDF, JPG o PNG',
+          ),
+          false,
+        );
+      }
+
+      callback(null, true);
+    },
+  }))
   async subirExamen(
     @UploadedFile() archivo: Express.Multer.File,
     @Body('id_mascota') idMascota: string,

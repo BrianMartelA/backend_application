@@ -16,7 +16,7 @@ id_mascota:mascotaRefto;
 @IsNotEmpty()
 tipo_examen:string;
 @IsDate()
-fecha_realización:Date;
+fecha_realizacion:Date;
 @IsNotEmpty()
 resultado_detalles:string;;
 @IsNotEmpty()
