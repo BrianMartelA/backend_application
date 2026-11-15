@@ -32,7 +32,7 @@ export class HistorialVacunasService {
       throw new NotFoundException(`mascota no encontrada`);
     }
     historialVacuna.mascota=mascota;
-    historialVacuna.observaciones=createHistorialVacunaDto.observaciones;
+    historialVacuna.observaciones = createHistorialVacunaDto.observaciones ?? '';
     historialVacuna.proxima_dosis=createHistorialVacunaDto.proxima_dosis;
     historialVacuna.lote=createHistorialVacunaDto.lote;
     historialVacuna.mascota=mascota;
