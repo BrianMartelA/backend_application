@@ -15,7 +15,7 @@ resultado_detalles:string;
 @Column({type:"varchar",length:255})
 archivo_path:string;
 @ManyToOne(()=>Mascota,(mascota)=>mascota.storage, {
-  onDelete: 'SET NULL',
+  onDelete: 'CASCADE',
   nullable: true,})
 @JoinColumn({name:'id_mascota'})
 mascota:Relation<Mascota|null>

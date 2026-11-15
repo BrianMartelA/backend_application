@@ -27,7 +27,7 @@ export class Notificaciones {
     referencia_id:number;
     @ManyToOne(() => Dueno, (dueno) => dueno.notificaciones)
     @JoinColumn({name:'id_dueno'})
-    dueno:Relation<Dueno>;
+    dueno:Relation<Dueno|null>;
 
     
 }

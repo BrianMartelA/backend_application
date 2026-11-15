@@ -177,8 +177,8 @@ export class RecordatorioService {
           (c, i) => `
           <tr>
             <td style="padding:8px;border:1px solid #ddd;">${i + 1}</td>
-            <td style="padding:8px;border:1px solid #ddd;">${c.mascota.nombre}</td>
-            <td style="padding:8px;border:1px solid #ddd;">${c.mascota.dueno?.nombre_completo ?? 'Dueño eliminado'}</td>
+            <td style="padding:8px;border:1px solid #ddd;">${c.mascota?.nombre??'Mascota eliminada'}</td>
+            <td style="padding:8px;border:1px solid #ddd;">${c.mascota?.dueno?.nombre_completo ?? 'Dueño eliminado'}</td>
             <td style="padding:8px;border:1px solid #ddd;">${new Date(
               c.fecha_hora,
             ).toLocaleString('es-ES', {
@@ -397,8 +397,8 @@ export class RecordatorioService {
           (h, i) => `
           <tr>
             <td style="padding:8px;border:1px solid #ddd;">${i + 1}</td>
-            <td style="padding:8px;border:1px solid #ddd;">${h.mascota.nombre}</td>
-            <td style="padding:8px;border:1px solid #ddd;">${h.mascota.dueno?.nombre_completo ?? 'Dueño eliminado'}</td>
+            <td style="padding:8px;border:1px solid #ddd;">${h.mascota?.nombre}</td>
+            <td style="padding:8px;border:1px solid #ddd;">${h.mascota?.dueno?.nombre_completo ?? 'Dueño eliminado'}</td>
             <td style="padding:8px;border:1px solid #ddd;">${h.vacuna?.nombre_vacuna ?? 'vacuna'}</td>
             <td style="padding:8px;border:1px solid #ddd;">${new Date(
               h.proxima_dosis,

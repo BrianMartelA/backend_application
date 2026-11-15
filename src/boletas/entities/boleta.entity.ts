@@ -48,11 +48,11 @@ export class Boleta {
   @JoinColumn({ name: 'id_negocio' })
   negocio: Negocio;
 
-  @ManyToOne(() => Dueno, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+  @ManyToOne(() => Dueno, { onDelete:'SET NULL',nullable:true, onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'id_dueno' })
   dueno: Dueno;
 
-@ManyToOne(()=> Mascota, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+@ManyToOne(()=> Mascota, { onDelete:'SET NULL',nullable:true, onUpdate: 'CASCADE' })
 @JoinColumn({name:'id_mascota'})
 mascota:Relation<Mascota>;
 
