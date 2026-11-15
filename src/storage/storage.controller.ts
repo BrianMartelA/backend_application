@@ -23,6 +23,7 @@ const tiposPermitidos = [
   'application/pdf',
   'image/jpeg',
   'image/png',
+  'image/webp'
 ];
 interface AuthenticatedRequest {
   user: {
