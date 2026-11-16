@@ -28,8 +28,8 @@ export class RecordatorioService {
     console.log('Servicio activo');
     return { statusCode: 200, mensaje: 'Servicio en funcionamiento' };
   }
-  /*
-  @Cron('30 13 * * *', {
+  
+  /*@Cron('* * * * *', {
     timeZone: 'America/Santiago',
   })*/
   async ejecutarAutomaticamente() {

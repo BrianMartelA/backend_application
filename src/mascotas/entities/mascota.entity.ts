@@ -20,7 +20,7 @@ export class Mascota {
   id_mascota: number;
   @Column({ type: 'varchar', length: 100 })
   nombre: string;
-
+  
   @Column({ type: 'varchar', length: 50 })
   sexo: string;
  @Column({
@@ -51,8 +51,8 @@ peso: number | null;
   @JoinColumn({ name: 'id_especie' })
   especy: Relation<Especy>;
   @Column({
-  type: 'varchar',
-  nullable: true,
+  type: 'varchar', length: 100, nullable: true ,
+  
 })
 raza: string | null;
   @OneToMany(() => HistorialVacuna,(historialVacuna) => historialVacuna.mascota,)
