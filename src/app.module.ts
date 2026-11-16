@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
 
@@ -18,7 +19,7 @@ import { VacunasModule } from './vacunas/vacunas.module.js';
 import { AuthModule } from './auth/auth.module.js';
 import { RecordatorioModule } from './recordatorio/recordatorio.module.js';
 import { RecetasMedicasModule } from './recetas_medicas/recetas_medicas.module.js';
-import { EmailModule } from './email/email.module.js';
+
 
 import { Dueno } from './duenos/entities/dueno.entity.js';
 import { Mascota } from './mascotas/entities/mascota.entity.js';
@@ -48,7 +49,7 @@ import { StorageModule } from './storage/storage.module.js';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      timezone: 'Z',
+      
       entities: [
         Dueno,
         Mascota,

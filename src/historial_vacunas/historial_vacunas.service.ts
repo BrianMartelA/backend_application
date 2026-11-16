@@ -62,7 +62,7 @@ export class HistorialVacunasService {
     },
   });
 
-  if(historialVacuna.length==0) throw new NotFoundException("No existe historial vacunas")
+  if(historialVacuna.length==0) return `no hay historial de vacunas para esta mascota`;
 
     return historialVacuna;
   }
