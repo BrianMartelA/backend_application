@@ -1,15 +1,14 @@
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-
-import { InjectRepository } from '@nestjs/typeorm';
-import { Between, Repository, Not } from 'typeorm';
-
 import { CreateCitaDto } from './dto/create-cita.dto.js';
 import { UpdateCitaDto } from './dto/update-cita.dto.js';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Between, Repository } from 'typeorm';
 import { Cita } from './entities/cita.entity.js';
 import { Dueno } from '../duenos/entities/dueno.entity.js';
 import { Mascota } from '../mascotas/entities/mascota.entity.js';
@@ -18,228 +17,124 @@ import { Negocio } from '../negocio/entities/negocio.entity.js';
 @Injectable()
 export class CitasService {
   constructor(
-    @InjectRepository(Cita)
-    private readonly citaRepository: Repository<Cita>,
-
-    @InjectRepository(Dueno)
-    private readonly duenoRepository: Repository<Dueno>,
-
-    @InjectRepository(Mascota)
-    private readonly mascotaRepository: Repository<Mascota>,
-
-    @InjectRepository(Negocio)
-    private readonly negocioRepository: Repository<Negocio>,
+    @InjectRepository(Cita) private citaRepository: Repository<Cita>,
+    @InjectRepository(Dueno) private duenoRepository: Repository<Dueno>,
+    @InjectRepository(Mascota) private mascotaRepository: Repository<Mascota>,
+    @InjectRepository(Negocio) private negocioRepository: Repository<Negocio>,
   ) {}
-
-  // CREAR CITA
   async create(negocioId: number, createCitaDto: CreateCitaDto) {
-    const negocio = await this.negocioRepository.findOneBy({ negocioId });
+    const cita = new Cita();
 
-    if (!negocio) {
-      throw new NotFoundException('Negocio no encontrado');
-    }
-
-    const dueno = await this.duenoRepository.findOne({
-      where: {
-        id_dueno: createCitaDto.id_dueno.id_dueno,
-        negocio: { negocioId },
-      },
+    const dueno = await this.duenoRepository.findOneBy({
+      id_dueno: createCitaDto.id_dueno.id_dueno,
     });
-
-    if (!dueno) {
-      throw new NotFoundException('Dueño no encontrado en este negocio');
-    }
-
     const mascota = await this.mascotaRepository.findOne({
-      where: {
-        id_mascota: createCitaDto.id_mascota.id_mascota,
-        dueno: {
-          id_dueno: dueno.id_dueno,
-          negocio: { negocioId },
-        },
-      },
+      where: { id_mascota: createCitaDto.id_mascota.id_mascota },
       relations: { dueno: true },
     });
-
+    const negocio = await this.negocioRepository.findOneBy({ negocioId });
+    if (!negocio) {
+      throw new NotFoundException(`Negocio no encontrado`);
+    }
     if (!mascota) {
-      throw new NotFoundException(
-        'Mascota no encontrada en este negocio o no pertenece al dueño indicado',
-      );
+      throw new NotFoundException(`Mascota no encontrada`);
+    }
+    if (!dueno || !mascota.dueno.id_dueno) {
+      throw new NotFoundException(`Dueño no encontrado`);
     }
 
-    const fechaHora = createCitaDto.fecha_hora;
-
-    const citaExistente = await this.citaRepository.findOne({
-      where: {
-        fecha_hora: fechaHora,
-        negocio: { negocioId },
-      },
-    });
-
-    if (citaExistente) {
-      throw new ConflictException('Fecha y hora ya tomada');
+    if (mascota.dueno.id_dueno !== dueno.id_dueno) {
+      throw new ForbiddenException('Mascota no vinculada al dueño');
     }
 
-    const cita = this.citaRepository.create({
-      fecha_hora: fechaHora,
-      dueno,
-      mascota,
-      motivo: createCitaDto.motivo,
-      estado: createCitaDto.estado || 'Pendiente',
-      negocio,
+    cita.fecha_hora = createCitaDto.fecha_hora;
+    cita.dueno = dueno;
+    cita.mascota = mascota;
+    cita.motivo = createCitaDto.motivo;
+    cita.estado = createCitaDto.estado ?? 'Pendiente';
+    cita.negocio = negocio;
+
+    const cita_exsitente = await this.citaRepository.findOne({
+      where: { fecha_hora: createCitaDto.fecha_hora, negocio: { negocioId } },
     });
+
+    if (cita_exsitente) {
+      throw new ConflictException(`fecha y hora ya tomada`);
+    }
 
     return this.citaRepository.save(cita);
   }
 
-  // CONSULTAR CITAS POR RANGO DE FECHAS
-  async findAll(
-    negocioId: number,
-    fechaInicio: string,
-    fechaFin: string,
-  ) {
-    if (!fechaInicio || !fechaFin) {
-      throw new BadRequestException(
-        'Debe indicar fechaInicio y fechaFin',
-      );
-    }
-
+  async findAll(negocioId: number, fechaInicio: string, fechaFin: string) {
     const inicio = new Date(fechaInicio);
     const fin = new Date(fechaFin);
 
-    if (
-      isNaN(inicio.getTime()) ||
-      isNaN(fin.getTime()) ||
-      inicio > fin
-    ) {
-      throw new BadRequestException(
-        'El rango de fechas no es válido',
-      );
+    if (isNaN(inicio.getTime()) || isNaN(fin.getTime())) {
+      throw new BadRequestException('Las fechas deben tener un formato válido');
     }
 
     return this.citaRepository.find({
-      where: {
-        negocio: { negocioId },
-        fecha_hora: Between(inicio, fin),
-      },
-      relations: {
-        dueno: true,
-        mascota: true,
-      },
-      order: {
-        fecha_hora: 'ASC',
-      },
+      where: { negocio: { negocioId }, fecha_hora: Between(inicio, fin) },
+      relations: { dueno: true, mascota: true },
     });
   }
 
-  // CONSULTAR TODAS LAS CITAS DEL NEGOCIO
   async findAllCitas(negocioId: number) {
-    const negocio = await this.negocioRepository.findOneBy({
-      negocioId,
-    });
 
+    const negocio = await this.negocioRepository.findOneBy({ negocioId });
     if (!negocio) {
-      throw new NotFoundException('Negocio no encontrado');
+      throw new NotFoundException("Negocio no encontrado");
     }
-
-    return this.citaRepository.find({
-      where: {
-        negocio: { negocioId },
-      },
-      relations: {
-        dueno: true,
-        mascota: true,
-      },
-      order: {
-        fecha_hora: 'ASC',
-      },
+    return this.citaRepository.find({where:{negocio:{negocioId}},
+      relations: { dueno: true, mascota: true },
     });
   }
 
-  // CONSULTAR UNA CITA
-  async findOne(negocioId: number, id: number) {
-    const cita = await this.citaRepository.findOne({
+  findOne(negocioId: number, id: number) {
+    return this.citaRepository.findOne({
       where: {
         id_cita: id,
         negocio: { negocioId },
       },
-      relations: {
-        dueno: true,
-        mascota: true,
-      },
+      relations: { dueno: true, mascota: true },
     });
-
-    if (!cita) {
-      throw new NotFoundException('Cita no encontrada');
-    }
-
-    return cita;
   }
 
-  // ACTUALIZAR CITA
-  async update(
-    negocioId: number,
-    id: number,
-    updateCitaDto: UpdateCitaDto,
-  ) {
+  async update(negocioId: number, id: number, updateCitaDto: UpdateCitaDto) {
     const cita = await this.citaRepository.findOne({
-      where: {
-        id_cita: id,
-        negocio: { negocioId },
-      },
+      where: { id_cita: id },
+      relations: { dueno: true, mascota: true },
     });
-
     if (!cita) {
-      throw new NotFoundException('Cita no encontrada');
+      throw new NotFoundException(`Mascota sin cita`);
     }
 
     if (updateCitaDto.fecha_hora !== undefined) {
-      const citaExistente = await this.citaRepository.findOne({
-        where: {
-          id_cita: Not(id),
-          fecha_hora: updateCitaDto.fecha_hora,
-          negocio: { negocioId },
-        },
+      const cita_existente = await this.citaRepository.findOne({
+        where: { fecha_hora: updateCitaDto.fecha_hora },
       });
-
-      if (citaExistente) {
-        throw new ConflictException('Fecha y hora ya tomada');
+      if (cita_existente) {
+        throw new ConflictException(`fecha y hora ya tomada`);
       }
-
-      cita.fecha_hora = updateCitaDto.fecha_hora;
     }
 
-    if (updateCitaDto.motivo !== undefined) {
-      cita.motivo = updateCitaDto.motivo;
-    }
-
-    if (updateCitaDto.estado !== undefined) {
-      cita.estado = updateCitaDto.estado;
-    }
-
+    cita.fecha_hora = updateCitaDto.fecha_hora ?? cita.fecha_hora;
+    cita.motivo = updateCitaDto.motivo ?? cita.motivo;
+    cita.estado = updateCitaDto.estado ?? cita.estado;
     return this.citaRepository.save(cita);
   }
 
-  // ELIMINAR CITA
   async remove(negocioId: number, id: number) {
     const cita = await this.citaRepository.findOne({
-      where: {
-        id_cita: id,
-        negocio: { negocioId },
-      },
-      relations: {
-        dueno: true,
-      },
+      where: { id_cita: id },
+      relations: { dueno: true },
     });
-
     if (!cita) {
-      throw new NotFoundException('Cita no encontrada');
+      throw new NotFoundException(`Cita no encontrada`);
     }
-
-    await this.citaRepository.delete({
-      id_cita: cita.id_cita,
-    });
-
-    return `Se eliminó la cita para ${cita.dueno.nombre_completo}`;
+    await this.citaRepository.delete(id);
+    return `se elimino la cita para ${cita.dueno.nombre_completo}`;
   }
+
+  
 }
