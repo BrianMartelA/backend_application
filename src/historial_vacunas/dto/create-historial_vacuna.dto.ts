@@ -1,31 +1,44 @@
-import { Type } from 'class-transformer';
-import { IsDate, IsInt, IsNotEmpty, ValidateNested } from 'class-validator';
-import { Mascota } from '../../mascotas/entities/mascota.entity.js';
-import { Vacuna } from '../../vacunas/entities/vacuna.entity.js';
+import { Type, Transform } from 'class-transformer';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsObject,
+  ValidateNested,
+} from 'class-validator';
+import { Dueno } from '../../duenos/entities/dueno.entity.js';
 
-export class vacunaRefDto {
+export class especieRefDto {
   @IsInt()
-  id_vacuna: number;
+  id_especie: number;
 }
-
-export class mascotaRefDto{
-@IsInt()
-id_mascota:number;
-}
-export class CreateHistorialVacunaDto {
-  id_historial: number;
-  @IsNotEmpty()
-  observaciones:string;
-  fecha_aplicación: Date;
-  @Type(() => Date)
-  @IsDate()
-  proxima_dosis: Date;
-  lote: string;
+export class CreateMascotaDto {
+  id_mascota: number;
+  @IsNotEmpty({ message: `Campo nombre no puede estar vacio` })
+  @Transform(({ value }) => value?.trim())
+  nombre: string;
+  @IsObject()
   @ValidateNested()
-  @Type(() => Mascota)
-  id_mascota: Mascota;
-  @ValidateNested()
-  @Type(()=>Vacuna)
-  id_vacuna:Vacuna;
+  @Type(() => especieRefDto)
+  id_especie: especieRefDto;
+  @IsNotEmpty({ message: `Campo raza no puede estar vacio` })
+  @Transform(({ value }) => value?.trim())
+  raza: string;
+  @IsNotEmpty({ message: `Ingrese sexo de la mascota` })
+  @Transform(({ value }) => value?.trim())
+  sexo: string;
+  @IsNotEmpty({ message: `Campo fecha no puede estar vacio` })
+  fecha_nacimiento: Date;
+  @IsNotEmpty({ message: `Campo peso no puede estar vacio` })
+  peso: number;
+  @IsNotEmpty({ message: `Campo microchip no puede estar vacio` })
+  @IsNumber()
+  microchip: number;
+  @IsNotEmpty({ message: `Campo antecedentes no puede estar vacio` })
+  antecedentes: string;
+  alergias: string;
 
+  @ValidateNested()
+  @Type(() => Dueno)
+  id_dueno: Dueno;
 }
