@@ -29,7 +29,7 @@ export class RecordatorioService {
     return { statusCode: 200, mensaje: 'Servicio en funcionamiento' };
   }
   
-  @Cron('55 16 * * *', {
+  @Cron('05 17 * * *', {
     timeZone: 'America/Santiago',
   })
   async ejecutarAutomaticamente() {

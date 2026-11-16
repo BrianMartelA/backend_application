@@ -23,9 +23,9 @@ export class Mascota {
 
   @Column({ type: 'varchar', length: 50 })
   sexo: string;
-  @Column()
+  @Column( { nullable: true,})
   fecha_nacimiento: Date;
-  @Column({ type: 'int' })
+  @Column({ type: 'int',nullable: true, })
   peso: number;
 
   @Column({ type: 'varchar', length: 30 })
@@ -42,8 +42,8 @@ export class Mascota {
   @ManyToOne(() => Especy, (especy) => especy.mascota)
   @JoinColumn({ name: 'id_especie' })
   especy: Relation<Especy>;
-  @Column({ type: 'varchar' })
-  raza: string;
+  @Column({ type: 'varchar', length:100,  nullable: true, })
+  raza: string| null;
   @OneToMany(() => HistorialVacuna,(historialVacuna) => historialVacuna.mascota,)
   historialVacuna: Relation<HistorialVacuna[]>;
   @OneToMany(() => RecetasMedica, (recetasMedica) => recetasMedica.mascota)
