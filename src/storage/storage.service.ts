@@ -87,7 +87,7 @@ const nombreArchivo = archivo.originalname
 const ruta = [
   'examenes',
   `mascota-${idMascota}`,
-  nombreArchivo,
+  `${randomUUID()}-${nombreArchivo}`,
 ].join('/');
 
     const { error: uploadError } = await this.supabase.storage

@@ -1,7 +1,15 @@
-import { timestamp } from "rxjs";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Dueno } from "../../duenos/entities/dueno.entity.js";
-import type {Relation} from "typeorm";
+import { timestamp } from 'rxjs';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Dueno } from '../../duenos/entities/dueno.entity.js';
+import type { Relation } from 'typeorm';
 
 @Entity()
 export class Notificaciones {
@@ -17,9 +25,11 @@ export class Notificaciones {
     fecha_envio:Date;
     @Column()
     referencia_id:number;
-    @ManyToOne(() => Dueno, (dueno) => dueno.notificaciones)
+    @ManyToOne(() => Dueno, (dueno) => dueno.notificaciones, {
+    onDelete: 'CASCADE',
+  })
     @JoinColumn({name:'id_dueno'})
-    dueno:Relation<Dueno>;
+    dueno:Relation<Dueno|null>;
 
     
 }

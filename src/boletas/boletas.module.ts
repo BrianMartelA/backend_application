@@ -4,9 +4,10 @@ import { BoletasService } from './boletas.service.js';
 import { BoletasController } from './boletas.controller.js';
 import { Boleta } from './entities/boleta.entity.js';
 import { Mascota } from '../mascotas/entities/mascota.entity.js';
+import { BoletaItem } from './entities/boleta-item.entity.js';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Boleta,Mascota])],
+  imports: [TypeOrmModule.forFeature([Boleta,Mascota,BoletaItem])],
   controllers: [BoletasController],
   providers: [BoletasService],
   exports: [BoletasService],

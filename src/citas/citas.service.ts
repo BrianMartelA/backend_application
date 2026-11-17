@@ -132,8 +132,12 @@ export class CitasService {
     if (!cita) {
       throw new NotFoundException(`Cita no encontrada`);
     }
-    await this.citaRepository.delete(id);
-    return `se elimino la cita para ${cita.dueno.nombre_completo}`;
+
+    await this.citaRepository.delete({
+      id_cita: cita.id_cita,
+    });
+
+    return `Se eliminó la cita para ${cita.dueno?.nombre_completo??'Un dueño eliminado'}`;
   }
 
   

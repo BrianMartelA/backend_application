@@ -126,7 +126,7 @@ export class MascotasService {
     await this.mascotaRepository.remove(mascota);
 
     return {
-      message: `Se eliminó la mascota ${mascota.nombre} de ${mascota.dueno.nombre_completo}`,
+      message: `Se eliminó la mascota ${mascota.nombre} de ${mascota.dueno?.nombre_completo}`,
     };
   }
 }
