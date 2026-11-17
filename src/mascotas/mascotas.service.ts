@@ -1,4 +1,3 @@
-
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMascotaDto } from './dto/create-mascota.dto.js';
 import { UpdateMascotaDto } from './dto/update-mascota.dto.js';
@@ -7,6 +6,7 @@ import { Repository } from 'typeorm';
 import { Mascota } from './entities/mascota.entity.js';
 import { Dueno } from '../duenos/entities/dueno.entity.js';
 import { Especy } from '../especies/entities/especy.entity.js';
+import { StorageService } from '../storage/storage.service.js';
 
 @Injectable()
 export class MascotasService {
@@ -19,6 +19,7 @@ export class MascotasService {
 
     @InjectRepository(Especy)
     private especieRepository: Repository<Especy>,
+    private readonly storageService: StorageService,
   ) {}
 
   async create(negocioId: number, createMascotaDto: CreateMascotaDto) {
@@ -48,8 +49,8 @@ export class MascotasService {
     mascota.dueno = dueno;
     mascota.especy = especie;
     mascota.fecha_nacimiento = createMascotaDto.fecha_nacimiento
-  ? new Date(createMascotaDto.fecha_nacimiento)
-  : null;
+      ? new Date(createMascotaDto.fecha_nacimiento)
+      : null;
     mascota.microchip = createMascotaDto.microchip ?? '';
     mascota.nombre = createMascotaDto.nombre;
     mascota.peso = createMascotaDto.peso;
@@ -112,16 +113,17 @@ export class MascotasService {
     mascota.sexo = updateMascotaDto.sexo ?? mascota.sexo;
     mascota.raza = updateMascotaDto.raza ?? mascota.raza;
     if (updateMascotaDto.fecha_nacimiento !== undefined) {
-  mascota.fecha_nacimiento = updateMascotaDto.fecha_nacimiento
-    ? new Date(updateMascotaDto.fecha_nacimiento)
-    : null;
-}
+      mascota.fecha_nacimiento = updateMascotaDto.fecha_nacimiento
+        ? new Date(updateMascotaDto.fecha_nacimiento)
+        : null;
+    }
 
     return this.mascotaRepository.save(mascota);
   }
 
   async remove(id: number, negocioId: number) {
     const mascota = await this.findOne(id, negocioId);
+    await this.storageService.eliminarArchivosMascota(id);
 
     await this.mascotaRepository.remove(mascota);
 
