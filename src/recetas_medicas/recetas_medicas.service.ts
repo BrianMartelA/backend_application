@@ -13,31 +13,34 @@ export class RecetasMedicasService {
     @InjectRepository(RecetasMedica)
     private recetaRepository: Repository<RecetasMedica>,
     @InjectRepository(Mascota) private mascotaRepository: Repository<Mascota>,
-private authService:AuthService  ) {}
+    private authService: AuthService,
+  ) {}
   async create(
     createRecetasMedicaDto: CreateRecetasMedicaDto,
     id_mascota: number,
-    id_usuario:number,
+    id_usuario: number,
   ) {
     const receta = new RecetasMedica();
 
     const mascota = await this.mascotaRepository.findOneBy({
-id_mascota
+      id_mascota,
     });
 
-    
     if (!mascota) throw new NotFoundException('Mascota no encontrada');
-    receta.medicamentos_indicaciones = createRecetasMedicaDto.medicamentos_indicaciones;
+    receta.medicamentos_indicaciones =
+      createRecetasMedicaDto.medicamentos_indicaciones;
     receta.mascota = mascota;
-    receta.usuario={idUsuario:id_usuario} as Usuario;
+    receta.usuario = { idUsuario: id_usuario } as Usuario;
     return this.recetaRepository.save(receta);
   }
 
   findAll(negocioId: number) {
     return this.recetaRepository.find({
-      where: { mascota: { dueno: { negocio: { negocioId } } } },
-      relations:{mascota:true}
-
+      where: {
+        mascota: { dueno: { negocio: { negocioId } } },
+      },
+      relations: { mascota: true },
+      order: { fecha: 'DESC' },
     });
   }
 

@@ -1,5 +1,6 @@
 import { Transform, Type } from 'class-transformer';
 import {
+  IsBoolean,
   IsInt,
   IsNotEmpty,
   IsObject,
@@ -22,6 +23,7 @@ export class CreateContactoEmergenciaDto {
   @Transform(({ value }) => value?.trim())
   nom_mascota: string;
 
+  @IsBoolean()
   aceptado:boolean;
 
 }

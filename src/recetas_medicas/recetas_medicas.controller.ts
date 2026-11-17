@@ -17,11 +17,11 @@ export class RecetasMedicasController {
     return this.recetasMedicasService.create(createRecetasMedicaDto,id_mascota,id_usuario);
   }
 
-  @Get()
-  findAll(@Query('negocioId', ParseIntPipe) negocioId: number) {
-    return this.recetasMedicasService.findAll(negocioId);
-  }
-
+@Get()
+@UseGuards(JwtAuthGuard)
+findAll(@Req() req: any) {
+  return this.recetasMedicasService.findAll(req.user.negocioId);
+}
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.recetasMedicasService.findOne(+id);

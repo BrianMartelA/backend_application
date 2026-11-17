@@ -52,6 +52,7 @@ export class ContactoEmergenciaService {
       nom_mascota: createConDueño.nom_mascota,
       negocio,
       dueno: duenoExistente,
+      terminos_aceptados:createConDueño.aceptado
     });
 
     return await this.contactoRepository.save(contacto);
