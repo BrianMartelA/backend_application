@@ -23,6 +23,8 @@ export class DuenoRefDto {
   id_dueno: number;
 }
 
+
+
 export class CreateMascotaDto {
   @Transform(({ value }) =>
     typeof value === 'string' ? value.trim() : value,
@@ -30,6 +32,11 @@ export class CreateMascotaDto {
   @IsString()
   @IsNotEmpty({ message: 'Campo nombre no puede estar vacío' })
   nombre: string;
+
+  @Transform(({ value }) => typeof value === 'string' ? value.trim() : value)
+  @IsString()
+  @IsNotEmpty({ message: 'Ingrese la raza de la mascota' })
+  raza: string;
 
   @IsObject()
   @ValidateNested()
