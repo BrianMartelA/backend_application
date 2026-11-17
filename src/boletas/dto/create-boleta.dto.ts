@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsInt,
   IsNotEmpty,
@@ -5,8 +6,23 @@ import {
   IsString,
   IsEnum,
   Min,
+  IsArray,
+  ValidateNested,
+  IsIn,
 } from 'class-validator';
+export class BoletaItemDto {
+  @IsString() @IsNotEmpty()
+  concepto: string;
 
+  @IsInt() @Min(0)
+  precio: number;
+
+  @IsIn(['vacuna', 'receta', 'manual'])
+  origen: string;
+
+  @IsOptional() @IsString()
+  claveOrigen?: string;
+}
 export enum EstadoPago {
   PENDIENTE = 'Pendiente',
   PAGADO = 'Pagado',
@@ -46,4 +62,10 @@ export class CreateBoletaDto {
   @IsEnum(MetodoPago)
   @IsOptional()
   metodoPago?: MetodoPago;
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => BoletaItemDto)
+  items?: BoletaItemDto[];
 }
