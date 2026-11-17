@@ -8,7 +8,6 @@ import { UpdateNotificacioneDto } from './dto/update-notificacione.dto.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Notificaciones } from './entities/notificacione.entity.js';
 import { In, Repository } from 'typeorm';
-import { Dueno } from '../duenos/entities/dueno.entity.js';
 import { Cita } from '../citas/entities/cita.entity.js';
 
 @Injectable()

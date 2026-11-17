@@ -47,14 +47,10 @@ export class Mascota {
     nullable: false,
   })
   @JoinColumn({ name: 'id_dueno' })
-  dueno: Relation<Dueno>;
-
-  @OneToMany(() => Cita, (cita) => cita.mascota)
-  cita: Relation<Cita[]>;
-
-  @ManyToOne(() => Especy, (especy) => especy.mascota, {
-    nullable: false,
-  })
+  dueno: Relation<Dueno|null>;
+  @OneToMany(() => Cita, (cita) => cita.mascota, )
+  cita: Cita;
+  @ManyToOne(() => Especy, (especy) => especy.mascota, { onDelete: 'RESTRICT' })
   @JoinColumn({ name: 'id_especie' })
   especy: Relation<Especy>;
 

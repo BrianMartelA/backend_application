@@ -31,6 +31,7 @@ export class HistorialVacunasService {
     if (!mascota) {
       throw new NotFoundException(`mascota no encontrada`);
     }
+    
     historialVacuna.mascota=mascota;
     historialVacuna.observaciones=createHistorialVacunaDto.observaciones;
     historialVacuna.proxima_dosis=createHistorialVacunaDto.proxima_dosis;
@@ -80,7 +81,11 @@ export class HistorialVacunasService {
   async remove(id: number) {
     const historial = await this.findOne(id)
     if(!historial) throw new NotFoundException("historial no encontrado")
-
+if (!historial.mascota || !historial.vacuna) {
+  throw new NotFoundException(
+    'El historial no tiene mascota o vacuna asociada',
+  );
+}
       await this.historialRepository.delete(id);
     return `historial removido`;
   }

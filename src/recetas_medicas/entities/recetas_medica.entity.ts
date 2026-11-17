@@ -18,9 +18,9 @@ export class RecetasMedica {
   fecha: Date;
   @Column({ type: 'text' })
   medicamentos_indicaciones: string;
-  @ManyToOne(() => Mascota, (mascota) => mascota.cita)
+  @ManyToOne(() => Mascota, (mascota) => mascota.cita,{onDelete:'CASCADE'})
   @JoinColumn({ name: 'id_mascota' })
-  mascota: Relation<Mascota>;
+  mascota: Relation<Mascota|null>;
   @ManyToOne(()=>Usuario,(usuario)=> usuario.recetaMedica)
   @JoinColumn({name:'id_usuario'})
   usuario:Relation<Usuario>

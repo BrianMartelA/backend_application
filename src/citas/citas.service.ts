@@ -240,6 +240,6 @@ export class CitasService {
       id_cita: cita.id_cita,
     });
 
-    return `Se eliminó la cita para ${cita.dueno.nombre_completo}`;
+    return `Se eliminó la cita para ${cita.dueno?.nombre_completo??'Un dueño eliminado'}`;
   }
 }

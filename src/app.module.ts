@@ -33,6 +33,8 @@ import { RecetasMedica } from './recetas_medicas/entities/recetas_medica.entity.
 import { EmailModule } from './email/email.module.js';
 import { Storage } from './storage/entities/storage.entity.js';
 import { StorageModule } from './storage/storage.module.js';
+import { ConfigModule } from '@nestjs/config';
+import { BoletaItem } from './boletas/entities/boleta-item.entity.js';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -46,7 +48,6 @@ import { StorageModule } from './storage/storage.module.js';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      timezone: 'Z',
       entities: [
         Dueno,
         Mascota,
@@ -60,7 +61,8 @@ import { StorageModule } from './storage/storage.module.js';
         HistorialVacuna,
         Usuario,
         RecetasMedica,
-        Storage
+        Storage,
+        BoletaItem
       ],
       synchronize: true,
       ssl: process.env.DB_SSL_REJECT_UNAUTHORIZED == 'true',

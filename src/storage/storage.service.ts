@@ -59,6 +59,14 @@ export class StorageService {
     if (!mascota) {
       throw new NotFoundException('Mascota no encontrada');
     }
+if (!mascota.dueno || !mascota.dueno.negocio) {
+  throw new ForbiddenException(
+    'La mascota no tiene un dueño o negocio asociado',
+  );
+}
+
+const negocio = mascota.dueno.negocio;
+
 
     if(mascota.dueno.negocio.negocioId!== user.negocioId) throw new ForbiddenException('la mascota no pertenece al negocio')
 
@@ -79,7 +87,7 @@ const nombreArchivo = archivo.originalname
 const ruta = [
   'examenes',
   `mascota-${idMascota}`,
-  nombreArchivo,
+  `${randomUUID()}-${nombreArchivo}`,
 ].join('/');
 
     const { error: uploadError } = await this.supabase.storage
@@ -201,7 +209,7 @@ const ruta = [
         resultado_detalles: examen.resultado_detalles,
         archivo_path: examen.archivo_path,
         url: data.signedUrl,
-        mascota: examen.mascota.nombre,
+        mascota: examen.mascota?.nombre ?? 'Mascota eliminada',
         negocioId,
       };
     }),
