@@ -25,7 +25,9 @@ export class Notificaciones {
     fecha_envio:Date;
     @Column()
     referencia_id:number;
-    @ManyToOne(() => Dueno, (dueno) => dueno.notificaciones)
+    @ManyToOne(() => Dueno, (dueno) => dueno.notificaciones, {
+    onDelete: 'CASCADE',
+  })
     @JoinColumn({name:'id_dueno'})
     dueno:Relation<Dueno|null>;
 

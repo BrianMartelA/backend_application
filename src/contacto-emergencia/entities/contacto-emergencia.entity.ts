@@ -29,7 +29,9 @@ export class ContactoEmergencia {
   @ManyToOne(() => Negocio, (negocio) => negocio.contactoEmergencia)
   @JoinColumn({ name: 'negocioId' })
   negocio: Relation<Negocio>;
-  @ManyToOne(() => Dueno, (dueno) => dueno.contactosEmergencia)
+  @ManyToOne(() => Dueno, (dueno) => dueno.contactosEmergencia, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'id_dueno' })
   dueno: Relation<Dueno>;
 }

@@ -16,14 +16,10 @@ export class HistorialVacuna {
     @Column({type:'varchar',length:50})
     lote:string;
     @ManyToOne(()=>Mascota,(mascota)=>mascota.historialVacuna,{
-  onDelete: 'SET NULL',
-  nullable: true,
+  onDelete: 'CASCADE',
 })
     @JoinColumn({name:'id_mascota'})
     mascota:Relation<Mascota|null>
-    @ManyToOne(()=>Vacuna,(vacuna)=>vacuna.historialVacuna,{
-  onDelete: 'SET NULL',
-  nullable: true,
-})
+    @ManyToOne(()=>Vacuna,(vacuna)=>vacuna.historialVacuna)
     vacuna:Relation<Vacuna|null>
 }

@@ -1,15 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, Not, Repository } from 'typeorm';
 import { Boleta } from './entities/boleta.entity.js';
 import { CreateBoletaDto } from './dto/create-boleta.dto.js';
 import { UpdateBoletaDto } from './dto/update-boleta.dto.js';
+import { BoletaItem } from './entities/boleta-item.entity.js';
 
 @Injectable()
 export class BoletasService {
   constructor(
     @InjectRepository(Boleta)
     private readonly boletaRepository: Repository<Boleta>,
+    @InjectRepository(BoletaItem) readonly itemRepository:Repository<BoletaItem>
   ) {}
 
   async create(createBoletaDto: CreateBoletaDto): Promise<Boleta> {
@@ -51,6 +53,21 @@ export class BoletasService {
       },
     });
   }
+
+async clavesCobradas(idMascota: number): Promise<string[]> {
+  const items = await this.itemRepository.find({
+    where: {
+      claveOrigen: Not(IsNull()),
+      boleta: {
+        id_mascota: idMascota,
+        estadoPago: Not('Anulado'),
+      },
+    },
+    select: { claveOrigen: true },
+  });
+
+  return [...new Set(items.map((i) => i.claveOrigen as string))];
+}
 
   async update(id: number, updateBoletaDto: UpdateBoletaDto): Promise<Boleta> {
     const boleta = await this.findOne(id);
