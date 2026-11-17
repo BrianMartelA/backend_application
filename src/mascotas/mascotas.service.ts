@@ -56,7 +56,7 @@ export class MascotasService {
     mascota.sexo = createMascotaDto.sexo;
     mascota.antecedentes = createMascotaDto.antecedentes ?? '';
     mascota.alergias = createMascotaDto.alergias ?? '';
-
+    mascota.raza = createMascotaDto.raza ?? '';
     return this.mascotaRepository.save(mascota);
   }
 
@@ -110,6 +110,7 @@ export class MascotasService {
       updateMascotaDto.antecedentes ?? mascota.antecedentes;
     mascota.alergias = updateMascotaDto.alergias ?? mascota.alergias;
     mascota.sexo = updateMascotaDto.sexo ?? mascota.sexo;
+    mascota.raza = updateMascotaDto.raza ?? mascota.raza;
     if (updateMascotaDto.fecha_nacimiento !== undefined) {
   mascota.fecha_nacimiento = updateMascotaDto.fecha_nacimiento
     ? new Date(updateMascotaDto.fecha_nacimiento)

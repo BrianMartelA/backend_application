@@ -33,7 +33,7 @@ export class HistorialVacunasService {
     }
     
     historialVacuna.mascota=mascota;
-    historialVacuna.observaciones=createHistorialVacunaDto.observaciones;
+    historialVacuna.observaciones = createHistorialVacunaDto.observaciones ?? '';
     historialVacuna.proxima_dosis=createHistorialVacunaDto.proxima_dosis;
     historialVacuna.lote=createHistorialVacunaDto.lote;
     historialVacuna.mascota=mascota;
@@ -63,7 +63,7 @@ export class HistorialVacunasService {
     },
   });
 
-  if(historialVacuna.length==0) throw new NotFoundException("No existe historial vacunas")
+  if(historialVacuna.length==0) return `no hay historial de vacunas para esta mascota`;
 
     return historialVacuna;
   }
