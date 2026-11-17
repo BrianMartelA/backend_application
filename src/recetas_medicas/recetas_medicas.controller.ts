@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards, Req, Query } from '@nestjs/common';
 import { RecetasMedicasService } from './recetas_medicas.service.js';
 import { CreateRecetasMedicaDto } from './dto/create-recetas_medica.dto.js';
 import { UpdateRecetasMedicaDto } from './dto/update-recetas_medica.dto.js';

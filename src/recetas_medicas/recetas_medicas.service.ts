@@ -44,8 +44,13 @@ export class RecetasMedicasService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} recetasMedica`;
+  async findOne(id: number) {
+    const receta = await this.recetaRepository.findOne({
+      where: { id_receta: id },
+      relations: { mascota: true },
+    });
+    if (!receta) throw new NotFoundException('Receta no encontrada');
+    return receta;
   }
 
   update(id: number, updateRecetasMedicaDto: UpdateRecetasMedicaDto) {
