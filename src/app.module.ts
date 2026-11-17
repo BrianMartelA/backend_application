@@ -34,6 +34,7 @@ import { EmailModule } from './email/email.module.js';
 import { Storage } from './storage/entities/storage.entity.js';
 import { StorageModule } from './storage/storage.module.js';
 import { ConfigModule } from '@nestjs/config';
+import { BoletaItem } from './boletas/entities/boleta-item.entity.js';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -60,7 +61,8 @@ import { ConfigModule } from '@nestjs/config';
         HistorialVacuna,
         Usuario,
         RecetasMedica,
-        Storage
+        Storage,
+        BoletaItem
       ],
       synchronize: true,
       ssl: process.env.DB_SSL_REJECT_UNAUTHORIZED == 'true',
