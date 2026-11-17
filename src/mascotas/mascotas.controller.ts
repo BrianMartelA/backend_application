@@ -71,6 +71,9 @@ export class MascotasController {
     @Param('id', ParseIntPipe) id: number,
     @Req() req: AuthenticatedRequest,
   ) {
-    return this.mascotasService.remove(id, req.user.negocioId);
+    return this.mascotasService.remove(
+      id,
+      req.user.negocioId,
+    );
   }
 }

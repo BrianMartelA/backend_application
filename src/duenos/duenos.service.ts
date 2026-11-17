@@ -10,6 +10,7 @@ import { CreateDuenoDto } from './dto/create-dueno.dto.js';
 import { UpdateDuenoDto } from './dto/update-dueno.dto.js';
 import { Dueno } from './entities/dueno.entity.js';
 import { Negocio } from '../negocio/entities/negocio.entity.js';
+import { StorageService } from '../storage/storage.service.js';
 
 @Injectable()
 export class DuenosService {
@@ -19,6 +20,8 @@ export class DuenosService {
 
     @InjectRepository(Negocio)
     private readonly negocioRepository: Repository<Negocio>,
+    private readonly storageService: StorageService,
+
   ) {}
 
   // Crear un dueño dentro del negocio autenticado
@@ -118,6 +121,12 @@ export class DuenosService {
     negocioId: number,
   ): Promise<{ mensaje: string }> {
     const dueno = await this.findOne(id, negocioId);
+
+     for (const mascota of dueno.mascotas) {
+    await this.storageService.eliminarArchivosMascota(
+      mascota.id_mascota,
+    );
+  }
 
     await this.duenoRepository.delete({
       id_dueno: dueno.id_dueno,

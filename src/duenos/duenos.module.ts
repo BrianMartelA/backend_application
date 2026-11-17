@@ -6,6 +6,7 @@ import { Dueno } from './entities/dueno.entity.js';
 import { Negocio } from '../negocio/entities/negocio.entity.js';
 import { Mascota } from '../mascotas/entities/mascota.entity.js';
 import { AuthModule } from '../auth/auth.module.js';
+import { StorageModule } from '../storage/storage.module.js';
 
 @Module({
   controllers: [DuenosController],
@@ -14,6 +15,7 @@ import { AuthModule } from '../auth/auth.module.js';
   imports: [
     TypeOrmModule.forFeature([Dueno, Negocio, Mascota]),
     AuthModule,
+    StorageModule
   ],
 })
 export class DuenosModule {}
