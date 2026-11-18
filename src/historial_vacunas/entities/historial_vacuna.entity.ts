@@ -9,9 +9,9 @@ export class HistorialVacuna {
     id_historial:number;
     @Column({type:'text'})
     observaciones:string;
-    @CreateDateColumn({type:'timestamp'})
+    @CreateDateColumn({type:'timestamp',default: () => "timezone('America/Santiago', now())"})
     fecha_aplicación:Date;
-    @Column({type:'timestamp'})
+    @Column({type:'date'})
     proxima_dosis:Date;
     @Column({type:'varchar',length:50})
     lote:string;
