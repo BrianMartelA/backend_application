@@ -1,6 +1,7 @@
 import { Type } from 'class-transformer';
 import {
   IsDate,
+  IsDateString,
   IsInt,
   IsNotEmpty,
   IsOptional,
@@ -24,7 +25,8 @@ export class CreateHistorialVacunaDto {
   observaciones?: string;
 
   @Type(() => Date)
-  @IsDate()
+@IsDate()
+@IsNotEmpty()
   proxima_dosis: Date;
 
   @IsNotEmpty()

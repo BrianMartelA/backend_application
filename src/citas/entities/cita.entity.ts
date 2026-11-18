@@ -33,7 +33,8 @@ export class Cita {
   })
   @JoinColumn({ name: 'id_mascota' })
   mascota: Relation<Mascota | null>;
-  @CreateDateColumn()
+  @CreateDateColumn({  type: 'timestamp',  default: () => "timezone('America/Santiago', now())",
+ })
   fecha_creacion: Date;
   @ManyToOne(() => Negocio, (negocio) => negocio.cita, {
     onDelete: 'SET NULL',
