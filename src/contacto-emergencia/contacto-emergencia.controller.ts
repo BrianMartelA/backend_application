@@ -8,10 +8,12 @@ import {
   Delete,
   ParseIntPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ContactoEmergenciaService } from './contacto-emergencia.service.js';
 import { UpdateContactoEmergenciaDto } from './dto/update-contacto-emergencia.dto.js';
 import { CreateContactoConuenoDto } from './dto/create-contacto-dueno.dt.js';
+import { JwtAuthGuard } from '../auth/jwt-guard.auth.js';
 @Controller('contacto-emergencia')
 export class ContactoEmergenciaController {
   constructor(
@@ -30,16 +32,22 @@ export class ContactoEmergenciaController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
+  
   findAll(@Query('negocioId', ParseIntPipe) negocioId: number) {
     return this.contactoEmergenciaService.findAll(negocioId);
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  
   findOne(@Param('id') id: string) {
     return this.contactoEmergenciaService.findOne(+id);
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  
   update(
     @Param('id') id: string,
     @Body() updateContactoEmergenciaDto: UpdateContactoEmergenciaDto,
@@ -51,6 +59,8 @@ export class ContactoEmergenciaController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  
   remove(@Param('id') id: string) {
     return this.contactoEmergenciaService.remove(+id);
   }
