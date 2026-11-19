@@ -20,16 +20,24 @@ export class Mascota {
   id_mascota: number;
   @Column({ type: 'varchar', length: 100 })
   nombre: string;
-
+  
   @Column({ type: 'varchar', length: 50 })
   sexo: string;
-  @Column( { nullable: true,})
-  fecha_nacimiento: Date;
-  @Column({ type: 'int',nullable: true, })
-  peso: number;
+ @Column({
+  type: 'date',
+  nullable: true,
+})
+fecha_nacimiento: Date | null;
+ @Column({
+  type: 'decimal',
+  precision: 5,
+  scale: 2,
+  nullable: true,
+})
+peso: number | null;
 
   @Column({ type: 'varchar', length: 30 })
-  microchip: number;
+  microchip: string;
   @Column({ type: 'text' })
   antecedentes: string;
   @Column({ type: 'varchar', length: 50 })
@@ -42,8 +50,11 @@ export class Mascota {
   @ManyToOne(() => Especy, (especy) => especy.mascota)
   @JoinColumn({ name: 'id_especie' })
   especy: Relation<Especy>;
-  @Column({ type: 'varchar', length:100,  nullable: true, })
-  raza: string| null;
+  @Column({
+  type: 'varchar', length: 100, nullable: true ,
+  
+})
+raza: string | null;
   @OneToMany(() => HistorialVacuna,(historialVacuna) => historialVacuna.mascota,)
   historialVacuna: Relation<HistorialVacuna[]>;
   @OneToMany(() => RecetasMedica, (recetasMedica) => recetasMedica.mascota)

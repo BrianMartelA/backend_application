@@ -26,6 +26,10 @@ export class BoletasController {
   findAll(@Query('negocioId', ParseIntPipe) negocioId: number) {
     return this.boletasService.findAll(negocioId);
   }
+  @Get('items-cobrados')
+  itemsCobrados(@Query('id_mascota', ParseIntPipe) idMascota: number) {
+    return this.boletasService.clavesCobradas(idMascota);
+  }
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {

@@ -51,7 +51,7 @@ export class CitasService {
     cita.dueno = dueno;
     cita.mascota = mascota;
     cita.motivo = createCitaDto.motivo;
-    cita.estado = createCitaDto.estado;
+    cita.estado = createCitaDto.estado ?? 'Pendiente';
     cita.negocio = negocio;
 
     const cita_exsitente = await this.citaRepository.findOne({
@@ -90,14 +90,17 @@ export class CitasService {
     });
   }
 
-  findOne(id: number) {
+  findOne(negocioId: number, id: number) {
     return this.citaRepository.findOne({
-      where: { id_cita: id },
+      where: {
+        id_cita: id,
+        negocio: { negocioId },
+      },
       relations: { dueno: true, mascota: true },
     });
   }
 
-  async update(id: number, updateCitaDto: UpdateCitaDto) {
+  async update(negocioId: number, id: number, updateCitaDto: UpdateCitaDto) {
     const cita = await this.citaRepository.findOne({
       where: { id_cita: id },
       relations: { dueno: true, mascota: true },
@@ -121,7 +124,7 @@ export class CitasService {
     return this.citaRepository.save(cita);
   }
 
-  async remove(id: number) {
+  async remove(negocioId: number, id: number) {
     const cita = await this.citaRepository.findOne({
       where: { id_cita: id },
       relations: { dueno: true },
@@ -129,7 +132,13 @@ export class CitasService {
     if (!cita) {
       throw new NotFoundException(`Cita no encontrada`);
     }
-    await this.citaRepository.delete(id);
-    return `se elimino la cita para ${cita.dueno.nombre_completo}`;
+
+    await this.citaRepository.delete({
+      id_cita: cita.id_cita,
+    });
+
+    return `Se eliminó la cita para ${cita.dueno?.nombre_completo??'Un dueño eliminado'}`;
   }
+
+  
 }

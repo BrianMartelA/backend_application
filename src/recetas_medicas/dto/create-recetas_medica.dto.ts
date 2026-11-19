@@ -1,17 +1,9 @@
-import { Type } from "class-transformer";
-import { IsInt, IsNotEmpty, ValidateNested } from "class-validator";
+import { IsNotEmpty, IsString } from 'class-validator';
 
-export class MascotaRefDto{
-    @IsInt()
-    @IsNotEmpty()
-    id_mascota:number;
-}
-
+// el id de la mascota viene en la url (POST /recetas-medicas/:id_mascota)
+// y el usuario sale del token, asi que aca solo va el contenido de la receta
 export class CreateRecetasMedicaDto {
-id_receta:number;
-fecha:Date;
-medicamentos_indicaciones:string;
-@ValidateNested()
-@Type(() => MascotaRefDto)
-id_mascota: MascotaRefDto;
+  @IsString()
+  @IsNotEmpty({ message: 'La receta no puede estar vacía' })
+  medicamentos_indicaciones: string;
 }

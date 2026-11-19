@@ -9,15 +9,17 @@ export class HistorialVacuna {
     id_historial:number;
     @Column({type:'text'})
     observaciones:string;
-    @CreateDateColumn({type:'timestamp'})
+    @CreateDateColumn({type:'timestamp',default: () => "timezone('America/Santiago', now())"})
     fecha_aplicación:Date;
-    @Column({type:'timestamp'})
+    @Column({type:'date'})
     proxima_dosis:Date;
     @Column({type:'varchar',length:50})
     lote:string;
-    @ManyToOne(()=>Mascota,(mascota)=>mascota.historialVacuna)
+    @ManyToOne(()=>Mascota,(mascota)=>mascota.historialVacuna,{
+  onDelete: 'CASCADE',
+})
     @JoinColumn({name:'id_mascota'})
-    mascota:Relation<Mascota>
-    @ManyToOne(()=>Vacuna,(vacuna)=>vacuna.historialVacuna)
-    vacuna:Relation<Vacuna>
+    mascota:Relation<Mascota|null>
+    @ManyToOne(()=>Vacuna,(vacuna)=>vacuna.historialVacuna,{onDelete:'SET NULL', nullable:true})
+    vacuna:Relation<Vacuna|null>
 }

@@ -23,16 +23,23 @@ export class Cita {
   motivo: string;
   @Column({ type: 'varchar', length: 20, default: 'Pendiente' })
   estado: string;
-  @ManyToOne(() => Dueno, (dueno) => dueno.cita)
+  @ManyToOne(() => Dueno, (dueno) => dueno.citas, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'id_dueno' })
-  dueno: Relation<Dueno>;
-  @ManyToOne(() => Mascota, (mascota) => mascota.cita)
+  dueno: Relation<Dueno | null>;
+  @ManyToOne(() => Mascota, (mascota) => mascota.cita, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'id_mascota' })
-  mascota: Relation<Mascota>;
-  @CreateDateColumn()
+  mascota: Relation<Mascota | null>;
+  @CreateDateColumn({  type: 'timestamp',  default: () => "timezone('America/Santiago', now())",
+ })
   fecha_creacion: Date;
-  @ManyToOne(() => Negocio, (negocio) => negocio.cita)
+  @ManyToOne(() => Negocio, (negocio) => negocio.cita, {
+    onDelete: 'SET NULL',
+    nullable: true,
+  })
   @JoinColumn({ name: 'negocioId' })
   negocio: Relation<Negocio>;
-
 }

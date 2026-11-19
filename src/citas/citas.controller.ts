@@ -26,7 +26,7 @@ export class CitasController {
     return this.citasService.create(negocioId, createCitaDto);
   }
 
-    @Get('/citas')
+    @Get('todas')
   findAllCitas(
     @Query('negocioId', ParseIntPipe) negocioId: number,
     
@@ -46,18 +46,28 @@ export class CitasController {
   }
 
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.citasService.findOne(+id);
-  }
+@Get(':negocioId/detalle/:id')
+findOne(
+  @Param('negocioId', ParseIntPipe) negocioId: number,
+  @Param('id', ParseIntPipe) id: number,
+) {
+  return this.citasService.findOne(negocioId, id);
+}
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCitaDto: UpdateCitaDto) {
-    return this.citasService.update(+id, updateCitaDto);
-  }
+@Patch(':negocioId/:id')
+update(
+  @Param('negocioId', ParseIntPipe) negocioId: number,
+  @Param('id', ParseIntPipe) id: number,
+  @Body() updateCitaDto: UpdateCitaDto,
+) {
+  return this.citasService.update(negocioId, id, updateCitaDto);
+}
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.citasService.remove(+id);
-  }
+ @Delete(':negocioId/:id')
+remove(
+  @Param('negocioId', ParseIntPipe) negocioId: number,
+  @Param('id', ParseIntPipe) id: number,
+) {
+  return this.citasService.remove(negocioId, id);
+}
 }

@@ -1,41 +1,42 @@
 import { Type } from 'class-transformer';
 import {
   IsDate,
+  IsDateString,
   IsInt,
   IsNotEmpty,
+  IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
 
-export class MascotaRefDto {
+export class VacunaRefDto {
   @IsInt()
   @IsNotEmpty()
   id_mascota: number;
 }
 
-export class VacunaRefDto {
+export class mascotaRefDto {
   @IsInt()
-  @IsNotEmpty()
-  id_vacuna: number;
+  id_mascota: number;
 }
 
 export class CreateHistorialVacunaDto {
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  observaciones: string;
+  observaciones?: string;
 
   @Type(() => Date)
-  @IsDate()
-  @IsNotEmpty()
+@IsDate()
+@IsNotEmpty()
   proxima_dosis: Date;
 
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   lote: string;
 
   @ValidateNested()
-  @Type(() => MascotaRefDto)
-  id_mascota: MascotaRefDto;
+  @Type(() => mascotaRefDto)
+  id_mascota: mascotaRefDto;
 
   @ValidateNested()
   @Type(() => VacunaRefDto)

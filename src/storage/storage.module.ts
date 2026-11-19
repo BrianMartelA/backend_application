@@ -15,5 +15,6 @@ import { Storage } from './entities/storage.entity.js';
     AuthModule,
     TypeOrmModule.forFeature([Storage, Mascota]),
   ],
+  exports:[StorageService]
 })
 export class StorageModule {}
