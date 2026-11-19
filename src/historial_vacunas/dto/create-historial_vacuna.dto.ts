@@ -11,8 +11,7 @@ import {
 
 export class VacunaRefDto {
   @IsInt()
-  @IsNotEmpty()
-  id_mascota: number;
+  id_vacuna: number;
 }
 
 export class mascotaRefDto {
