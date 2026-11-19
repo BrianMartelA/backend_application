@@ -215,4 +215,35 @@ const ruta = [
     }),
   );
 }
+async eliminarArchivosMascota(idMascota: number) {
+  const examenes = await this.storageRepository.find({
+    where: {
+      mascota: {
+        id_mascota: idMascota,
+      },
+    },
+  });
+
+  if (examenes.length === 0) {
+    return;
+  }
+
+  const rutas = examenes
+    .map((examen) => examen.archivo_path)
+    .filter((ruta) => ruta?.length > 0);
+
+  if (rutas.length === 0) {
+    return;
+  }
+
+  const { error } = await this.supabase.storage
+    .from(this.bucket)
+    .remove(rutas);
+
+  if (error) {
+    throw new InternalServerErrorException(
+      'No se pudieron eliminar los archivos de la mascota',
+    );
+  }
+}
 }

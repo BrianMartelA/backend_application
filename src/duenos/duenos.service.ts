@@ -2,6 +2,7 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -10,7 +11,8 @@ import { CreateDuenoDto } from './dto/create-dueno.dto.js';
 import { UpdateDuenoDto } from './dto/update-dueno.dto.js';
 import { Dueno } from './entities/dueno.entity.js';
 import { Negocio } from '../negocio/entities/negocio.entity.js';
-
+import { StorageService } from '../storage/storage.service.js';
+import { normalizarRut, validarRut } from './rut.validator.js';
 @Injectable()
 export class DuenosService {
   constructor(
@@ -19,6 +21,7 @@ export class DuenosService {
 
     @InjectRepository(Negocio)
     private readonly negocioRepository: Repository<Negocio>,
+    private readonly storageService: StorageService,
   ) {}
 
   // Crear un dueño dentro del negocio autenticado
@@ -30,13 +33,19 @@ export class DuenosService {
       negocioId,
     });
 
+    if (!validarRut(createDuenoDto.rut)) {
+      throw new BadRequestException('El RUT chileno no es válido');
+    }
+
+    const rutNormalizado = normalizarRut(createDuenoDto.rut);
+
     if (!negocio) {
       throw new NotFoundException('Negocio no existente');
     }
 
     const userExist = await this.duenoRepository.exists({
       where: {
-        rut: createDuenoDto.rut,
+        rut: rutNormalizado,
         negocio: { negocioId },
       },
     });
@@ -48,7 +57,7 @@ export class DuenosService {
     }
 
     const dueno = this.duenoRepository.create({
-      rut: createDuenoDto.rut,
+      rut: rutNormalizado,
       nombre_completo: createDuenoDto.nombre_completo,
       direccion: createDuenoDto.direccion,
       correo: createDuenoDto.correo,
@@ -72,10 +81,7 @@ export class DuenosService {
   }
 
   // Buscar un dueño dentro del negocio autenticado
-  async findOne(
-    id: number,
-    negocioId: number,
-  ): Promise<Dueno> {
+  async findOne(id: number, negocioId: number): Promise<Dueno> {
     const dueno = await this.duenoRepository.findOne({
       where: {
         id_dueno: id,
@@ -113,11 +119,12 @@ export class DuenosService {
   }
 
   // Eliminar únicamente un dueño del negocio autenticado
-  async remove(
-    id: number,
-    negocioId: number,
-  ): Promise<{ mensaje: string }> {
+  async remove(id: number, negocioId: number): Promise<{ mensaje: string }> {
     const dueno = await this.findOne(id, negocioId);
+
+    for (const mascota of dueno.mascotas) {
+      await this.storageService.eliminarArchivosMascota(mascota.id_mascota);
+    }
 
     await this.duenoRepository.delete({
       id_dueno: dueno.id_dueno,

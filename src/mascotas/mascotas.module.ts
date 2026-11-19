@@ -8,6 +8,7 @@ import { Mascota } from './entities/mascota.entity.js';
 import { Dueno } from '../duenos/entities/dueno.entity.js';
 import { Especy } from '../especies/entities/especy.entity.js';
 import { AuthModule } from '../auth/auth.module.js';
+import { StorageModule } from '../storage/storage.module.js';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AuthModule } from '../auth/auth.module.js';
       Especy,
     ]),
     AuthModule,
+    StorageModule
   ],
   controllers: [MascotasController],
   providers: [MascotasService],

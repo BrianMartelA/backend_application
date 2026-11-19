@@ -28,10 +28,10 @@ export class RecordatorioService {
     console.log('Servicio activo');
     return { statusCode: 200, mensaje: 'Servicio en funcionamiento' };
   }
-  /*
+  
   @Cron('* * * * *', {
     timeZone: 'America/Santiago',
-  })*/
+  })
   async ejecutarAutomaticamente() {
     console.log('Scheduler ejecutado');
     return this.ejecutarRecordatorio();
@@ -311,7 +311,6 @@ export class RecordatorioService {
           historial.proxima_dosis,
         ).toLocaleString('es-ES', {
           dateStyle: 'medium',
-          timeStyle: 'short',
         });
 
         await this.emailService.sendEmail({
@@ -325,7 +324,7 @@ export class RecordatorioService {
               <li><strong>Fecha y Hora:</strong> ${fechaFormateada}</li>
               <li><strong>Establecimiento:</strong> ${dueno.negocio.nombre_negocio}</li>
             </ul>
-            <p>¡Te esperamos!</p>
+            <p>Coordine la hora con su veterinaria ¡Te esperamos!</p>
           </div>
         `,
         });
@@ -402,9 +401,8 @@ export class RecordatorioService {
             <td style="padding:8px;border:1px solid #ddd;">${h.vacuna?.nombre_vacuna ?? 'vacuna'}</td>
             <td style="padding:8px;border:1px solid #ddd;">${new Date(
               h.proxima_dosis,
-            ).toLocaleString('es-ES', {
+            ).toLocaleDateString('es-ES', {
               dateStyle: 'medium',
-              timeStyle: 'short',
             })}</td>
           </tr>`,
         )
