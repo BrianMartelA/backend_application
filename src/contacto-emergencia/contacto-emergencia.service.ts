@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateContactoEmergenciaDto } from './dto/create-contacto-emergencia.dto.js';
 import { UpdateContactoEmergenciaDto } from './dto/update-contacto-emergencia.dto.js';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { Negocio } from '../negocio/entities/negocio.entity.js';
 import { Dueno } from '../duenos/entities/dueno.entity.js';
 import { CreateContactoConuenoDto } from './dto/create-contacto-dueno.dt.js';
+import { normalizarRut, validarRut } from '../duenos/rut.validator.js';
 
 @Injectable()
 export class ContactoEmergenciaService {
@@ -25,6 +26,11 @@ export class ContactoEmergenciaService {
     const negocio = await this.negocioRepository.findOneBy({
       negocioId,
     });
+ if (!validarRut(createConDueño.dueno.rut)) {
+      throw new BadRequestException('El RUT chileno no es válido');
+    }
+
+    const rutNormalizado = normalizarRut(createConDueño.dueno.rut);
 
     if (!negocio) {
       throw new NotFoundException(`Negocio no encontrado`);
