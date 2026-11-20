@@ -5,11 +5,12 @@ import { UpdateRecetasMedicaDto } from './dto/update-recetas_medica.dto.js';
 import { JwtAuthGuard } from '../auth/jwt-guard.auth.js';
 
 @Controller('recetas-medicas')
+  @UseGuards(JwtAuthGuard)
 export class RecetasMedicasController {
   constructor(private readonly recetasMedicasService: RecetasMedicasService) {}
 
   @Post('/:id_mascota')
-  @UseGuards(JwtAuthGuard)
+
   create(
     @Param('id_mascota', ParseIntPipe) id_mascota: number,
     @Body() createRecetasMedicaDto: CreateRecetasMedicaDto,@Req() req: any,) {
@@ -18,7 +19,6 @@ export class RecetasMedicasController {
   }
 
 @Get()
-@UseGuards(JwtAuthGuard)
 findAll(@Req() req: any) {
   return this.recetasMedicasService.findAll(req.user.negocioId);
 }

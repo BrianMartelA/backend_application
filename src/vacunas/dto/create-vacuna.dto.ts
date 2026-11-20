@@ -7,7 +7,6 @@ export class especieRefDto {
   id_especie: number;
 }
 export class CreateVacunaDto {
-  id_vacuna: number;
   @IsString()
   nombre_vacuna: string;
   @IsString()
@@ -15,6 +14,6 @@ export class CreateVacunaDto {
   @IsInt()
   precio:number;
   @ValidateNested()
-  @Type(() => Especy)
-  id_especie: Especy;
+  @Type(() => especieRefDto)
+  id_especie: especieRefDto;
 }
