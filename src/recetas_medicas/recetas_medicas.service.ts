@@ -53,11 +53,45 @@ export class RecetasMedicasService {
     return receta;
   }
 
-  update(id: number, updateRecetasMedicaDto: UpdateRecetasMedicaDto) {
-    return `This action updates a #${id} recetasMedica`;
+async update(
+  id: number,
+  updateRecetasMedicaDto: UpdateRecetasMedicaDto,
+) {
+  const receta = await this.recetaRepository.findOne({
+    where: {
+      id_receta: id
+    },
+  });
+
+  if (!receta) {
+    throw new NotFoundException('Receta no encontrada');
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} recetasMedica`;
+  if (
+    updateRecetasMedicaDto.medicamentos_indicaciones !== undefined
+  ) {
+    receta.medicamentos_indicaciones =
+      updateRecetasMedicaDto.medicamentos_indicaciones;
   }
+
+  return this.recetaRepository.save(receta);
+}
+
+async remove(id: number) {
+  const receta = await this.recetaRepository.findOne({
+    where: {
+      id_receta: id
+    },
+  });
+
+  if (!receta) {
+    throw new NotFoundException('Receta no encontrada');
+  }
+
+  await this.recetaRepository.remove(receta);
+
+  return {
+    mensaje: `Se eliminó la receta #${id}`,
+  };
+}
 }

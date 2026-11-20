@@ -5,9 +5,10 @@ import { BoletasController } from './boletas.controller.js';
 import { Boleta } from './entities/boleta.entity.js';
 import { Mascota } from '../mascotas/entities/mascota.entity.js';
 import { BoletaItem } from './entities/boleta-item.entity.js';
+import { AuthModule } from '../auth/auth.module.js';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Boleta,Mascota,BoletaItem])],
+  imports: [TypeOrmModule.forFeature([Boleta,Mascota,BoletaItem]),AuthModule],
   controllers: [BoletasController],
   providers: [BoletasService],
   exports: [BoletasService],

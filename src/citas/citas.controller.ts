@@ -9,65 +9,68 @@ import {
   ParseIntPipe,
   Query,
   ParseDatePipe,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { CitasService } from './citas.service.js';
 import { CreateCitaDto } from './dto/create-cita.dto.js';
 import { UpdateCitaDto } from './dto/update-cita.dto.js';
-
+import { JwtAuthGuard } from '../auth/jwt-guard.auth.js';
+interface AuthenticatedRequest extends Request {
+  user: {
+    sub: number;
+    negocioId: number;
+    rol: string;
+  };
+}
 @Controller('citas')
+@UseGuards(JwtAuthGuard)
 export class CitasController {
   constructor(private readonly citasService: CitasService) {}
 
-  @Post('/:negocioId')
+  @Post()
   create(
-    @Param('negocioId', ParseIntPipe) negocioId: number,
+    @Req() req: AuthenticatedRequest,
     @Body() createCitaDto: CreateCitaDto,
   ) {
-    return this.citasService.create(negocioId, createCitaDto);
+    return this.citasService.create(req.user.negocioId, createCitaDto);
   }
 
-    @Get('todas')
-  findAllCitas(
-    @Query('negocioId', ParseIntPipe) negocioId: number,
-    
-  ) {
+  @Get('todas')
+  findAllCitas(@Query('negocioId', ParseIntPipe) negocioId: number) {
     return this.citasService.findAllCitas(negocioId);
-
-
   }
 
   @Get(':negocioId')
   findAll(
-    @Param('negocioId', ParseIntPipe) negocioId: number,
-    @Query('fechaInicio') fechaInicio: string,
-    @Query('fechaFin') fechaFin:string
+    @Req() req: AuthenticatedRequest,    @Query('fechaInicio') fechaInicio: string,
+    @Query('fechaFin') fechaFin: string,
   ) {
-    return this.citasService.findAll(negocioId,fechaInicio,fechaFin);
+    return this.citasService.findAll(req.user.negocioId, fechaInicio, fechaFin);
   }
 
+  @Get(':negocioId/detalle/:id')
+  findOne(
+    @Param('negocioId', ParseIntPipe) negocioId: number,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.citasService.findOne(negocioId, id);
+  }
 
-@Get(':negocioId/detalle/:id')
-findOne(
-  @Param('negocioId', ParseIntPipe) negocioId: number,
-  @Param('id', ParseIntPipe) id: number,
-) {
-  return this.citasService.findOne(negocioId, id);
-}
+  @Patch(':negocioId/:id')
+  update(
+    @Param('negocioId', ParseIntPipe) negocioId: number,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateCitaDto: UpdateCitaDto,
+  ) {
+    return this.citasService.update(negocioId, id, updateCitaDto);
+  }
 
-@Patch(':negocioId/:id')
-update(
-  @Param('negocioId', ParseIntPipe) negocioId: number,
-  @Param('id', ParseIntPipe) id: number,
-  @Body() updateCitaDto: UpdateCitaDto,
-) {
-  return this.citasService.update(negocioId, id, updateCitaDto);
-}
-
- @Delete(':negocioId/:id')
-remove(
-  @Param('negocioId', ParseIntPipe) negocioId: number,
-  @Param('id', ParseIntPipe) id: number,
-) {
-  return this.citasService.remove(negocioId, id);
-}
+  @Delete(':negocioId/:id')
+  remove(
+    @Param('negocioId', ParseIntPipe) negocioId: number,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.citasService.remove(negocioId, id);
+  }
 }
