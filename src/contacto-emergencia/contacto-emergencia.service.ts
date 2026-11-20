@@ -42,7 +42,7 @@ export class ContactoEmergenciaService {
 
     if(!duenoExistente){
       const dueno = this.duenoRepository.create({
-      rut: createConDueño.dueno.rut,
+      rut: rutNormalizado,
       nombre_completo: createConDueño.dueno.nombre_completo,
       telefono: createConDueño.dueno.telefono,
       correo: createConDueño.dueno.correo,
